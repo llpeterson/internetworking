@@ -4,9 +4,8 @@ In the simplest terms, a switch is a mechanism that allows us to
 interconnect links to form a larger network. A switch is a multi-input,
 multi-output device that transfers packets from an input to one or more
 outputs. Thus, a switch adds the star topology (see [Figure 1](#star))
-to the point-to-point link, bus (Ethernet), and ring topologies
-established in the last chapter. A star topology has several attractive
-properties:
+to the set of possible network structures. A star topology has several
+attractive properties:
 
 - Even though a switch has a fixed number of inputs and outputs, which
     limits the number of hosts that can be connected to a single switch,
@@ -45,7 +44,8 @@ the other end of the link. A switch's primary job is to receive incoming
 packets on one of its links and to transmit them on some other link.
 This function is sometimes referred to as either *switching* or
 *forwarding,* and in terms of the Open Systems Interconnection (OSI)
-architecture, it is the main function of the network layer.
+architecture, it is the main function of the network layer, otherwise
+known as *Layer 2*.
 
 The question, then, is how does the switch decide which output link to
 place each packet on? The general answer is that it looks at the header
@@ -58,12 +58,12 @@ but it does have some useful applications.
 
 One thing that is common to all networks is that we need to have a way
 to identify the end nodes. Such identifiers are usually called
-*addresses*. We have already seen examples of addresses in the previous
-chapter, such as the 48-bit address used for Ethernet. The only
-requirement for Ethernet addresses is that no two nodes on a network
-have the same address. This is accomplished by making sure that all
-Ethernet cards are assigned a *globally unique* identifier. For the
-following discussions, we assume that each host has a globally unique
+*addresses*. We have already seen examples of addresses, such as the
+48-bit address used for Ethernet. The only requirement for Ethernet
+addresses is that no two nodes on a network have the same
+address. This is accomplished by making sure that all Ethernet cards
+are assigned a *globally unique* identifier. For the following
+discussions, we assume that each host has a globally unique
 address. Later on, we consider other useful properties that an address
 might have, but global uniqueness is adequate to get us started.
 
@@ -467,7 +467,8 @@ competitor to IP as well.
 	<figcaption>ATM cell format at the UNI.</figcaption>
 </figure>
 	
-There are a few aspects of ATM that are worth examining. The picture of
+The approach ATM takes has some interesting properties, which
+makes it worth examining a bit further. The picture of
 the ATM packet format—more commonly called an ATM *cell*—in
 [Figure 6](#atmcell) will illustrate the main points. We'll skip the
 generic flow control (GFC) bits, which never saw much use, and start
@@ -490,7 +491,7 @@ error in the `VCI` will cause the cell to be misdelivered.
 
 Probably the most significant thing to notice about the ATM cell, and
 the reason it is called a cell and not a packet, is that it comes in
-only one size: 53 bytes. What was the reason for this? A big reason was
+only one size: 53 bytes. What was the reason for this? One big reason was
 to facilitate the implementation of hardware switches. When ATM was
 being created in the mid- and late 1980s, 10-Mbps Ethernet was the
 cutting-edge technology in terms of speed. To go much faster, most
@@ -518,6 +519,19 @@ ATM standards were being defined. As it turns out, this same principle
 is still applied in many switches and routers today, even if they deal
 in variable length packets—they cut those packets into some sort of
 cell in order to switch them, as we'll see in a later section.
+
+There is another good argument in favor of small ATM cells, having
+to do with latency end-to-end latency. ATM was designed to carry
+both voice phone calls (the dominate use case at the time) and data.
+Because voice is low-bandwidth but has strict delay requirements,
+the last thing you want is for a small voice packet queued behind a
+large data packet at a switch. If you force all packets to be small (i.e.,
+cell-sized), then large data packets can still be supported by
+reassembling a set of cells into a packet, and you get the benefit of
+being able to interleave the forwarding of voice cells and data cells
+at every switch along the path from source to destination. This idea
+of using small cells to improve end-to-end latency is alive and well
+today in the cellular network.
 
 Having decided to use small, fixed-length packets, the next question is
 what is the right length to fix them at? If you make them too short,
@@ -561,15 +575,15 @@ since there will in general be more than one switch in the path between
 the sending and the receiving host, the header for the packet needs to
 contain enough information to allow every switch in the path to
 
-## Bridges and LAN Switches
+## Bridges and L2 Switches
 
 Having discussed some of the basic ideas behind switching, we now focus
 more closely on some specific switching technologies. We begin by
 considering a class of switch that is used to forward packets between
 LANs (local area networks) such as Ethernets. Such switches are
-sometimes known by the obvious name of LAN switches; historically, they
-have also been referred to as *bridges*, and they are very widely used
-in campus and enterprise networks.
+today known as L2 switches; historically, they have also been referred
+to as *bridges*, and they are very widely used in campus and
+enterprise networks.
 
 Suppose you have a pair of Ethernets that you want to interconnect. One
 approach you might try is to put a repeater between them.

@@ -73,14 +73,13 @@ connected by the internet in [Figure 1](#inet), including
 the protocol graph running on each node. Note that higher-level
 protocols, such as TCP and UDP, typically run on top of IP on the hosts.
 
-Most of the rest of this chapter is about various aspects of IP. While
-it is certainly possible to build an internetwork that does not use
-IP—for example, Novell created an internetworking protocol called IPX,
-which was in turn based on the XNS internet designed by Xerox—IP is
-the most interesting case to study simply because of the size of the
-Internet. Said another way, it is only the IP Internet that has really
-faced the issue of scale. Thus, it provides the best case study of a
-scalable internetworking protocol.
+The rest of this and the next chapter are about various aspects of IP.
+While it is certainly possible to build an internetwork that does not use
+IP—and in fact, in the early days of the Internet there were
+alternative solutions—IP is the most interesting case to study simply
+because of the size of the Internet. Said another way, it is only the
+IP Internet that has really faced the issue of scale. Thus, it
+provides the best case study of a scalable internetworking protocol.
 
 ## Service Model
 
@@ -222,8 +221,7 @@ above IP in the protocol graph.
 
 The `Checksum` is calculated by considering the entire IP header as a
 sequence of 16-bit words, adding them up using ones complement
-arithmetic, and taking the ones complement of the result. This is the IP
-checksum algorithm described in a later section. Thus, if any
+arithmetic, and taking the ones complement of the result. TSsourhus, if any
 bit in the header is corrupted in transit, the checksum will not contain
 the correct value upon receipt of the packet. Since a corrupted header
 may contain an error in the destination address—and, as a result, may
@@ -232,7 +230,7 @@ the checksum. It should be noted that this type of checksum does not
 have the same strong error detection properties as a CRC, but it is much
 easier to calculate in software.
 
-The last two required fields in the header are the 'sourceAddr` and the
+The last two required fields in the header are the `sourceAddr` and the
 `DestinationAddr` for the packet. The latter is the key to datagram
 delivery: Every packet contains a full address for its intended
 destination so that forwarding decisions can be made at each router. The
@@ -253,8 +251,8 @@ IP implementation must handle them all.
 One of the problems of providing a uniform host-to-host service model
 over a heterogeneous collection of networks is that each network
 technology tends to have its own idea of how large a packet can be. For
-example, an Ethernet can accept packets up to 1500 bytes long, while
-FDDI (Fiber Distributed Data Interface) packets may be 4500 bytes long.
+example, classic Ethernet can accept packets up to 1500 bytes long,
+but modern-day variants can deliver larger (jumbo) packets.
 This leaves two choices for the IP service model: Make sure that all IP
 datagrams are small enough to fit inside one packet on any network
 technology, or provide a means by which packets can be fragmented and
@@ -265,9 +263,6 @@ needs to run over all of them; this would make it hard to pick a
 suitably small bound on datagram size. This also means that a host will
 not send needlessly small packets, which wastes bandwidth and consumes
 processing resources by requiring more headers per byte of data sent.
-For example, two hosts connected to FDDI networks that are
-interconnected by a point-to-point link would not need to send packets
-small enough to fit on an Ethernet.
 
 The central idea here is that every network type has a *maximum
 transmission unit* (MTU), which is the largest IP datagram that it can
@@ -678,7 +673,7 @@ numbers that are assigned. The idea is to take a single IP network
 number and allocate the IP addresses with that network number to several
 physical networks, which are now referred to as *subnets*. Several
 things need to be done to make this work. First, the subnets should be
-close to each other. This is because at a distant point in the Internet,
+close to each other. This is because from a distant point in the Internet,
 they will all look like a single network, having only one network number
 between them. This means that a router will only be able to select one
 route to reach any of the subnets, so they had better all be in the same
@@ -782,7 +777,7 @@ for each forwarding table entry (SubnetNumber, SubnetMask, NextHop)
 
 Although not shown in this example, a default route would usually be
 included in the table and would be used if no explicit matches were
-found. We note in passing that a naive implementation of this
+found. Note that a naive implementation of this
 algorithm—one involving repeated ANDing of the destination address
 with a subnet mask that may not be different every time, and a linear
 table search—would be very inefficient.
@@ -804,7 +799,7 @@ shows how aggregation can be taken to another level.
 Subnetting has a counterpart, sometimes called *supernetting*, but more
 often called *Classless Interdomain Routing* or CIDR, pronounced
 "cider." CIDR takes the subnetting idea to its logical conclusion by
-essentially doing away with address classes altogether. Why isn`t
+essentially doing away with address classes altogether. Why isn't
 subnetting alone sufficient? In essence, subnetting only allows us to
 split a classful address among multiple subnets, while CIDR allows us to
 coalesce several classful addresses into a single "supernet." This
@@ -923,8 +918,7 @@ routing table 171.69 would be the longest match.
 
 The task of efficiently finding the longest match between an IP address
 and the variable-length prefixes in a forwarding table has been a
-fruitful field of research in recent years, and the Further Reading
-section of this chapter provides some references. The most well-known
+fruitful field of research for many years. The most well-known
 algorithm uses an approach known as a *PATRICIA tree*, which was
 actually developed well in advance of CIDR.
 

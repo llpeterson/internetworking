@@ -916,14 +916,14 @@ drawbacks, however. First, it does not distinguish between links on a
 latency basis. Thus, a satellite link with 250-ms latency looks just as
 attractive to the routing protocol as a terrestrial link with 1-ms
 latency. Second, it does not distinguish between routes on a capacity
-basis, making a 9.6-kbps link look just as good as a 45-Mbps link.
+basis, making a 1-Mbps link look just as good as a 10-Gbps link.
 Finally, it does not distinguish between links based on their current
 load, making it impossible to route around overloaded links. It turns
 out that this last problem is the hardest because you are trying to
 capture the complex and dynamic characteristics of a link in a single
 scalar cost.
 
-The ARPANET was the testing ground for a number of different app-roaches
+The ARPANET was the testing ground for a number of different approaches
 to link-cost calculation. (It was also the place where the superior
 stability of link-state over distance-vector routing was demonstrated;
 the original mechanism used distance vector while the later version used
@@ -943,8 +943,8 @@ Stated more precisely, the original ARPANET routing mechanism suffered
 from the fact that it did not take either the bandwidth or the latency
 of the link into consideration.
 
-A second version of the ARPANET routing algorithm, sometimes called the
-*new routing mechanism*, took both link bandwidth and latency into
+A second version of the ARPANET routing algorithm
+took both link bandwidth and latency into
 consideration and used delay, rather than just queue length, as a
 measure of load. This was done as follows. First, each incoming packet
 was timestamped with its time of arrival at the router (`ArrivalTime`);
@@ -968,8 +968,8 @@ and the more we want to avoid it. Finally, the weight assigned to each
 link was derived from the average delay experienced by the packets
 recently sent over that link.
 
-Although an improvement over the original mechanism, this approach also
-had a lot of problems. Under light load, it worked reasonably well,
+Although an improvement over the original mechanism, this approach
+also had a lot of problems. Under light load, it worked reasonably well,
 since the two static factors of delay dominated the cost. Under heavy
 load, however, a congested link would start to advertise a very high
 cost. This caused all the traffic to move off that link, leaving it
@@ -980,7 +980,8 @@ idle, which is the last thing you want under heavy load.
 
 Another problem was that the range of link values was much too large.
 For example, a heavily loaded 9.6-kbps link could look 127 times more
-costly than a lightly loaded 56-kbps link. This means that the routing
+costly than a lightly loaded 56-kbps link. (Keep in mind, we're
+talking about the ARPANET cira 1975.) This means that the routing
 algorithm would choose a path with 126 hops of lightly loaded 56-kbps
 links in preference to a 1-hop 9.6-kbps path. While shedding some
 traffic from an overloaded line is a good idea, making it look so
@@ -991,10 +992,9 @@ link looked considerably more costly than an idle 9.6-kbps terrestrial
 link, even though the former would give better performance for
 high-bandwidth applications.
 
-A third approach, called the "revised ARPANET routing metric," addressed
-these problems. The major changes were to compress the dynamic range of
-the metric considerably, to account for the link type, and to smooth the
-variation of the metric with time.
+A third approach addressed these problems. The major changes were to
+compress the dynamic range of the metric considerably, to account for
+the link type, and to smooth the variation of the metric with time.
 
 The smoothing was achieved by several mechanisms. First, the delay
 measurement was transformed to a link utilization, and this number was
@@ -1035,13 +1035,29 @@ best choice for others. The slopes, offsets, and breakpoints for the
 curves in [Figure 9](#metric) were arrived at by a great deal of trial
 and error, and they were carefully tuned to provide good performance.
 
-We end our discussion of routing metrics with a dose of reality. In the
-majority of real-world network deployments at the time of writing,
-metrics change rarely if at all and only under the control of a network
-administrator, not automatically as was described above. The reason for
-this is partly that conventional wisdom now holds that dynamically
-changing metrics are too unstable, even though this probably need not be
-true. Perhaps more significantly, many networks today lack the great
-disparity of link speeds and latencies that prevailed in the ARPANET.
-Thus, static metrics are the norm. One common approach to setting
-metrics is to use a constant multiplied by (1/link_bandwidth).
+Despite all these improvements, it turns out that in the majority of
+real-world network deployments, metrics change rarely if at all and
+only under the control of a network administrator, not automatically
+as was described above. The reason for this is partly that
+conventional wisdom now holds that dynamically changing metrics
+are too unstable, even though this probably need not be true. Perhaps
+more significantly, many networks today lack the great disparity of
+link speeds and latencies that prevailed in the ARPANET. Thus, static
+metrics are the norm. One common approach to setting metrics is to use
+a constant multiplied by (1/link_bandwidth).
+
+So why do we still tell the story about a decades old algorithm that's
+no longer used? Because it perfectly illustrates two valuable lessons.
+The first is that computer systems are often *designed iteratively,
+based on experience.* We seldom get it right the first time, so it's
+important to deploy a simple solution sooner rather than later, and
+expect to improve it over time. Staying stuck in the design phase
+indefinitely is usually not the best approach. The second is the
+well-know KISS principle: *Keep it Simple, Stupid.* When building a
+complex system, less is often more. Opportunities to invent
+sophisticated optimizations are plentiful, and it's a tempting
+challenge to tackle. But while such optimations sometimes have
+short-term value, it is shocking how often a simple approach proves
+best over time. This is because when a system has many moving parts,
+as the Internet most certainly does, keeping each part as simple as
+possible is usually the best bet.

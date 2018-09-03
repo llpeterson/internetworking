@@ -2,15 +2,12 @@
 
 So far, we have talked about what switches and routers must do without
 discussing how to do it. There is a very simple way to build a switch or
-router: Buy a general-purpose processor and equip it with a number of
+router: Buy a general-purpose processor and equip it with multiple
 network interfaces. Such a device, running suitable software, can
 receive packets on one of its interfaces, perform any of the switching
-or forwarding functions described above, and send packets out another of
-its interfaces. This is, in fact, a popular way to build experimental
-routers and switches when you want to be able to do things like develop
-new routing protocols because it offers extreme flexibility and a
-familiar programming environment. It is also not too far removed from
-the architecture of many commercial mid- to low-end routers.
+or forwarding functions described in this chapter, and send packets
+out another of its interfaces. This is, in fact, not too far removed
+from the architecture of many commercial mid- to low-end routers.
 
 ## Switch Basics
 
@@ -49,40 +46,39 @@ crosses the I/O bus twice and is written to and read from main memory
 once. The upper bound on aggregate throughput of such a device (the
 total sustainable data rate summed over all inputs) is, thus, either
 half the main memory bandwidth or half the I/O bus bandwidth, whichever
-is less. (Usually, it's the I/O bus bandwidth.) For example, a machine
-with a 133-MHz, 64-bit-wide I/O bus can transmit data at a peak rate of
-a little over 8 Gbps. Since forwarding a packet involves crossing the
-bus twice, the actual limit is 4 Gbps—enough to build a switch with a
-fair number of 100-Mbps Ethernet ports, for example, but hardly enough
-for a high-end router in the core of the Internet.
+is less. For example, a machine limited by a 133-MHz, 64-bit-wide bus
+can transmit data at a peak rate of a little over 8 Gbps. Since
+forwarding a packet involves crossing the bus twice, the actual limit
+is 4 Gbps—enough to build a switch with a handful of 1-Gbps Ethernet
+ports, for example, but hardly enough for a high-end router in the
+core of the Internet.
 
-Moreover, this upper bound also assumes that moving data is the only
+Moreover, this upper bound assumes that moving data is the only
 problem—a fair approximation for long packets but a bad one when
 packets are short. In the latter case, the cost of processing each
 packet—parsing its header and deciding which output link to transmit
 it on—is likely to dominate. Suppose, for example, that a processor
-can perform all the necessary processing to switch 2 million packets
+can perform all the necessary processing to switch 4 million packets
 each second. This is sometimes called the packet per second (pps) rate.
-(This number is representative of what is achievable on an inexpensive
-PC.) If the average packet is short, say, 64 bytes, this would imply
+If the average packet is short, say, 64 bytes, this would imply
 
 {% center %} Throughput = pps x BitsPerPacket {% endcenter %}
 
 $$
-= 2 \times 10^6 \times 64 \times 8
+= 4 \times 10^6 \times 64 \times 8
 $$
 
 $$
-= 1024 \times 10^6
+= 2048 \times 10^6
 $$
 
-that is, a throughput of about 1 Gbps—substantially below the range
+that is, a throughput of about 2 Gbps—substantially below the range
 that users are demanding from their networks today. Bear in mind that
-this 1 Gbps would be shared by all users connected to the switch, just
+this 2 Gbps would be shared by all users connected to the switch, just
 as the bandwidth of a single (unswitched) Ethernet segment is shared
 among all users connected to the shared medium. Thus, for example, a
 20-port switch with this aggregate throughput would only be able to cope
-with an average data rate of about 50 Mbps on each port.
+with an average data rate of about 100 Mbps on each port.
 
 To address this problem, hardware designers have come up with a large
 array of switch designs that reduce the amount of contention and provide
@@ -341,15 +337,15 @@ types (e.g., Ethernet, SONET).
 	<figcaption>Block diagram of a router.</figcaption>
 </figure>
 	
- A few points are worth noting about router design and how it differs
+A few points are worth noting about router design and how it differs
 from switch design. First, routers must be designed to handle
 variable-length packets, a constraint that does not apply to ATM
-switches but is certainly applicable to Ethernet or Frame Relay
-switches. It turns out that many high-performance routers are designed
+switches but is certainly applicable to Ethernet switches.
+It turns out that many high-performance routers are designed
 using a switching fabric that is cell based. In such cases, the ports
 must be able to convert variable-length packets into cells and back
-again. This is known as *segmentation and re-assembly* (SAR), a problem
-also faced by network adaptors for ATM networks.
+again. This is known as *segmentation and re-assembly* (SAR), a
+problem also faced by network adaptors for ATM networks.
 
 Another consequence of the variable length of IP datagrams is that it
 can be harder to characterize the performance of a router than a switch
@@ -357,12 +353,14 @@ that forwards only cells. Routers can usually forward a certain number
 of packets per second, and this implies that the total throughput in
 *bits* per second depends on packet size. Router designers generally
 have to make a choice as to what packet length they will support at
-*line rate*. That is, if 'pps' (packets per second) is the rate at which
-packets arriving on a particular port can be forwarded, and 'linerate'
+*line rate*. That is, if `pps` (packets per second) is the rate at which
+packets arriving on a particular port can be forwarded, and `LineRate`
 is the physical speed of the port in bits per second, then there will be
-some 'packetsize' in bits such that:
+some `PacketSize` in bits such that:
 
-{% center %} packetsize x pps = linerate {% endcenter %}
+```pseudocode
+Packetsize x pps = LineRate
+```
 
 This is the packet size at which the router can forward at line rate; it
 is likely to be able to sustain line rate for longer packets but not for
