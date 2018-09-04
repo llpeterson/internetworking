@@ -1047,16 +1047,16 @@ metrics are the norm. One common approach to setting metrics is to use
 a constant multiplied by (1/link_bandwidth).
 
 So why do we still tell the story about a decades old algorithm that's
-no longer used? Because it perfectly illustrates two valuable lessons.
+no longer is use? Because it perfectly illustrates two valuable lessons.
 The first is that computer systems are often *designed iteratively,
 based on experience.* We seldom get it right the first time, so it's
 important to deploy a simple solution sooner rather than later, and
 expect to improve it over time. Staying stuck in the design phase
-indefinitely is usually not the best approach. The second is the
+indefinitely is usually not a good approach. The second is the
 well-know KISS principle: *Keep it Simple, Stupid.* When building a
 complex system, less is often more. Opportunities to invent
 sophisticated optimizations are plentiful, and it's a tempting
-challenge to tackle. But while such optimations sometimes have
+challenge to tackle. While such optimations sometimes have
 short-term value, it is shocking how often a simple approach proves
 best over time. This is because when a system has many moving parts,
 as the Internet most certainly does, keeping each part as simple as
