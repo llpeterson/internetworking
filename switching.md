@@ -90,7 +90,7 @@ could imagine a network operator configuring the tables statically. It
 is a lot harder to create the forwarding tables in large, complex
 networks with dynamically changing topologies and multiple paths between
 destinations. That harder problem is known as *routing* and is the topic
-of a later Section. We can think of routing as a process
+of a later section. We can think of routing as a process
 that takes place in the background so that, when a data packet turns up,
 we will have the right information in the forwarding table to be able to
 forward, or switch, the packet.
@@ -420,7 +420,7 @@ buffer space. If there are no free buffers, the incoming packet must be
 discarded. We observe, however, that even in a datagram-based network a
 source host often sends a sequence of packets to the same destination
 host. It is possible for each switch to distinguish among the set of
-packets it currently has queued, based on the source/ destination pair,
+packets it currently has queued, based on the source/destination pair,
 and thus for the switch to ensure that the packets belonging to each
 source/destination pair are receiving a fair share of the switch's
 buffers.
@@ -451,9 +451,9 @@ Asynchronous Transfer Mode (ATM) is probably the most well-known virtual
 circuit-based networking technology, although it is now somewhat past
 its peak in terms of deployment. ATM became an important technology in
 the 1980s and early 1990s for a variety of reasons, not the least of
-which is that it was embraced by the telephone industry, which had
-historically been less than active in data communications (other than as
-a supplier of links from which other people built networks). ATM also
+which is that it was embraced by the telephone industry, which at that
+point in time been less than active in data communications (other than
+as a supplier of links from which other people built networks). ATM also
 happened to be in the right place at the right time, as a high-speed
 switching technology that appeared on the scene just when shared media
 like Ethernet and token rings were starting to look a bit too slow for
@@ -521,7 +521,7 @@ in variable length packets—they cut those packets into some sort of
 cell in order to switch them, as we'll see in a later section.
 
 There is another good argument in favor of small ATM cells, having
-to do with latency end-to-end latency. ATM was designed to carry
+to do with end-to-end latency. ATM was designed to carry
 both voice phone calls (the dominate use case at the time) and data.
 Because voice is low-bandwidth but has strict delay requirements,
 the last thing you want is for a small voice packet queued behind a
@@ -555,7 +555,7 @@ that some detractors called the *cell tax*.
 
 As it turns out, 48 bytes was picked for the ATM cell payload as a
 compromise. There were good arguments for both larger and smaller cells,
-but 48 made almost no one happy—a power of two would certainly have
+and 48 made almost no one happy—a power of two would certainly have
 been better for computers to work with.
 
 ## Source Routing
@@ -574,6 +574,84 @@ number in the header and transmit the packet on that output. However,
 since there will in general be more than one switch in the path between
 the sending and the receiving host, the header for the packet needs to
 contain enough information to allow every switch in the path to
+determine which output the packet needs to be placed
+on. One way to do this would be to put an ordered list of switch ports
+in the header and to rotate the list so that the next switch in the
+path is always at the front of the list. [Figure 7](#source-route)
+illustrates this idea.
+
+<figure class="line">
+	<a id="source-route"></a>
+	<img src="figures/f03-07-9780123850591.png" width="500px"/>
+	<figcaption>Source routing in a switched network (where the switch
+	reads the rightmost number).</figcaption>
+</figure>
+
+In this example, the packet needs to traverse three switches to get
+from host A to host B. At switch 1, it needs to exit on port 1, at the
+next switch it needs to exit at port 0, and at the third switch it
+needs to exit at port 3. Thus, the original header when the packet
+leaves host A contains the list of ports (3, 0, 1), where we assume that
+each switch reads the rightmost element of the list. To make sure
+that the next switch gets the appropriate information, each switch
+rotates the list after it has read its own entry. Thus, the packet
+header as it leaves switch 1 en route to switch 2 is now (1, 3, 0);
+switch 2 performs another rotation and sends out a packet with (0, 1, 3)
+in the header.  Although not shown, switch 3 performs yet another
+rotation, restoring the header to what it was when host A sent it.
+
+There are several things to note about this approach. First, it
+assumes that host A knows enough about the topology of the network to
+form a header that has all the right directions in it for every switch
+in the path. This is somewhat analogous to the problem of building the
+forwarding tables in a datagram network or figuring out where to send
+a setup packet in a virtual circuit network. Second, observe that we
+cannot predict how big the header needs to be, since it must be able
+to hold one word of information for every switch on the path. This
+implies that headers are probably of variable length with no upper
+bound, unless we can predict with absolute certainty the maximum
+number of switches through which a packet will ever need to
+pass. Third, there are some variations on this approach. For example,
+rather than rotate the header, each switch could just strip the first
+element as it uses it.  Rotation has an advantage over stripping,
+however: Host B gets a copy of the complete header, which may help it
+figure out how to get back to host A.  Yet another alternative is to
+have the header carry a pointer to the current "next port" entry, so
+that each switch just updates the pointer rather than rotating the
+header; this may be more efficient to implement. We show these three
+approaches in [Figure 8](#sroute-app).  In each case, the entry that
+this switch needs to read is `A`, and the entry that the next
+switch needs to read is `B`.
+
+<figure class="line">
+	<a id="sroute-apps"></a>
+	<img src="figures/f03-08-9780123850591.png" width="550px"/>
+	<figcaption>Three ways to handle headers for source routing:
+	(a) rotation; (b) stripping; (c) pointer. The labels are read
+    right to left.</figcaption>
+</figure>
+
+Source routing can be used in both datagram networks and virtual
+circuit networks. For example, the Internet Protocol, which is a
+datagram protocol, includes a source route option that allows selected
+packets to be source routed, while the majority are switched as
+conventional datagrams. Source routing is also used in some virtual
+circuit networks as the means to get the initial setup request along
+the path from source to destination.
+
+Source routes are sometimes categorized as *strict* or *loose*. In a
+strict source route, every node along the path must be specified,
+whereas a loose source route only specifies a set of nodes to be
+traversed, without saying exactly how to get from one node to the
+next. A loose source route can be thought of as a set of waypoints
+rather than a completely specified route. The loose option can be
+helpful to limit the amount of 
+information that a source must obtain to create a source route. In any
+reasonably large network, it is likely to be hard for a host
+to get the complete path information it needs to construct correct
+a strict source route to any destination. But both types of source
+routes do find application in certain scenarios, as we will see in later
+chapters.
 
 ## Bridges and L2 Switches
 
@@ -625,7 +703,7 @@ number of ports (inputs and outputs) on the bridge.
 
 The first optimization we can make to a bridge is to observe that it
 need not forward all frames that it receives. Consider the bridge in
-[Figure 7](#elan2). Whenever a frame from host A that is addressed to
+[Figure 9](#elan2). Whenever a frame from host A that is addressed to
 host B arrives on port 1, there is no need for the bridge to forward the
 frame out over port 2. The question, then, is how does a bridge come to
 learn on which port the various hosts reside?
@@ -771,7 +849,7 @@ entry.
 The preceding strategy works just fine until the extended LAN has a loop
 in it, in which case it fails in a horrible way—frames potentially
 loop through the extended LAN forever. This is easy to see in the
-example depicted in [Figure 8](#elan3), where, for example, bridges B1,
+example depicted in [Figure 10](#elan3), where, for example, bridges B1,
 B4, and B6 form a loop. Suppose that a packet enters bridge B4 from
 Ethernet J and that the destination address is one not yet in any
 bridge's forwarding table: B4 sends a copy of the packet out to
@@ -799,7 +877,7 @@ by a graph that possibly has loops (cycles), then a spanning tree is a
 subgraph of this graph that covers (spans) all the vertices but contains
 no cycles. That is, a spanning tree keeps all of the vertices of the
 original graph but throws out some of the edges. For example,
-[Figure 9](#graphs) shows a cyclic graph on the left and one of
+[Figure 11](#graphs) shows a cyclic graph on the left and one of
 possibly many spanning trees on the right.
 
 <figure class="line">
@@ -867,8 +945,8 @@ forwards frames over those ports for which it is the designated bridge.
 	<figcaption>Spanning tree with some ports not selected.</figcaption>
 </figure>
 	
-[Figure 10](#elan4) shows the spanning tree that corresponds to the
-extended LAN shown in [Figure 8](#elan3). In this example, B1 is the
+[Figure 12](#elan4) shows the spanning tree that corresponds to the
+extended LAN shown in [Figure 10](#elan3). In this example, B1 is the
 root bridge, since it has the smallest ID. Notice that both B3 and B5
 are connected to LAN A, but B5 is the designated bridge since it is
 closer to the root. Similarly, both B5 and B7 are connected to LAN B,
@@ -876,8 +954,8 @@ but in this case B5 is the designated bridge since it has the smaller
 ID; both are an equal distance from B1.
 
 While it is possible for a human to look at the extended LAN given in
-[Figure 8](#elan3) and to compute the spanning tree given in
-the [Figure 10](#elan4) according to the rules given above, the bridges in
+[Figure 10](#elan3) and to compute the spanning tree given in
+the [Figure 12](#elan4) according to the rules given above, the bridges in
 an extended LAN do not have the luxury of being able to see the topology
 of the entire network, let alone peek inside other bridges to see their
 ID. Instead, the bridges have to exchange configuration messages with
@@ -938,7 +1016,7 @@ which ports are in use for the spanning tree. Only those ports may be
 used for forwarding data packets in the extended LAN.
 
 Let's see how this works with an example. Consider what would happen in
-[Figure 10](#elan4) if the power had just been restored to the building
+[Figure 12](#elan4) if the power had just been restored to the building
 housing this network, so that all the bridges boot at about the same
 time. All the bridges would start off by claiming to be the root. We
 denote a configuration message from node X in which it claims to be
@@ -962,7 +1040,7 @@ at node B3, a sequence of events would unfold as follows:
     its interfaces.
 
 This leaves B3 with both ports not selected, as shown in
-[Figure 10](#elan4).
+[Figure 12](#elan4).
 
 Even after the system has stabilized, the root bridge continues to send
 configuration messages periodically, and the other bridges continue to
@@ -995,7 +1073,7 @@ the LANs in an extended LAN necessarily have a host that is a member of
 a particular multicast group, it is possible to do better. Specifically,
 the spanning tree algorithm can be extended to prune networks over which
 multicast frames need not be forwarded. Consider a frame sent to group M
-by a host on LAN A in [Figure 10](#elan4). If there is no host on LAN J
+by a host on LAN A in [Figure 12](#elan4). If there is no host on LAN J
 that belongs to group M, then there is no need for bridge B4 to forward
 the frames over that network. On the other hand, not having a host on
 LAN H that belongs to group M does not necessarily mean that bridge B1
@@ -1049,7 +1127,7 @@ extended LAN that will receive any given broadcast packet.
 	<figcaption>Two virtual LANs share a common backbone.</figcaption>
 </figure>
 
-We can see how VLANs work with an example. [Figure 11](#vlan) shows four
+We can see how VLANs work with an example. [Figure 13](#vlan) shows four
 hosts on four different LAN segments. In the absence of VLANs, any
 broadcast packet from any host will reach all the other hosts. Now let's
 suppose that we define the segments connected to hosts W and X as being
