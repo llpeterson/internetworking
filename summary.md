@@ -3,8 +3,8 @@
 This chapter has begun to look at some of the issues involved in
 building scalable and heterogeneous networks by using switches and
 routers to interconnect links and networks. The most common use of
-switching is the interconnection of LANs, especially Ethernet segments.
-LAN switches, or bridges, use techniques such as source address learning
+switching is to interconnection Ethernet segments. These L2 switches,
+often called bridges, use techniques such as source address learning
 to improve forwarding efficiency and spanning tree algorithms to avoid
 looping. These switches are extensively used in data centers, campuses,
 and corporate networks.
@@ -21,7 +21,7 @@ technology, and the ARP mechanism is used to translate global IP
 addresses into local link-layer addresses.
 
 A crucial aspect of the operation of an internetwork is the
-determination of efficient routes to any destination in the internet.
+determination of efficient routes to any destination.
 Internet routing algorithms solve this problem in a distributed fashion;
 this chapter introduced the two major classes of algorithms—link-state
 and distance-vector—along with examples of their application (RIP and
@@ -29,7 +29,7 @@ OSPF).
 
 Both switches and routers need to forward packets from inputs to outputs
 at a high rate and, in some circumstances, grow to a large size to
-accommodate hundreds or thousands of ports. Building switches that both
+accommodate hundreds of ports. Building switches that both
 scale and offer high performance at acceptable cost is complicated by
 the problem of contention; as a consequence, switches and routers often
 employ special-purpose hardware rather than being built from
