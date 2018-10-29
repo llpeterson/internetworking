@@ -221,7 +221,7 @@ above IP in the protocol graph.
 
 The `Checksum` is calculated by considering the entire IP header as a
 sequence of 16-bit words, adding them up using ones complement
-arithmetic, and taking the ones complement of the result. TSsourhus, if any
+arithmetic, and taking the ones complement of the result. Thus, if any
 bit in the header is corrupted in transit, the checksum will not contain
 the correct value upon receipt of the packet. Since a corrupted header
 may contain an error in the destination address—and, as a result, may
