@@ -1161,7 +1161,7 @@ the network's frame header and so can support only networks that have
 exactly the same format for addresses. Thus, bridges can be used to
 connect Ethernets to Ethernets, token rings to token rings, and one
 802.11 network to another. It's also possible to put a bridge between,
-say, an and an 802.11 network, since both networks support the same
+say, an Ethernet and an 802.11 network, since both networks support the same
 48-bit address format. However, bridges do not readily generalize to
 other kinds of networks with different addressing formats, such as
 ATM.
