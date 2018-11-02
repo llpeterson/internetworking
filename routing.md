@@ -685,7 +685,7 @@ while (N != M)
 ```
 
 Basically, the algorithm works as follows. We start with M containing
-this node s and then initialize the table of costs (the C(n)s) to
+this node s and then initialize the table of costs (the array `C(n)`) to
 other nodes using the known costs to directly connected nodes. We then
 look for the node that is reachable at the lowest cost (w) and add it
 to M. Finally, we update the table of costs by considering the cost of
@@ -735,7 +735,7 @@ The algorithm works as follows:
 This will become a lot easier to understand when we look at an example.
 Consider the network depicted in [Figure 6](#lsroute). Note that,
 unlike our previous example, this network has a range of different edge
-costs. [Table](#ls-trace) traces the steps for building the routing
+costs. [Table 6](#ls_trace) traces the steps for building the routing
 table for node D. We denote the two outputs of D by using the names of
 the nodes to which they connect, B and C. Note the way the algorithm
 seems to head off on false leads (like the 11-unit cost path to B that
@@ -1046,17 +1046,17 @@ link speeds and latencies that prevailed in the ARPANET. Thus, static
 metrics are the norm. One common approach to setting metrics is to use
 a constant multiplied by (1/link_bandwidth).
 
-So why do we still tell the story about a decades old algorithm that's
+Why do we still tell the story about a decades old algorithm that's
 no longer is use? Because it perfectly illustrates two valuable lessons.
 The first is that computer systems are often *designed iteratively,
-based on experience.* We seldom get it right the first time, so it's
+based on experience.*  We seldom get it right the first time, so it's
 important to deploy a simple solution sooner rather than later, and
 expect to improve it over time. Staying stuck in the design phase
 indefinitely is usually not a good approach. The second is the
-well-know KISS principle: *Keep it Simple, Stupid.* When building a
+well-know KISS principle: *Keep it Simple, Stupid.*  When building a
 complex system, less is often more. Opportunities to invent
 sophisticated optimizations are plentiful, and it's a tempting
-challenge to tackle. While such optimations sometimes have
+opportunity to pursue. While such optimations sometimes have
 short-term value, it is shocking how often a simple approach proves
 best over time. This is because when a system has many moving parts,
 as the Internet most certainly does, keeping each part as simple as

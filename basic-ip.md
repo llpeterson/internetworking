@@ -36,8 +36,8 @@ Ethernet. An *internetwork* is an interconnected collection of such
 networks. Sometimes, to avoid ambiguity, we refer to the underlying
 networks that we are interconnecting as *physical* networks. An internet
 is a *logical* network built out of a collection of physical networks.
-In this context, a collection of Ethernets connected by bridges or
-switches would still be viewed as a single network.
+In this context, a collection of Ethernet segments connected by
+bridges or switches would still be viewed as a single network.
 
 <figure class="line">
 	<a id="inet"></a>
@@ -135,8 +135,8 @@ The ability of IP to "run over anything" is frequently cited as one of
 its most important characteristics. It is noteworthy that many of the
 technologies over which IP runs today did not exist when IP was
 invented. So far, no networking technology has been invented that has
-proven too bizarre for IP; it has even been claimed that IP can run over
-a network that transports messages using carrier pigeons.
+proven too bizarre for IP; in principle, IP can run over a network
+that transports messages using carrier pigeons.
 
 Best-effort delivery does not just mean that packets can get lost.
 Sometimes they can get delivered out of order, and sometimes the same
@@ -171,8 +171,8 @@ lengths by looking at the bit positions marked at the top of the packet.
 
 Looking at each field in the IP header, we see that the "simple" model
 of best-effort datagram delivery still has some subtle features. The
-`Version` field specifies the version of IP. The current version of IP
-is 4, and it is sometimes called *IPv4*. Observe that putting this
+`Version` field specifies the version of IP. The still-assumed version
+of IP is 4, which is typically called *IPv4*. Observe that putting this
 field right at the start of the datagram makes it easy for everything
 else in the packet format to be redefined in subsequent versions; the
 header processing software starts off by looking at the version and then
@@ -230,7 +230,7 @@ the checksum. It should be noted that this type of checksum does not
 have the same strong error detection properties as a CRC, but it is much
 easier to calculate in software.
 
-The last two required fields in the header are the `sourceAddr` and the
+The last two required fields in the header are the `SourceAddr` and the
 `DestinationAddr` for the packet. The latter is the key to datagram
 delivery: Every packet contains a full address for its intended
 destination so that forwarding decisions can be made at each router. The
@@ -252,7 +252,8 @@ One of the problems of providing a uniform host-to-host service model
 over a heterogeneous collection of networks is that each network
 technology tends to have its own idea of how large a packet can be. For
 example, classic Ethernet can accept packets up to 1500 bytes long,
-but modern-day variants can deliver larger (jumbo) packets.
+but modern-day variants can deliver larger (jumbo) packets that carry
+up to 9000 bytes of payload.
 This leaves two choices for the IP service model: Make sure that all IP
 datagrams are small enough to fit inside one packet on any network
 technology, or provide a means by which packets can be fragmented and
@@ -515,8 +516,8 @@ needs to pick the best one, or at least one that has a reasonable chance
 of getting the datagram closer to its destination. The router that it
 chooses is known as the *next hop* router. The router finds the correct
 next hop by consulting its forwarding table. The forwarding table is
-conceptually just a list of $$\langle$$`NetworkNum,` `NextHop`$$\rangle$$
-pairs. (As we will see below, forwarding tables in practice often
+conceptually just a list of `(NetworkNum, NextHop)`pairs. (As we will
+see below, forwarding tables in practice often
 contain some additional information related to the next hop.) Normally,
 there is also a default router that is used if none of the entries in
 the table matches the destination's network number. For a host, it may
@@ -553,7 +554,8 @@ H2. Since they are on the same physical network, H1 and H2 have the same
 network number in their IP address. Thus, H1 deduces that it can deliver
 the datagram directly to H2 over the Ethernet. The one issue that needs
 to be resolved is how H1 finds out the correct Ethernet address for
-H2—this is the address resolution mechanism described in a later section.
+H2—the resolution mechanism described in a later section addresses
+this issue.
 
 Now suppose H5 wants to send a datagram to H8. Since these hosts are on
 different physical networks, they have different network numbers, so H5
@@ -825,6 +827,9 @@ chunks of 256 addresses at a time, we could more accurately match the
 amount of address space consumed to the size of the organization. For
 any organization with at least 256 hosts, we can guarantee an address
 utilization of at least 50%, and typically much more.
+
+> Even if you can justify a request of a class B network number, don't
+> bother. They are all spoken for.
 
 This solution, however, raises a problem that is at least as serious:
 excessive storage requirements at the routers. If a single site has,
@@ -1263,11 +1268,11 @@ networks have been created.
 	sharing common switches.</figcaption>
 </figure>
  	
-In [Figure 13](#vpn), a virtual circuit network (using Frame Relay or
-ATM, for example) is used to provide the controlled connectivity among
+In [Figure 13](#vpn), a virtual circuit network (using ATM, for
+example) is used to provide the controlled connectivity among
 sites. It is also possible to provide a similar function using an IP
-network—an internetwork—to provide the connectivity. However, we
-cannot just connect the various corporations` sites to a single
+network to provide the connectivity. However, we
+cannot just connect the various corporations' sites to a single
 internetwork because that would provide connectivity between
 corporation X and corporation Y, which we wish to avoid. To solve this
 problem, we need to introduce a new concept, the *IP tunnel*.
@@ -1356,7 +1361,9 @@ also provide a mechanism by which we can force a packet to be delivered
 to a particular place even if its original header—the one that gets
 encapsulated inside the tunnel header—might suggest that it should go
 somewhere else. Thus, we see that tunneling is a powerful and quite
-general technique for building virtual links across internetworks.
+general technique for building virtual links across internetworks. So
+general, in fact, that the technique recurses, with the most common
+use case being to tunnel IP over IP.
 
 Tunneling does have its downsides. One is that it increases the length
 of packets; this might represent a significant waste of bandwidth for

@@ -270,11 +270,11 @@ wants to send to host B, A puts the VCI value of 5 in the header of the
 packet and sends it to switch 1. Switch 1 receives any such packet on
 interface 2, and it uses the combination of the interface and the VCI in
 the packet header to find the appropriate VC table entry. As shown in
-[Table](#vctab), the table entry in this case tells switch 1 to
+[Table 2](#vctab), the table entry in this case tells switch 1 to
 forward the packet out of interface 1 and to put the VCI value 11 in the
 header when the packet is sent. Thus, the packet will arrive at switch 2
 on interface 3 bearing VCI 11. Switch 2 looks up interface 3 and VCI 11
-in its VC table (as shown in [Table](#vctab1)) and sends the packet
+in its VC table (as shown in [Table 3](#vctab1)) and sends the packet
 on to switch  3 after updating the VCI value in the packet header
 appropriately, as shown in [Figure 5](#vcdat2). This process continues
 until it arrives at host B with the VCI value of 4 in the packet. To
@@ -372,8 +372,11 @@ There are several things to note about virtual circuit switching:
    (which might be quite large, being a global identifier on the
    network), each data packet contains only a small identifier, which
    is only unique on one link. Thus, the per-packet overhead caused by
-   the header is reduced relative to the datagram model.
-
+   the header is reduced relative to the datagram model. More
+   importantly, the lookup is fast because the virtual circuit number
+   can be treated as an index into a table rather than as a key that has
+   to be looked up.
+   
 - If a switch or a link in a connection fails, the connection is
    broken and a new one will need to be established. Also, the old one
    needs to be torn down to free up table storage space in the
@@ -392,8 +395,8 @@ gets the go-ahead to send data, it knows quite a lot about the
 network—for example, that there really is a route to the receiver and
 that the receiver is willing and able to receive data. It is also
 possible to allocate resources to the virtual circuit at the time it is
-established. For example, X.25 was an early (and now largely obsolete)
-virtual-circuit-based networking technology. X.25 networks employ the
+established. For example, X.25 (an early and now largely obsolete
+virtual-circuit-based networking technology) employed the
 following three-part strategy:
 
 1. Buffers are allocated to each virtual circuit when the circuit is
@@ -452,7 +455,7 @@ circuit-based networking technology, although it is now somewhat past
 its peak in terms of deployment. ATM became an important technology in
 the 1980s and early 1990s for a variety of reasons, not the least of
 which is that it was embraced by the telephone industry, which at that
-point in time been less than active in data communications (other than
+point in time was less active in computer networks (other than
 as a supplier of links from which other people built networks). ATM also
 happened to be in the right place at the right time, as a high-speed
 switching technology that appeared on the scene just when shared media
@@ -518,7 +521,8 @@ available about how to build cell switches in hardware at the time the
 ATM standards were being defined. As it turns out, this same principle
 is still applied in many switches and routers today, even if they deal
 in variable length packets—they cut those packets into some sort of
-cell in order to switch them, as we'll see in a later section.
+cell in order to forward them from input port to output port, but this
+is all internal to the switch.
 
 There is another good argument in favor of small ATM cells, having
 to do with end-to-end latency. ATM was designed to carry
@@ -533,8 +537,8 @@ at every switch along the path from source to destination. This idea
 of using small cells to improve end-to-end latency is alive and well
 today in the cellular network.
 
-Having decided to use small, fixed-length packets, the next question is
-what is the right length to fix them at? If you make them too short,
+Having decided to use small, fixed-length packets, the next question
+was what is the right length to fix them at? If you make them too short,
 then the amount of header information that needs to be carried around
 relative to the amount of data that fits in one cell gets larger, so the
 percentage of link bandwidth that is actually used to carry data goes
@@ -605,13 +609,18 @@ assumes that host A knows enough about the topology of the network to
 form a header that has all the right directions in it for every switch
 in the path. This is somewhat analogous to the problem of building the
 forwarding tables in a datagram network or figuring out where to send
-a setup packet in a virtual circuit network. Second, observe that we
-cannot predict how big the header needs to be, since it must be able
-to hold one word of information for every switch on the path. This
-implies that headers are probably of variable length with no upper
-bound, unless we can predict with absolute certainty the maximum
-number of switches through which a packet will ever need to
-pass. Third, there are some variations on this approach. For example,
+a setup packet in a virtual circuit network. In practice, however, it
+is the first switch at the ingress to the network (as opposed to the
+end host connected to that switch) that appends the source route.
+
+Second, observe that we cannot predict how big the header needs to be,
+since it must be able to hold one word of information for every switch
+on the path. This implies that headers are probably of variable length
+with no upper bound, unless we can predict with absolute certainty the
+maximum number of switches through which a packet will ever need to
+pass.
+
+Third, there are some variations on this approach. For example,
 rather than rotate the header, each switch could just strip the first
 element as it uses it.  Rotation has an advantage over stripping,
 however: Host B gets a copy of the complete header, which may help it
@@ -895,19 +904,19 @@ all, one topology is typically able to be covered by multiple spanning
 trees. The answer lies in the spanning tree protocol, which we'll
 describe now.
 
-The spanning tree algorithm, which was developed by Radia Perlman at the
-Digital Equipment Corporation, is a protocol used by a set of bridges to
-agree upon a spanning tree for a particular extended LAN. (The IEEE
-802.1 specification for LAN bridges is based on this algorithm.) In
-practice, this means that each bridge decides the ports over which it is
-and is not willing to forward frames. In a sense, it is by removing
-ports from the topology that the extended LAN is reduced to an acyclic
-tree. It is even possible that an entire bridge will not participate
-in forwarding frames, which seems kind of strange at first glance. The
-algorithm is dynamic, however, meaning that the bridges are always
-prepared to reconfigure themselves into a new spanning tree should some
-bridge fail, and so those unused ports and bridges provide the redundant
-capacity needed to recover from failures.
+The spanning tree algorithm, which was developed by Radia Perlman,
+then at the Digital Equipment Corporation, is a protocol used by a set
+of bridges to agree upon a spanning tree for a particular extended
+LAN. (The IEEE 802.1 specification for LAN bridges is based on this
+algorithm.) In practice, this means that each bridge decides the ports
+over which it is and is not willing to forward frames. In a sense, it
+is by removing ports from the topology that the extended LAN is
+reduced to an acyclic tree. It is even possible that an entire bridge
+will not participate in forwarding frames, which seems kind of strange
+at first glance. The algorithm is dynamic, however, meaning that the
+bridges are always prepared to reconfigure themselves into a new
+spanning tree should some bridge fail, and so those unused ports and
+bridges provide the redundant capacity needed to recover from failures.
 
 > Representing an extended LAN as an abstract graph is a bit 
 > awkward. Basically, you let both the bridges and the LANs correspond 
@@ -1090,8 +1099,8 @@ group M must periodically send a frame with the address for group M in
 the source field of the frame header. This frame would have as its
 destination address the multicast address for the bridges.
 
-Note that, although the multicast extension just described has been
-proposed, it is not widely adopted. Instead, multicast is implemented in
+Note that, although the multicast extension just described was once
+proposed, it was not widely adopted. Instead, multicast is implemented in
 exactly the same way as broadcast on today's extended LANs.
 
 ### Limitations of Bridges

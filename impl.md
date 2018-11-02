@@ -249,7 +249,7 @@ ports at the same time. A sample of fabric types includes the following:
     packet leaves the switch. Self-routing fabrics are often built from
     large numbers of very simple 2 $$\times$$ 2 switching elements
     interconnected in regular patterns, such as the *banyan* switching
-    fabric shown in[Figure 6](#banyaneg).
+    fabric shown in [Figure 6](#banyaneg).
 
 <figure class="line">
 	<a id="self-route"></a>
