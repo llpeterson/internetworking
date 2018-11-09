@@ -62,14 +62,14 @@ enough for a high-end router in the core of the Internet.
 
 Moreover, this upper bound assumes that moving data is the only
 problem. This is a fair approximation for long packets but a bad one
-when packets are short, which the worst-case situation switch
-designers have to plan for. In the latter case, the cost of processing each
-packet—parsing its header and deciding which output link to transmit
-it on—is likely to dominate. Header processing is the second potential
+when packets are short, which is the worst-case situation switch
+designers have to plan for. With minimum-sized packets, the cost of
+processing each packet—parsing its header and deciding which output
+link to transmit it on—is likely to dominate, and potentially become a
 bottleneck. Suppose, for example, that a processor can perform all the
 necessary processing to switch 40 million packets each second. This is
 sometimes called the packet per second (pps) rate. If the average
-packet is short, say, 64 bytes, this would imply
+packet is 64 bytes, this would imply
 
 {% center %} Throughput = pps x BitsPerPacket {% endcenter %}
 
@@ -82,7 +82,7 @@ $$
 $$
 
 that is, a throughput of about 20 Gbps—fast, but substantially below
-the range that users are demanding from their switchess today. Bear in
+the range users are demanding from their switches today. Bear in
 mind that this 20 Gbps would be shared by all users connected to the
 switch, just as the bandwidth of a single (unswitched) Ethernet
 segment is shared among all users connected to the shared medium.
@@ -146,8 +146,8 @@ to build your own PC. In both cases you still need software to run on
 the hardware, but just as Linux is available to run on your home-built
 PC, there are now open source L2 and L3 stacks available on GitHub to
 run on your home-built switch. Alternatively, you can simply buy a
-pre-built switch from commodity switch manufacturers and then load
-your own software onto it. The following describes these *white-box
+pre-built switch from a commodity switch manufacturer and then load
+your own software onto it. The following describes these open *white-box
 switches*, so called to contrast them with closed "black-box" devices
 of the recent past.
 
