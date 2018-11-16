@@ -112,7 +112,7 @@ enough to give it a name: the *control plane* corresponds to the
 background processing required to "control" the network (e.g., running
 OSPF, RIP, or the BGP protocol described in the next chapter) and the
 *data plane* corresponds to the per-packet processing required to move
-a packet from input port to output port.
+packets from input port to output port.
 
 These two kinds of processing are easy to conflate when both run on
 the same CPU, as is the case in software switch depected in
