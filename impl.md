@@ -149,67 +149,72 @@ run on your home-built switch. Alternatively, you can simply buy a
 pre-built switch from a commodity switch manufacturer and then load
 your own software onto it. The following describes these open *white-box
 switches*, so called to contrast them with closed "black-box" devices
-of the recent past.
+that have historically dominated the industry.
 
 <figure class="line">
 	<a id="whitebox"></a>
 	<img src="figures/impl/Slide2.png" width="500px"/>
-	<figcaption>White-box switch using a Network Processor.</figcaption>
-	</figure>
+	<figcaption>White-box switch using a Network Processing
+	Unit.</figcaption>
+</figure>
 
 [Figure 2](#whitebox) is a simplified depiction of a white-box
 switch. The key difference from the earlier implementation on a
-general-purpose processor is the addition of a Network Processor
-(NP), a domain-specific processor with an architecture and
+general-purpose processor is the addition of a Network Processoring
+Unit (NPU), a domain-specific processor with an architecture and
 instruction set that has been optimized for processing packet headers
-(i.e., for implementing the data plane). NPs are similar in spirit to
+(i.e., for implementing the data plane). NPUs are similar in spirit to
 GPUs that have an architecture optimized for rendering computer
-graphics, but in this case, the NP is optimized for parsing packet
-headers and making a forwarding decsion. Network Processors are able
+graphics, but in this case, the NPU is optimized for parsing packet
+headers and making a forwarding decsion. NPUs are able
 to process packets (input, make a forwarding decision, and output)
 at rates measured in Terabits-per-second (Tbps), easily fast enough to
 keep up with 32x100-Gbps ports, or the 48x40-Gbps ports shown in the
 diagram.
 
-> You might wonder why we don't call these NPUs, just as we have CPUs
-> and GPUs. The problem is that "NPU" is already spoken for: Neural
-> Processing Unit, yet another domain specific processor that has been
-> tailored for running AI programs. In truth, NP is not a
-> widely-accepted term (there isn't one), but a generic alternative
-> that has been proposed is Protocol Independent Switch Architecture
-> (PISA).
+> Our use of the term NPU is a bit non-standard. Historically, NPU was
+> the name given more narrowly-defined network processing chips used,
+> for example, to implement intelligent firewalls or deep packet
+> inspection. They were not as general-purpose as the NPUs we're
+> discussing here; nor were they as high-performance. It seems likely
+> that the current approach will make purpose-built network
+> processors obsolete, but in any case, we prefer the NPU nominclator
+> because it is consistent with the trend to build programmable
+> domain-specific processors, including GPUs for graphics and TPUs
+> (Tensor Processing Units) for AI.
 
 The beauty of this new switch design is that a given white-box can now
 be programmed to be an L2 switch, and L3 router, or a combination of
 both, just by a matter of programming. The exact same control plane
 software stack used in a software switch still runs on the control CPU,
-but in addition, data plane "programs" are loaded onto the NP to reflect
+but in addition, data plane "programs" are loaded onto the NPU to reflect
 the forwarding decisions made by the control plane software. Exactly
-how one "programs" the NP depends on the chip vendor, of which there
+how one "programs" the NPU depends on the chip vendor, of which there
 are currently several. In some cases, the forwarding pipeline is fixed
 and the control processor merely loads the forwarding table into the
-NP (by fixed we mean the NP only knows how to process certain headers,
+NPU (by fixed we mean the NPU only knows how to process certain headers,
 like Ethernet and IP), but in other cases, the forwarding pipeline is
 itself programmable. P4 is a new programming language that can be used
-to program such NP-based forwarding pipeline. Among other things, P4
-tries to hide many of the differences in the underlying NP instruction sets.
+to program such NPU-based forwarding pipeline. Among other things, P4
+tries to hide many of the differences in the underlying NPU instruction sets.
 
-Internally, an NP takes advantage of three technologies. First, a fast
+Internally, an NPU takes advantage of three technologies. First, a fast
 SRAM-based memory buffers packets while they are being processed.
 SRAM (Static Random Access Memory), is roughly an order of magnitude
 faster than the DRAM (Dynamic Random Access Memory) that is used by
-main memory. Second, a TCAM-based memory stores the forwarding
-table. The "CAM" in TCAM stands for "Content Addressable Memory" which
-means that the key you want to look up in a table can effectively be
-used as the address into the memory that implements the table. The "T"
-stands for "Ternary" which is a fancy way to say the key you want to
-look up can have wildcards in it (i.e., match anything). Finally, the
+main memory. Second, a TCAM-based memory stores bit patterns to be
+matched in the packets being processed. The "CAM" in TCAM stands for
+"Content Addressable Memory" which means that the key you want to look
+up in a table can effectively be used as the address into the memory
+that implements the table. The "T" stands for "Ternary" which is a
+fancy way to say the key you want to look up can have wildcards in it
+(e.g, key `10*1` matches both `1001` and `1011`). Finally, the
 processing involved to forward each packet is implemented by a
 forwarding pipeline. This pipeline is implemented by an ASIC, but when
 well-designed, the pipeline's forwarding behavior can be modified by
 changing the program it runs. At a high level, this program is
 expressed as a collection of *(Match, Action)* pairs: if you match
-such-and-such field in the header, the execute this-or-that action.
+such-and-such field in the header, then execute this-or-that action.
 
 The relevance of packet processing being implemented by a multi-stage
 pipleline rather than a single-stage processor is that forwarding a
@@ -219,16 +224,16 @@ multi-stage pipeline adds a little end-to-end latency to each packet
 (measured in nanoseconds), but also means that multiple packets can be
 processed at the same time. For example, Stage 2 can be making a
 second lookup on packet A while Stage 1 is doing an initial lookup on
-packet B, and so on. This means the NP as a whole is able to keep up
-with line speeds. As of this writing, the state-of-the-art is 6.5 Tbps.
+packet B, and so on. This means the NPU as a whole is able to keep up
+with line speeds. As of this writing, the state-of-the-art is 12.8 Tbps.
 
 Finally, [Figure 2](#whitebox) includes other commodity components
 that make this all practical. In particular, it is now possible to buy
 pluggable *transceiver* modules that take care of all the media access
 details—be it Gigabit Ethernet, 10-Gigabit Ethernet, or SONET—as
-well as the optics. These transceivers all conform to a standardized
-form factor, known as SFP+, that can in turn be connected to other
-components over a standardized SFI bus. Again, the key takeaway is
-that the networking industry is just now entering into the same
-commoditized world that the computing industry has enjoyed for the
-last two decades.
+well as the optics. These transceivers all conform to standardized
+form factors, such as SFP+, that can in turn be connected to other
+components over a standardized bus (e.g., SFI). Again, the key
+takeaway is that the networking industry is just now entering into the
+same commoditized world that the computing industry has enjoyed for
+the last two decades.
