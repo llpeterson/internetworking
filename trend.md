@@ -90,9 +90,11 @@ The powerful thing about virtualization is that when done
 right, it should be possible to nest one virtualized resource inside
 another virtualized resource, since after all, a virtual resource
 should behave just like a physical resources and we know how to
-virtualize physical resources! Or said another way, being able to
+virtualize physical resources! Said another way, being able to
 virtualize a virtual resource is the best proof that you have done a
-good job of virtualizing the original physical resource.
+good job of virtualizing the original physical resource. To re-purpose
+the mythoology of the World Turtle: It's virtual networks all the way
+down.
  
 The actual VXLAN header is simple. It includes a 24-bit *Virtual
 Network Id* (VNI), plus some flag bits. It also implies a particular
@@ -113,5 +115,12 @@ Mastering this problem will be at the heart of networking in the next
 decade.
 
 > [!NOTE|label:Broader Perspective]
-> To continue learning about the cloudification of the Internet, see
-> [The Cloud is Eating the Internet](../scaling/trend.md)
+> To continue reading about the cloudification of the Internet, see
+> [The Cloud is Eating the Internet](../scaling/trend.md).
+>
+> To brush up on the basics, see
+> * Virtual Private Networks (VPN): [Section 3.2](basic-ip.md). 
+> * Software-Defined Networks (SDN): [Section 3.4](impl.md).
+>
+> To learn more about the role of virtual networks, we recommend:
+> * [Network Heresy](https://networkheresy.com/2012/05/31/network-virtualization/), 2012.
