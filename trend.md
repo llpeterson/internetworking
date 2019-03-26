@@ -6,10 +6,10 @@ For almost as long as there have been packet-switched networks, there
 have been ideas about how to virtualize them, starting with virtual
 circuits. But what exactly does it mean to virtualize the network?
  
-Virtual memory provides a helpful example. Virtual memory creates an
+Virtual memory is a helpful example. Virtual memory creates an
 abstraction of a large and private pool of memory, even though the
-underlying physical memory may be shared by many applications and
-users and considerably smaller that the apparent pool of virtual
+underlying physical memory may be shared by many applications
+and considerably smaller that the apparent pool of virtual
 memory. This abstraction enables programmers to operate under the
 illusion that there is plenty of memory and that no-one else is using
 it, while under the covers the memory management system takes care of
@@ -50,9 +50,10 @@ original 802.1 header specification, inserting a 12-bit VLAN ID
 There are actually 32-bits inserted in the middle of the header, but
 the first 16-bits are used to preserve backwards compatibility with
 the original specification (they use `Type = 0x8100` to indicate that
-this frame includes the VLAN extension); the other four other bits are
-uninteresting. This means it is possible to map 2$$^{12}$$ = 4096
-virtual networks onto a single physical LAN.
+this frame includes the VLAN extension); the other four other bits
+hold control information used to prioritizing frames. This means it is
+possible to map 2$$^{12}$$ = 4096 virtual networks onto a single
+physical LAN.
 
 <figure class="line">
 	<a id="vlan"></a>
@@ -82,33 +83,34 @@ network, which in turn runs on an underlying ethernet (or perhaps in
 just one VLAN of said underlying ethernet). VXLAN also makes it
 possible for one cloud tenant to have multiple VLANs of their own,
 which allows them to segregate their own internal traffic. This means
-it is ultimately possible to have a VLAN encapsulated in VXLAN
-encapsulated in VLAN. The thing about virtualization is that when done
+it is ultimately possible to have a VLAN encapsulated in a VXLAN overlay
+encapsulated in a VLAN.
+
+The powerful thing about virtualization is that when done
 right, it should be possible to nest one virtualized resource inside
 another virtualized resource, since after all, a virtual resource
 should behave just like a physical resources and we know how to
 virtualize physical resources! Or said another way, being able to
 virtualize a virtual resource is the best proof that you have done a
-good job of virtualizing the original resource.
+good job of virtualizing the original physical resource.
  
 The actual VXLAN header is simple. It includes a 24-bit *Virtual
 Network Id* (VNI), plus some flag bits. It also implies a particular
 setting of the UDP source and destination port fields (see
 Section 5.1), with the destination port 4789 officially reserved for
 VXLANs. Figuring out how to assign identifiers to virtual LANs (VLAN
-tags) and virtual networks (VXLAN VIDs) is the easy part. It’s
-(almost) this easy because encapsulation is the fundamental
-cornerstone of virtualization; all you need to add is an identifier
-that tells you which of many possible users this encapsulated packet
-belongs to.
+tags) and virtual networks (VXLAN VIDs) is the easy part. This is
+because encapsulation is the fundamental cornerstone of
+virtualization; all you need to add is an identifier that tells you
+which of many possible users this encapsulated packet belongs to.
 
 The hard part is grappling with the idea of virtual networks being
 nested (encapsulated) inside virtual networks, which is networking’s
-version of grappling with recursion. The other challenge is
-understanding how to automate the creation, management, and deletion
-of virtual networks, and on this front there is still a lot of room
-for improvement. Mastering this problem will be at the heart of
-networking in the next decade.
+version of recursion. The other challenge is understanding how to
+automate the creation, management, and deletion of virtual networks,
+and on this front there is still a lot of room for improvement.
+Mastering this problem will be at the heart of networking in the next
+decade.
 
 > [!NOTE|label:Broader Perspective]
 > To continue learning about the cloudification of the Internet, see
