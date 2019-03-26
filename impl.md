@@ -240,40 +240,43 @@ the last two decades.
 
 ## Software Defined Networks
 
-A theme we keep revisiting is how the network is increasingly
-implemented in software, with hardware being increasinly commoditized.
-This general idea is usually called *Software Defined Networks* (SDN),
-and it's an idea that started to germinate about ten years ago. Today
-SDN is on the cusp of going mainstream.
+With switches becoming increasingly commoditized, attention is
+rightfully shifting to the software that controls them. This puts us
+squarely in the middle of a trend to build *Software Defined Networks*
+(SDN), an idea that started to germinate about tens year ago. In fact,
+it was the early stages of SDN that triggered the networking industry
+to move towards white-box switches.
 
-The fundamental idea of SDN is to decouple the network control plane
-(i.e., where routing algorithms like RIP, OSPF, and BGP run) from the
-network data plane (i.e., where packet forwarding decisions get made),
-with the former moved into software running on commodity servers, and
-the latter implemented by white-box switches like the ones described
-in the previous subsection. The original enabling idea of SDN was to
-define a standard interface between the control plane and the data
-plane so that any implementation of the control plane could talk to any
-implementation of the data plane; this breaks the dependency on any
-one vendor’s bundled solution. The original interface is called
-*OpenFlow*, and this idea of decoupling the control and data planes came
-to be known as disaggregation.
+The fundamental idea of SDN is one we've already discussed: to
+decouple the network control plane (i.e., where routing algorithms
+like RIP, OSPF, and BGP run) from the network data plane (i.e., where
+packet forwarding decisions get made), with the former moved into
+software running on commodity servers and the latter implemented by
+white-box switches. The key enabling idea behind SDN was to take
+this decoupling a step further, and to define a standard interface
+between the control plane and the data plane. Doing so allows any
+implementation of the control plane to talk to any implementation of
+the data plane; this breaks the dependency on any one vendor’s bundled
+solution. The original interface is called *OpenFlow*, and this idea
+of decoupling the control and data planes came to be known as
+disaggregation.
 
-> The P4 language mentioned in the previous subsection attempts
-> to generalize OpenFlow.
+> The P4 language mentioned in the previous subsection is a
+> second-generation tempt to define this interface by generalizing
+> OpenFlow.
 
 Another important aspect of disaggregation is that a logically
 centralized control plane can be used to control a distributed network
 data plane. We say logically centralized because while the state
 collected by the control plane is maintained in a global data
-structure (e.g., a Network Map), the implementation of this data
-structure could still be distributed over multiple servers (i.e., it
-could run in a cloud). This is important for both scalability and
-availability, where the key is that the two planes are configured and
-scaled independent of each other. This idea took off quickly in the
-cloud, where today’s cloud providers run SDN-based solutions both
-within their datacenters and across the backbone networks that
-interconnect their datacenters.
+structure, such as a Network Map, the implementation of this data
+structure could still be distributed over multiple servers. For
+example, it could run in a cloud. This is important for both
+scalability and availability, where the key is that the two planes are
+configured and scaled independent of each other. This idea took off
+quickly in the cloud, where today’s cloud providers run SDN-based
+solutions both within their datacenters and across the backbone
+networks that interconnect their datacenters.
 
 One consequence of this design that isn’t immediately obvious is that
 a logically centralized control plane doesn’t just manage a network of
@@ -298,9 +301,9 @@ operating system (e.g., Linux, IOS, Android, Windows) that provides a
 set of high-level abstractions that make it easier to implement
 applications (e.g., you can read and write files instead of directly
 accessing disk drives), a NOS makes it easier to implement network
-control functionality, otherwise known as Control Apps. A good NOS
-abstracts the details of the network switches and provides a “network
-map” abstraction to the application developer. The NOS detects changes
+control functionality, otherwise known as *Control Apps*. A good NOS
+abstracts the details of the network switches and provides a *Network
+Map* abstraction to the application developer. The NOS detects changes
 in the underlying network (e.g., switches, ports, and links going
 up-and-down) and the control application simply implements the
 behavior it wants on this abstract graph. What that means is that the
@@ -309,7 +312,8 @@ distributed algorithms like Link-State and Distance-Vector algorithms)
 and the app is free to simply implement the shortest path algorithm
 and load the forwarding rules into the underlying switches. By
 centralizing this logic, the goal is to come up with a globally
-optimized solution. The published evidence confirms this advantage.
+optimized solution. The published evidence from cloud providers that
+have embraced this approach confirms this advantage.
 
 As much of an advantage as the cloud providers have been able to get
 out of SDN, its adoption in enterprises and Telcos has much much
