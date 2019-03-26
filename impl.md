@@ -243,7 +243,8 @@ the last two decades.
 A theme we keep revisiting is how the network is increasingly
 implemented in software, with hardware being increasinly commoditized.
 This general idea is usually called *Software Defined Networks* (SDN),
-and it's an idea that first arrived on the scene about ten years ago.
+and it's an idea that started to germinate about ten years ago. Today
+SDN is on the cusp of going mainstream.
 
 The fundamental idea of SDN is to decouple the network control plane
 (i.e., where routing algorithms like RIP, OSPF, and BGP run) from the
@@ -258,6 +259,9 @@ one vendor’s bundled solution. The original interface is called
 *OpenFlow*, and this idea of decoupling the control and data planes came
 to be known as disaggregation.
 
+> The P4 language mentioned in the previous subsection attempts
+> to generalize OpenFlow.
+
 Another important aspect of disaggregation is that a logically
 centralized control plane can be used to control a distributed network
 data plane. We say logically centralized because while the state
@@ -271,15 +275,14 @@ cloud, where today’s cloud providers run SDN-based solutions both
 within their datacenters and across the backbone networks that
 interconnect their datacenters.
 
-A consequence of this design that isn’t immediately obvious is that a
-logically centralized control plane doesn’t just manage a network of
+One consequence of this design that isn’t immediately obvious is that
+a logically centralized control plane doesn’t just manage a network of
 physical (hardware) switches that interconnects physical servers, but
 it also manages a network of virtual (software) switches that
-interconnect virtual servers (e.g., Virtual Machines and
-containers). If you’re counting “switch ports” (a good measure of all
-the devices connected to your network) then the number of virtual
-ports in the Internet rocketed past the number of physical ports
-in 2012.
+interconnect virtual servers (e.g., Virtual Machines and containers).
+If you’re counting “switch ports” (a good measure of all the devices
+connected to your network) then the number of virtual ports in the
+Internet rocketed past the number of physical ports in 2012.
 
 <figure class="line">
 	<a id="sdn"></a>
@@ -315,5 +318,4 @@ manage their networks. The Googles, Microsofts, and Amazons of the
 world have the engineers and DevOps skills needed to take advantage of
 this technology, whereas others still prefer pre-packaged and
 integrated solutions that support the management and command line
-interfaces they are familiar with. As is often the case, business
-culture changes more slowly than technology.
+interfaces they are familiar with.
