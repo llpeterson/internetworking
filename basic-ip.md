@@ -621,15 +621,16 @@ table. Even if there were 100 hosts on each physical network, R2 would
 still only need those same four entries. This is a good first step
 (although by no means the last) in achieving scalability.
 
-This illustrates one of the most important principles of building
-scalable networks: To achieve scalability, you need to reduce the amount
-of information that is stored in each node and that is exchanged between
-nodes. The most common way to do that is *hierarchical aggregation*. IP
-introduces a two-level hierarchy, with networks at the top level and
-nodes at the bottom level. We have aggregated information by letting
-routers deal only with reaching the right network; the information that
-a router needs to deliver a datagram to any node on a given network is
-represented by a single aggregated piece of information.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> This illustrates one of the most important principles of building
+> scalable networks: To achieve scalability, you need to reduce the amount
+> of information that is stored in each node and that is exchanged between
+> nodes. The most common way to do that is *hierarchical aggregation*. IP
+> introduces a two-level hierarchy, with networks at the top level and
+> nodes at the bottom level. We have aggregated information by letting
+> routers deal only with reaching the right network; the information that
+> a router needs to deliver a datagram to any node on a given network is
+> represented by a single aggregated piece of information.
 
 ## Subnetting and Classless Addressing
 
@@ -1032,21 +1033,22 @@ R2 needs to forward a packet to network 2, it not only finds that the
 next hop is R1, but also finds the MAC address to place on the packet to
 send it to R1.
 
-We have now seen the basic mechanisms that IP provides for dealing with
-both heterogeneity and scale. On the issue of heterogeneity, IP begins
-by defining a best-effort service model that makes minimal assumptions
-about the underlying networks; most notably, this service model is based
-on unreliable datagrams. IP then makes two important additions to this
-starting point: (1) a common packet format (fragmentation/reassembly is
-the mechanism that makes this format work over networks with different
-MTUs) and (2) a global address space for identifying all hosts (ARP is
-the mechanism that makes this global address space work over networks
-with different physical addressing schemes). On the issue of scale, IP
-uses hierarchical aggregation to reduce the amount of information needed
-to forward packets. Specifically, IP addresses are partitioned into
-network and host components, with packets first routed toward the
-destination network and then delivered to the correct host on that
-network.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> We have now seen the basic mechanisms that IP provides for dealing with
+> both heterogeneity and scale. On the issue of heterogeneity, IP begins
+> by defining a best-effort service model that makes minimal assumptions
+> about the underlying networks; most notably, this service model is based
+> on unreliable datagrams. IP then makes two important additions to this
+> starting point: (1) a common packet format (fragmentation/reassembly is
+> the mechanism that makes this format work over networks with different
+> MTUs) and (2) a global address space for identifying all hosts (ARP is
+> the mechanism that makes this global address space work over networks
+> with different physical addressing schemes). On the issue of scale, IP
+> uses hierarchical aggregation to reduce the amount of information needed
+> to forward packets. Specifically, IP addresses are partitioned into
+> network and host components, with packets first routed toward the
+> destination network and then delivered to the correct host on that
+> network.
 
 ## Host Configuration (DHCP)
 
@@ -1172,13 +1174,14 @@ pool. A host with a leased address clearly needs to renew the lease
 periodically if in fact it is still connected to the network and
 functioning correctly.
 
-DHCP illustrates an important aspect of scaling: the scaling of network
-management. While discussions of scaling often focus on keeping the
-state in network devices from growing too fast, it is important to pay
-attention to growth of network management complexity. By allowing
-network managers to configure a range of IP addresses per network rather
-than one IP address per host, DHCP improves the manageability of a
-network.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> DHCP illustrates an important aspect of scaling: the scaling of network
+> management. While discussions of scaling often focus on keeping the
+> state in network devices from growing too fast, it is important to pay
+> attention to growth of network management complexity. By allowing
+> network managers to configure a range of IP addresses per network rather
+> than one IP address per host, DHCP improves the manageability of a
+> network.
 
 Note that DHCP may also introduce some more complexity into network
 management, since it makes the binding between physical hosts and IP

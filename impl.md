@@ -121,7 +121,7 @@ can be dramatically improved by focusing on the architecture of
 the data plane, and correspondingly, specifying a well-defined interface
 between the control and data planes.
 
-# Hardware Switch
+## Hardware Switch
 
 Throughout much of the Internet's history, high-performance switches and
 routers have been specialized devices, built with Application-Specific
@@ -237,3 +237,83 @@ components over a standardized bus (e.g., SFI). Again, the key
 takeaway is that the networking industry is just now entering into the
 same commoditized world that the computing industry has enjoyed for
 the last two decades.
+
+## Software Defined Networks
+
+A theme we keep revisiting is how the network is increasingly
+implemented in software, with hardware being increasinly commoditized.
+This general idea is usually called *Software Defined Networks* (SDN),
+and it's an idea that first arrived on the scene about ten years ago.
+
+The fundamental idea of SDN is to decouple the network control plane
+(i.e., where routing algorithms like RIP, OSPF, and BGP run) from the
+network data plane (i.e., where packet forwarding decisions get made),
+with the former moved into software running on commodity servers, and
+the latter implemented by white-box switches like the ones described
+in the previous subsection. The original enabling idea of SDN was to
+define a standard interface between the control plane and the data
+plane so that any implementation of the control plane could talk to any
+implementation of the data plane; this breaks the dependency on any
+one vendor’s bundled solution. The original interface is called
+*OpenFlow*, and this idea of decoupling the control and data planes came
+to be known as disaggregation.
+
+Another important aspect of disaggregation is that a logically
+centralized control plane can be used to control a distributed network
+data plane. We say logically centralized because while the state
+collected by the control plane is maintained in a global data
+structure (e.g., a Network Map), the implementation of this data
+structure could still be distributed over multiple servers (i.e., it
+could run in a cloud). This is important for both scalability and
+availability, where the key is that the two planes are configured and
+scaled independent of each other. This idea took off quickly in the
+cloud, where today’s cloud providers run SDN-based solutions both
+within their datacenters and across the backbone networks that
+interconnect their datacenters.
+
+A consequence of this design that isn’t immediately obvious is that a
+logically centralized control plane doesn’t just manage a network of
+physical (hardware) switches that interconnects physical servers, but
+it also manages a network of virtual (software) switches that
+interconnect virtual servers (e.g., Virtual Machines and
+containers). If you’re counting “switch ports” (a good measure of all
+the devices connected to your network) then the number of virtual
+ports in the Internet rocketed past the number of physical ports
+in 2012.
+
+<figure class="line">
+	<a id="sdn"></a>
+	<img src="figures/impl/Slide3.png" width="500px"/>
+	<figcaption>Network Operating System (NOS) hosting a set of 
+	control applications and providing a logically centralized point 
+	of control for an underlying network data plane.</figcaption>
+</figure>
+	
+One of other key enablers for SDN’s success, as depicted in
+[Figure 3](#sdn), is the Network Operating System (NOS). Like a server
+operating system (e.g., Linux, IOS, Android, Windows) that provides a
+set of high-level abstractions that make it easier to implement
+applications (e.g., you can read and write files instead of directly
+accessing disk drives), a NOS makes it easier to implement network
+control functionality, otherwise known as Control Apps. A good NOS
+abstracts the details of the network switches and provides a “network
+map” abstraction to the application developer. The NOS detects changes
+in the underlying network (e.g., switches, ports, and links going
+up-and-down) and the control application simply implements the
+behavior it wants on this abstract graph. What that means is that the
+NOS takes on the burden of collecting network state (the hard part of
+distributed algorithms like Link-State and Distance-Vector algorithms)
+and the app is free to simply implement the shortest path algorithm
+and load the forwarding rules into the underlying switches. By
+centralizing this logic, the goal is to come up with a globally
+optimized solution. The published evidence confirms this advantage.
+
+As much of an advantage as the cloud providers have been able to get
+out of SDN, its adoption in enterprises and Telcos has much much
+slower. This is partly about the ability of different markets to
+manage their networks. The Googles, Microsofts, and Amazons of the
+world have the engineers and DevOps skills needed to take advantage of
+this technology, whereas others still prefer pre-packaged and
+integrated solutions that support the management and command line
+interfaces they are familiar with. As is often the case, business
+culture changes more slowly than technology.

@@ -13,15 +13,16 @@ section, the switch makes this decision by consulting a forwarding
 table. The fundamental problem of routing is how switches and routers
 acquire the information in their forwarding tables.
 
-We restate an important distinction, which is often neglected, between
-*forwarding* and *routing*. Forwarding consists of taking a packet,
-looking at its destination address, consulting a table, and sending the
-packet in a direction determined by that table. We saw several examples
-of forwarding in the preceding section. Routing is the process by which
-forwarding tables are built. We also note that forwarding is a
-relatively simple and well-defined process performed locally at a node,
-whereas routing depends on complex distributed algorithms that have
-continued to evolve throughout the history of networking.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> We restate an important distinction, which is often neglected, between
+> *forwarding* and *routing*. Forwarding consists of taking a packet,
+> looking at its destination address, consulting a table, and sending the
+> packet in a direction determined by that table. We saw several examples
+> of forwarding in the preceding section. Routing is the process by which
+> forwarding tables are built. We also note that forwarding is a
+> relatively simple and well-defined process performed locally at a node,
+> whereas routing depends on complex distributed algorithms that have
+> continued to evolve throughout the history of networking.
 
 While the terms *forwarding table* and *routing table* are sometimes 
 used interchangeably, we will make a distinction between them here. The
@@ -768,12 +769,13 @@ scalability. Some solutions to both the specific problem (the amount of
 storage potentially required at each node) and the general problem
 (scalability) will be discussed in the next section.
 
-The difference between the distance-vector and link-state algorithms
-can be summarized as follows. In distance-vector, each node talks only
-to its directly connected neighbors, but it tells them everything it
-has learned (i.e., distance to all nodes). In link-state, each node
-talks to all other nodes, but it tells them only what it knows for
-sure (i.e., only the state of its directly connected links).
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> The difference between the distance-vector and link-state algorithms
+> can be summarized as follows. In distance-vector, each node talks only
+> to its directly connected neighbors, but it tells them everything it
+> has learned (i.e., distance to all nodes). In link-state, each node
+> talks to all other nodes, but it tells them only what it knows for
+> sure (i.e., only the state of its directly connected links).
 
 ### The Open Shortest Path First Protocol (OSPF)
 
@@ -1046,18 +1048,19 @@ link speeds and latencies that prevailed in the ARPANET. Thus, static
 metrics are the norm. One common approach to setting metrics is to use
 a constant multiplied by (1/link_bandwidth).
 
-Why do we still tell the story about a decades old algorithm that's
-no longer is use? Because it perfectly illustrates two valuable lessons.
-The first is that computer systems are often *designed iteratively,
-based on experience.*  We seldom get it right the first time, so it's
-important to deploy a simple solution sooner rather than later, and
-expect to improve it over time. Staying stuck in the design phase
-indefinitely is usually not a good approach. The second is the
-well-know KISS principle: *Keep it Simple, Stupid.*  When building a
-complex system, less is often more. Opportunities to invent
-sophisticated optimizations are plentiful, and it's a tempting
-opportunity to pursue. While such optimations sometimes have
-short-term value, it is shocking how often a simple approach proves
-best over time. This is because when a system has many moving parts,
-as the Internet most certainly does, keeping each part as simple as
-possible is usually the best bet.
+> [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
+> Why do we still tell the story about a decades old algorithm that's
+> no longer is use? Because it perfectly illustrates two valuable lessons.
+> The first is that computer systems are often *designed iteratively,
+> based on experience.*  We seldom get it right the first time, so it's
+> important to deploy a simple solution sooner rather than later, and
+> expect to improve it over time. Staying stuck in the design phase
+> indefinitely is usually not a good approach. The second is the
+> well-know KISS principle: *Keep it Simple, Stupid.*  When building a
+> complex system, less is often more. Opportunities to invent
+> sophisticated optimizations are plentiful, and it's a tempting
+> opportunity to pursue. While such optimations sometimes have
+> short-term value, it is shocking how often a simple approach proves
+> best over time. This is because when a system has many moving parts,
+> as the Internet most certainly does, keeping each part as simple as
+> possible is usually the best bet.
