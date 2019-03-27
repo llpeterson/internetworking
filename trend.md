@@ -26,32 +26,34 @@ A key point is the virtualization of computing resources preserves the
 abstractions and interfaces that existed before they were virtualized.
 This is important because it means that users of those abstractions
 don't need to change—they see a faithful reproduction of the resource
-being virtualized. So what happens when we try to virtualize networks?
+being virtualized. Virtualization also means that the different users
+(sometimes called *tenants*) cannot interfer with each other. So what
+happens when we try to virtualize a network?
  
-VPNs were one early success for virtual networking. They allowed
-carriers to present corporate customers with the illusion that they
-had their own private network, even though in reality they were
-sharing underlying links and switches with many other users.  VPNs,
-however, only virtualize a few resources, notably addressing and
-routing tables. Network virtualization as commonly understood today
-goes further, virtualizing every aspect of networking. That means that
-a virtual network today supports all the basic abstractions of a
-physical network—switching, routing, firewalling, load
-balancing—virtualizing the entire network stack from layers two
-through seven. In this sense, they are analogous to the virtual
-machine, with its support of all the abstractions of a server: CPU,
-storage, I/O, and so on.
+VPNs, as described in [Section 3.2](basic-ip.md), were one early
+success for virtual networking. They allowed carriers to present
+corporate customers with the illusion that they had their own private
+network, even though in reality they were sharing underlying links and
+switches with many other users.  VPNs, however, only virtualize a few
+resources, notably addressing and routing tables. Network
+virtualization as commonly understood today goes further, virtualizing
+every aspect of networking. That means that a virtual network today
+supports all the basic abstractions of a physical network—switching,
+routing, firewalling, load balancing—virtualizing the entire network
+stack from layers two through seven. In this sense, they are analogous
+to the virtual machine, with its support of all the abstractions of a
+server: CPU, storage, I/O, and so on.
  
 To this end, *Virtual LANs* (VLANs) are how we typically virtualize an
 L2 network. Supporting VLANs required a fairly simple extension to the
 original 802.1 header specification, inserting a 12-bit VLAN ID
 (`VID`) field between the `SrcAddr` and `Type` fields, as shown in
-[Figure 1](#vlan). (This VID is typically referred to as a *VLAN tag*.)
+[Figure 1](#vlan). (This VID is typically referred to as a *VLAN Tag*.)
 There are actually 32-bits inserted in the middle of the header, but
 the first 16-bits are used to preserve backwards compatibility with
 the original specification (they use `Type = 0x8100` to indicate that
-this frame includes the VLAN extension); the other four other bits
-hold control information used to prioritizing frames. This means it is
+this frame includes the VLAN extension); the other four bits hold
+control information used to prioritizing frames. This means it is
 possible to map 2$$^{12}$$ = 4096 virtual networks onto a single
 physical LAN.
 
@@ -80,7 +82,7 @@ ethernet frame, VXLAN encapsulates a virtual ethernet frame inside a
 UDP packet. This means a VXLAN-based virtual network (which is often
 referred to as an *overlay network*) runs on top of an IP-based
 network, which in turn runs on an underlying ethernet (or perhaps in
-just one VLAN of said underlying ethernet). VXLAN also makes it
+just one VLAN of the underlying ethernet). VXLAN also makes it
 possible for one cloud tenant to have multiple VLANs of their own,
 which allows them to segregate their own internal traffic. This means
 it is ultimately possible to have a VLAN encapsulated in a VXLAN overlay
@@ -99,28 +101,29 @@ down.
 The actual VXLAN header is simple. It includes a 24-bit *Virtual
 Network Id* (VNI), plus some flag bits. It also implies a particular
 setting of the UDP source and destination port fields (see
-Section 5.1), with the destination port 4789 officially reserved for
-VXLANs. Figuring out how to assign identifiers to virtual LANs (VLAN
-tags) and virtual networks (VXLAN VIDs) is the easy part. This is
-because encapsulation is the fundamental cornerstone of
-virtualization; all you need to add is an identifier that tells you
-which of many possible users this encapsulated packet belongs to.
+[Section 5.1](../e2e/udp.md)), with the destination port 4789
+officially reserved for VXLANs. Figuring out how to assign identifiers
+to virtual LANs (VLAN tags) and virtual networks (VXLAN VIDs) is the
+easy part. This is because encapsulation is the fundamental
+cornerstone of virtualization; all you need to add is an identifier
+that tells you which of many possible users this encapsulated packet
+belongs to.
 
 The hard part is grappling with the idea of virtual networks being
 nested (encapsulated) inside virtual networks, which is networking’s
 version of recursion. The other challenge is understanding how to
-automate the creation, management, and deletion of virtual networks,
-and on this front there is still a lot of room for improvement.
+automate the creation, management, migration, and deletion of virtual
+networks, and on this front there is still a lot of room for improvement.
 Mastering this problem will be at the heart of networking in the next
-decade.
+decade, and while some of this work will undoubtedly happen in
+proprietary settings, there are open source network virtualization
+platforms, most notably the Linux Foundation's *Tungsten Fabric*
+project.
 
 > [!NOTE|label:Broader Perspective]
 > To continue reading about the cloudification of the Internet, see
 > [The Cloud is Eating the Internet](../scaling/trend.md).
 >
-> To brush up on the basics, see
-> * Virtual Private Networks (VPN): [Section 3.2](basic-ip.md). 
-> * Software-Defined Networks (SDN): [Section 3.4](impl.md).
->
-> To learn more about the role of virtual networks, we recommend:
+> To learn more about the maturation of virtual networks, we recommend:
 > * [Network Heresy](https://networkheresy.com/2012/05/31/network-virtualization/), 2012.
+> * [Tungsten Fabric](https://tungstenfabric.github.io/website/), 2018. 
