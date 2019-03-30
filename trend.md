@@ -4,7 +4,7 @@
 
 For almost as long as there have been packet-switched networks, there
 have been ideas about how to virtualize them, starting with virtual
-circuits. But what exactly does it mean to virtualize the network?
+circuits. But what exactly does it mean to virtualize a network?
  
 Virtual memory is a helpful example. Virtual memory creates an
 abstraction of a large and private pool of memory, even though the
@@ -37,12 +37,10 @@ network, even though in reality they were sharing underlying links and
 switches with many other users.  VPNs, however, only virtualize a few
 resources, notably addressing and routing tables. Network
 virtualization as commonly understood today goes further, virtualizing
-every aspect of networking. That means that a virtual network today
-supports all the basic abstractions of a physical network—switching,
-routing, firewalling, load balancing—virtualizing the entire network
-stack from layers two through seven. In this sense, they are analogous
-to the virtual machine, with its support of all the abstractions of a
-server: CPU, storage, I/O, and so on.
+every aspect of networking. That means that a virtual network should
+support all the basic abstractions of a physical network. In this
+sense, they are analogous to the virtual machine, with its support of
+all the resources of a server: CPU, storage, I/O, and so on.
  
 To this end, *Virtual LANs* (VLANs) are how we typically virtualize an
 L2 network. Supporting VLANs required a fairly simple extension to the
@@ -95,15 +93,15 @@ should behave just like a physical resources and we know how to
 virtualize physical resources! Said another way, being able to
 virtualize a virtual resource is the best proof that you have done a
 good job of virtualizing the original physical resource. To re-purpose
-the mythoology of the World Turtle: It's virtual networks all the way
+the mythology of the World Turtle: It's virtual networks all the way
 down.
  
 The actual VXLAN header is simple. It includes a 24-bit *Virtual
 Network Id* (VNI), plus some flag bits. It also implies a particular
 setting of the UDP source and destination port fields (see
 [Section 5.1](../e2e/udp.md)), with the destination port 4789
-officially reserved for VXLANs. Figuring out how to assign identifiers
-to virtual LANs (VLAN tags) and virtual networks (VXLAN VIDs) is the
+officially reserved for VXLANs. Figuring out how to uniquely identify
+virtual LANs (VLAN tags) and virtual networks (VXLAN VIDs) is the
 easy part. This is because encapsulation is the fundamental
 cornerstone of virtualization; all you need to add is an identifier
 that tells you which of many possible users this encapsulated packet
@@ -114,11 +112,11 @@ nested (encapsulated) inside virtual networks, which is networking’s
 version of recursion. The other challenge is understanding how to
 automate the creation, management, migration, and deletion of virtual
 networks, and on this front there is still a lot of room for improvement.
-Mastering this problem will be at the heart of networking in the next
+Mastering this challenge will be at the heart of networking in the next
 decade, and while some of this work will undoubtedly happen in
 proprietary settings, there are open source network virtualization
-platforms, most notably the Linux Foundation's *Tungsten Fabric*
-project.
+platforms (e.g., the Linux Foundation's *Tungsten Fabric* project)
+leading the way.
 
 > [!NOTE|label:Broader Perspective]
 > To continue reading about the cloudification of the Internet, see
