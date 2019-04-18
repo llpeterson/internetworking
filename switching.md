@@ -451,7 +451,7 @@ supported using Internet-based technologies today.
 ### Asynchronous Transfer Mode (ATM)
 
 Asynchronous Transfer Mode (ATM) is probably the most well-known virtual
-circuit-based networking technology, although it is now somewhat past
+circuit-based networking technology, although it is now well past
 its peak in terms of deployment. ATM became an important technology in
 the 1980s and early 1990s for a variety of reasons, not the least of
 which is that it was embraced by the telephone industry, which at that
