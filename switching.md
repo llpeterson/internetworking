@@ -535,7 +535,7 @@ reassembling a set of cells into a packet, and you get the benefit of
 being able to interleave the forwarding of voice cells and data cells
 at every switch along the path from source to destination. This idea
 of using small cells to improve end-to-end latency is alive and well
-today in the cellular network.
+today in cellular access networks.
 
 Having decided to use small, fixed-length packets, the next question
 was what is the right length to fix them at? If you make them too short,
@@ -560,7 +560,7 @@ that some detractors called the *cell tax*.
 As it turns out, 48 bytes was picked for the ATM cell payload as a
 compromise. There were good arguments for both larger and smaller cells,
 and 48 made almost no one happy—a power of two would certainly have
-been better for computers to work with.
+been better for computers to process.
 
 ## Source Routing
 
