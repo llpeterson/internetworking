@@ -41,7 +41,7 @@ buffered in main memory (this is the "store" half of
 store-and-forward), with the CPU reading only the necessary header
 fields into its internal registers for processing.
 
-<figure class="line">
+<figure>
 	<a id="softswitch"></a>
 	<img src="figures/impl/Slide1.png" width="300px"/>
 	<figcaption>A general-purpose processor used as a software
@@ -156,7 +156,7 @@ your own software onto it. The following describes these open *white-box
 switches*, so called to contrast them with closed "black-box" devices
 that have historically dominated the industry.
 
-<figure class="line">
+<figure>
 	<a id="whitebox"></a>
 	<img src="figures/impl/Slide2.png" width="500px"/>
 	<figcaption>White-box switch using a Network Processing
@@ -292,7 +292,7 @@ If you’re counting “switch ports” (a good measure of all the devices
 connected to your network) then the number of virtual ports in the
 Internet rocketed past the number of physical ports in 2012.
 
-<figure class="line">
+<figure>
 	<a id="sdn"></a>
 	<img src="figures/impl/Slide3.png" width="500px"/>
 	<figcaption>Network Operating System (NOS) hosting a set of 

@@ -67,9 +67,9 @@ is provided by the Address Resolution Protocol.
 |:---:|:---:|:---:|
 | 18/8 | if0 | 8:0:2b:e4:b:1:2 |
 
-{% center %}
-*Table 1. Example Rows from (a) Routing and (b) Forwarding Tables.*
-{% endcenter %}
+<table>
+<caption>Table 1. Example Rows from (a) Routing and (b) Forwarding Tables.</caption>
+</table>
 
 Before getting into the details of routing, we need to remind ourselves
 of the key question we should be asking anytime we try to build a
@@ -109,7 +109,7 @@ section.
 > edges between each node—one flowing in each direction, and each 
 > with its own edge cost. 
 
-<figure class="line">
+<figure>
 	<a id="graph-route"></a>
 	<img src="figures/f03-28-9780123850591.png" width="400px"/>
 	<figcaption>Network represented as a graph.</figcaption>
@@ -167,7 +167,7 @@ each node knows the cost of the link to each of its directly connected
 neighbors. These costs may be provided when the router is configured
 by a network manager. A link that is down is assigned an infinite cost.
 
-<figure class="line">
+<figure>
 	<a id="dvroute"></a>
 	<img src="figures/f03-29-9780123850591.png" width="400px"/>
 	<figcaption>Distance-vector routing: an example network.</figcaption>
@@ -185,9 +185,9 @@ by a network manager. A link that is down is assigned an infinite cost.
 | F |  1 |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  0 |  1 |
 | G |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  1 |  $$\infty$$ |  1 |  0 |
 
-{% center %}
-*Table 2. Initial Distances Stored at Each Node (Global View).*
-{% endcenter %}
+<table>
+<caption>Table 2. Initial Distances Stored at Each Node (Global View).</caption>
+</table>
 
 To see how a distance-vector routing algorithm works, it is easiest to
 consider an example like the one depicted in
@@ -220,9 +220,9 @@ then, A's routing table would look like [Table 3](#dvtab2).
 | F  | 1 | F |
 | G | $$\infty$$ | — |
  
-{% center %}
-*Table 3. Initial Routing Table at Node A.*
-{% endcenter %}
+<table>
+<caption>Table 3. Initial Routing Table at Node A.</caption>
+</table>
 
 The next step in distance-vector routing is that every node sends a
 message to its directly connected neighbors containing its personal list
@@ -254,9 +254,9 @@ for all nodes in the network. The result is shown in
 | F  | 1 | F |
 | G | 2 | F |
  
-{% center %}
-*Table 4. Final Routing Table at Node A.*
-{% endcenter %}
+<table>
+<caption>Table 4. Final Routing Table at Node A.</caption>
+</table>
 
 <a id="dvtab4"></a>
 
@@ -270,9 +270,9 @@ for all nodes in the network. The result is shown in
 | F | 1 | 2 | 2 | 2 | 2 | 0 | 1 |
 | G | 2 | 3 | 2 | 1 | 3 | 1 | 0 |
 
-{% center %}
-*Table 5. Final Distances Stored at Each Node (Global View).*
-{% endcenter %}
+<table>
+<caption>Table 5. Final Distances Stored at Each Node (Global View).</caption>
+</table>
 
 In the absence of any topology changes, it takes only a few exchanges of
 information between neighbors before each node has a complete routing
@@ -474,13 +474,13 @@ routers advertise the cost of reaching networks. For example, in
 that it can reach networks 2 and 3 (to which it is directly connected)
 at a cost of 0, networks 5 and 6 at cost 1, and network 4 at cost 2.
 
-<figure class="line">
+<figure>
 	<a id="rip-eg"></a>
 	<img src="figures/f03-30-9780123850591.png" width="300px"/>
 	<figcaption>Example network running RIP.</figcaption>
 </figure>
 	
-<figure class="line">
+<figure>
 	<a id="rip"></a>
 	<img src="figures/f03-31-9780123850591.png" width="300px"/>
 	<figcaption>RIPv2 packet format.</figcaption>
@@ -586,7 +586,7 @@ flooding of an LSP. Since X passes the LSP on to all its neighbors, who
 then turn around and do the same thing, the most recent copy of the LSP
 eventually reaches all nodes.
 
-<figure class="line">
+<figure>
 	<a id="flood"></a>
 	<img src="figures/f03-32-9780123850591.png" width="500px"/>
 	<figcaption>Flooding of link-state packets: (a) LSP arrives at
@@ -727,7 +727,7 @@ The algorithm works as follows:
     from the `Tentative` list with the lowest cost, move it to the
     `Confirmed` list, and return to step 2.
 
-<figure class="line">
+<figure>
 	<a id="lsroute"></a>
 	<img src="figures/f03-33-9780123850591.png" width="350px"/>
 	<figcaption>Link-state routing: an example network.</figcaption>
@@ -755,9 +755,9 @@ least-cost paths to all nodes.
 | 6 | (D,0,--) (C,2,C) (B,5,C) | (A,10,C) | Since we can reach A at cost 5 through B, replace the `Tentative` entry. |
 | 7 | (D,0,--) (C,2,C) (B,5,C) (A,10,C) |  | Move lowest-cost member of `Tentative` (A) to `Confirmed`, and we are all done. |
 
-{% center %}
-*Table 6. Steps for Building Routing Table for Node D.*
-{% endcenter %}
+<table>
+<caption>Table 6. Steps for Building Routing Table for Node D.</caption>
+</table>
 
 The link-state routing algorithm has many nice properties: It has been
 proven to stabilize quickly, it does not generate much traffic, and it
@@ -813,7 +813,7 @@ basic link-state algorithm described above, including the following:
     evenly over those routes, thus making better use of available
     network capacity.
 
-<figure class="line">
+<figure>
 	<a id="ospf"></a>
 	<img src="figures/f03-34-9780123850591.png" width="400px"/>
 	<figcaption>OSPF header format.</figcaption>
@@ -851,7 +851,7 @@ link. These two types of advertisements are necessary to enable all the
 routers in a domain to determine the cost of reaching all networks in
 that domain and the appropriate next hop for each network.
 
-<figure class="line">
+<figure>
 	<a id="ospf-lsa"></a>
 	<img src="figures/f03-35-9780123850591.png" width="450px"/>
 	<figcaption>OSPF link-state advertisement.</figcaption>
@@ -1011,7 +1011,7 @@ measured utilization, the link type, and the link speed into a function
 that is shown graphically in [Figure 9](#metric). below. Observe the
 following:
 
-<figure class="line">
+<figure>
 	<a id="metric"></a>
 	<img src="figures/f03-36-9780123850591.png" width="600px"/>
 	<figcaption>Revised ARPANET routing metric versus link

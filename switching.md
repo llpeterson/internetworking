@@ -19,7 +19,7 @@ attractive properties:
     not necessarily reduce the performance of the network for other
     hosts already connected.
 
-<figure class="line">
+<figure>
 	<a id="star"></a>
 	<img src="figures/f03-01-9780123850591.png" width="400px"/>
 	<figcaption>A switch provides a star topology.</figcaption>
@@ -95,7 +95,7 @@ that takes place in the background so that, when a data packet turns up,
 we will have the right information in the forwarding table to be able to
 forward, or switch, the packet.
 
-<figure class="line">
+<figure>
 	<a id="dgram"></a>
 	<img src="figures/f03-02-9780123850591.png" width="500px"/>
 	<figcaption>Datagram forwarding: an example network.</figcaption>
@@ -114,7 +114,9 @@ forward, or switch, the packet.
 |        G    |     0  |
 |        H    |    0  |
 
-{% center %} *Table 1. Forwarding Table for Switch 2.* {% endcenter %}
+<table>
+<caption>Table 1. Forwarding Table for Switch 2.</caption>
+</table>
 
 Datagram networks have the following characteristics:
 
@@ -157,7 +159,7 @@ packets to host B. We can think of this as a two-stage process. The
 first stage is "connection setup." The second is data transfer. We
 consider each in turn.
 
-<figure class="line">
+<figure>
 	<a id="vcircuit"></a>
 	<img src="figures/f03-03-9780123850591.png" width="500px"/>
 	<figcaption>An example of a virtual circuit network.</figcaption>
@@ -231,8 +233,9 @@ in its VC table configured as shown in [Table 2](#vctab).
 |:----:|:----:|:----:|:----:|
 |    2    |  5      |  1      |   11   |
 
-{% center %} *Table 2. Example Virtual Circuit Table Entry for
-Switch 1.* {% endcenter %}
+<table>
+<caption>Table 2. Example Virtual Circuit Table Entry for Switch 1.</caption>
+</table>
 
 Similarly, suppose that the VCI of 7 is chosen to identify this
 connection on the link from switch 2 to switch 3 and that a VCI of 4 is
@@ -255,10 +258,11 @@ VC Table Entry at Switch 3:
 |:----:|:----:|:----:|:----:|
 |    0    |   7      |  1      |   4   |
 
-{% center %} *Table 3. Virtual Circuit Table Entries for Switches 2
-and 3.* {% endcenter %} 
+<table>
+<caption>Table 3. Virtual Circuit Table Entries for Switches 2 and 3.</caption>
+</table>
 
-<figure class="line">
+<figure>
 	<a id="vcdat"></a>
 	<img src="figures/f03-04-9780123850591.png" width="500px"/>
 	<figcaption>A packet is sent into a virtual circuit network.</figcaption>
@@ -289,7 +293,7 @@ by the network administrator, while SVCs are usually set up using
 signalling by one of the hosts. We consider now how the same VC just
 described could be set up by signalling from the host.
 
-<figure class="line">
+<figure>
 	<a id="vcdat2"></a>
 	<img src="figures/f03-05-9780123850591.png" width="500px"/>
 	<figcaption>A packet makes its way through a virtual circuit
@@ -464,7 +468,7 @@ many users of computer networks. In some ways ATM was a competing
 technology with Ethernet switching, and it was seen by many as a
 competitor to IP as well.
 
-<figure class="line">
+<figure>
 	<a id="atmcell"></a>
 	<img src="figures/f03-06-9780123850591.png" width="550px"/>
 	<figcaption>ATM cell format at the UNI.</figcaption>
@@ -584,7 +588,7 @@ in the header and to rotate the list so that the next switch in the
 path is always at the front of the list. [Figure 7](#source-route)
 illustrates this idea.
 
-<figure class="line">
+<figure>
 	<a id="source-route"></a>
 	<img src="figures/f03-07-9780123850591.png" width="500px"/>
 	<figcaption>Source routing in a switched network (where the switch
@@ -632,7 +636,7 @@ approaches in [Figure 8](#sroute-app).  In each case, the entry that
 this switch needs to read is `A`, and the entry that the next
 switch needs to read is `B`.
 
-<figure class="line">
+<figure>
 	<a id="sroute-apps"></a>
 	<img src="figures/f03-08-9780123850591.png" width="550px"/>
 	<figcaption>Three ways to handle headers for source routing:
@@ -717,7 +721,7 @@ host B arrives on port 1, there is no need for the bridge to forward the
 frame out over port 2. The question, then, is how does a bridge come to
 learn on which port the various hosts reside?
 
-<figure class="line">
+<figure>
 	<a id="elan2"></a>
 	<img src="figures/f03-09-9780123850591.png" width="500px"/>
 	<figcaption>Illustration of a learning bridge.</figcaption>
@@ -742,8 +746,7 @@ port 2, the bridge would forward the frame out on port 1.
 | Y        | 2    |
 | Z        | 2    |
 
-{% center %} *Table 4. Forwarding Table Maintained by a Bridge.*
-{% endcenter %}
+<caption>Table 4. Forwarding Table Maintained by a Bridge.</caption>
 
 No one actually builds bridges in which the table is configured by hand.
 Having a human maintain this table is too burdensome, and there is a
@@ -847,7 +850,7 @@ replacement algorithm on finding the table full; for example, we might
 locate and remove the entry with the smallest TTL to accommodate the new
 entry.
 
-<figure class="line">
+<figure>
 	<a id="elan3"></a>
 	<img src="figures/f03-10-9780123850591.png" width="400px"/>
 	<figcaption>Extended LAN with loops.</figcaption>
@@ -889,7 +892,7 @@ original graph but throws out some of the edges. For example,
 [Figure 11](#graphs) shows a cyclic graph on the left and one of
 possibly many spanning trees on the right.
 
-<figure class="line">
+<figure>
 	<a id="graphs"></a>
 	<img src="figures/f03-11-9780123850591.png" width="500px"/>
 	<figcaption>Example of (a) a cyclic graph; (b) a corresponding spanning
@@ -948,7 +951,7 @@ LAN it is connected to. In effect, this means that each bridge decides
 if it is the designated bridge relative to each of its ports. The bridge
 forwards frames over those ports for which it is the designated bridge.
 
-<figure class="line">
+<figure>
 	<a id="elan4"></a>
 	<img src="figures/f03-12-9780123850591.png" width="400px"/>
 	<figcaption>Spanning tree with some ports not selected.</figcaption>
@@ -1130,7 +1133,7 @@ only travel from one segment to another if both segments have the same
 identifier. This has the effect of limiting the number of segments in an
 extended LAN that will receive any given broadcast packet.
 
-<figure class="line">
+<figure>
 	<a id="vlan"></a>
 	<img src="figures/f03-13-9780123850591.png" width="400px"/>
 	<figcaption>Two virtual LANs share a common backbone.</figcaption>

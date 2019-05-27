@@ -39,7 +39,7 @@ is a *logical* network built out of a collection of physical networks.
 In this context, a collection of Ethernet segments connected by
 bridges or switches would still be viewed as a single network.
 
-<figure class="line">
+<figure>
 	<a id="inet"></a>
 	<img src="figures/f03-14-9780123850591.png" width="500px"/>
 	<figcaption>A simple internetwork. H denotes a host ane R denotes
@@ -54,7 +54,7 @@ network. The nodes that interconnect the networks are called *routers*.
 They are also sometimes called *gateways*, but since this term has
 several other connotations, we restrict our usage to router.
 
-<figure class="line">
+<figure>
 	<a id="ip-graph"></a>
 	<img src="figures/f03-15-9780123850591.png" width="600px"/>
 	<figcaption>A simple internetwork, showing the protocol layers
@@ -163,7 +163,7 @@ fields that are a multiple of 8 bits long. On the odd occasion when
 fields are not an even multiple of 8 bits, you can determine the field
 lengths by looking at the bit positions marked at the top of the packet.
 
-<figure class="line">
+<figure>
 	<a id="iphead"></a>
 	<img src="figures/f03-16-9780123850591.png" width="450px"/>
 	<figcaption>IPv4 packet header.</figcaption>
@@ -297,7 +297,7 @@ the fragments not arrive at the receiving host, the host gives up on the
 reassembly process and discards the fragments that did arrive. IP does
 not attempt to recover from missing fragments.
 
-<figure class="line">
+<figure>
 	<a id="frag"></a>
 	<img src="figures/f03-17-9780123850591.png" width="600px"/>
 	<figcaption>IP datagrams traversing the sequence of physical
@@ -323,7 +323,7 @@ also serves to reinforce two important points:
 2. Each IP datagram is re-encapsulated for each physical network over
     which it travels.
 
-<figure class="line">
+<figure>
 	<a id="fragment"></a>
 	<img src="figures/f03-18-9780123850591.png" width="350px"/>
 	<figcaption>Header fields used in IP fragmentation:
@@ -439,7 +439,7 @@ only 254 attached hosts (one host identifier, 255, is reserved for
 broadcast, and 0 is not a valid host number). However, the addressing
 scheme supports 2$$^{21}$$ class C networks.
 
-<figure class="line">
+<figure>
 	<a id="class"></a>
 	<img src="figures/f03-19-9780123850591.png" width="350px"/>
 	<figcaption>IP addresses: (a) class A; (b) class B; (c) class C.</figcaption>
@@ -577,7 +577,9 @@ datagram directly to H8.
 |       1               |       R1       |
 |       4               |      R3        |
 
-{% center %} *Table 1. Forwarding table for Router R2.* {% endcenter %}
+<table>
+<caption>Table 1. Forwarding table for Router R2.</caption>
+</table>
 
 <a id="tab5.3"></a>
 
@@ -588,7 +590,9 @@ datagram directly to H8.
 |       3               |  Interface 0  |
 |       4               |        R3      |
 
-{% center %} *Table 2. Complete Forwarding Table for Router R2.* {% endcenter %}
+<table>
+<caption>Table 2. Complete Forwarding Table for Router R2.</caption>
+</table>
 
 Note that it is possible to include the information about directly
 connected networks in the forwarding table. For example, we could
@@ -698,7 +702,7 @@ have the same subnet number, which means that hosts may be on different
 physical networks but share a single network number. This concept is
 illustrated in [Figure 7](#subaddr).
 
-<figure class="line">
+<figure>
 	<a id="subaddr"></a>
 	<img src="figures/f03-20-9780123850591.png" width="350px"/>
 	<figcaption>Subnet addressing.</figcaption>
@@ -715,7 +719,7 @@ the same subnet. In this case, 128.96.34.15 AND 255.255.255.128 equals
 128.96.34.0, so this is the subnet number for the topmost subnet in the
 figure.
 
-<figure class="line">
+<figure>
 	<a id="subnet"></a>
 	<img src="figures/f03-21-9780123850591.png" width="500px"/>
 	<figcaption>An example of subnetting.</figcaption>
@@ -754,7 +758,9 @@ entries shown in [Table 2](#subnettab).
 | 128.96.34.128   | 255.255.255.128 | Interface 1 |
 | 128.96.33.0 | 255.255.255.0   | R2          |
 
-{% center %} *Table 3. Example Forwarding Table with Subnetting.* {% endcenter %}
+<table>
+<caption>Table 3. Example Forwarding Table with Subnetting.</caption>
+</table>
 
 Continuing with the example of a datagram from H1 being sent to H2, R1
 would AND H2's address (128.96.34.139) with the subnet mask of the first
@@ -877,7 +883,7 @@ approach used in subnetting, as long as `masks` consist of contiguous
 bits starting from the most significant bit (which in practice is
 almost always the case).
 
-<figure class="line">
+<figure>
 	<a id="cidreg"></a>
 	<img src="figures/f03-22-9780123850591.png" width="500px"/>
 	<figcaption>Route aggregation with CIDR.</figcaption>
@@ -998,7 +1004,7 @@ entry for the source. This is because there is no reason to believe that
 this host will ever need the source's link-level address; there is no
 need to clutter its ARP table with this information.
 
-<figure class="line">
+<figure>
 	<a id="arp"></a>
 	<img src="figures/f03-23-9780123850591.png" width="500px"/>
 	<figcaption>ARP packet format for mapping IP addresses into
@@ -1028,8 +1034,8 @@ and target, the packet contains
     addresses
 
 Note that the results of the ARP process can be added as an extra column
-in a forwarding table like the one in Table 4.1. Thus, for example, when
-R2 needs to forward a packet to network 2, it not only finds that the
+in a forwarding table like the one in [Table 1](#ipfwdtab). Thus, for example,
+when R2 needs to forward a packet to network 2, it not only finds that the
 next hop is R1, but also finds the MAC address to place on the packet to
 send it to R1.
 
@@ -1135,7 +1141,7 @@ the DHCP server and awaits the response, which it will then send back to
 the requesting client. The process of relaying a message from a host to
 a remote DHCP server is shown in [Figure 11](#dhcp-relay).
 
-<figure class="line">
+<figure>
 	<a id="dhcp-relay"></a>
 	<img src="figures/f03-24-9780123850591.png" width="500px"/>
 	<figcaption>A DHCP relay agent receives a broadcast DHCPDISCOVER
@@ -1149,7 +1155,7 @@ Protocol* (UDP) that runs over IP. UDP is discussed in detail in the
 next chapter, but the only interesting thing it does in this context
 is to provide a demultiplexing key that says, "This is a DHCP packet."
 
-<figure class="line">
+<figure>
 	<a id="dhcp"></a>
 	<img src="figures/f03-25-9780123850591.png" width="400px"/>
 	<figcaption>DHCP packet format.</figcaption>
@@ -1263,7 +1269,7 @@ network is maintained, but since the private networks now share the same
 transmission facilities and switches we say that two virtual private
 networks have been created.
 
-<figure class="line">
+<figure>
 	<a id="vpn"></a>
 	<img src="figures/f03-26-9780123850591.png" width="500px"/>
 	<figcaption>An example of virtual private networks: (a) two
@@ -1290,7 +1296,7 @@ packet inside an IP datagram. The destination address in the IP header
 is the address of the router at the far end of the tunnel, while the
 source address is that of the encapsulating router.
 
-<figure class="line">
+<figure>
 	<a id="tunnel"></a>
 	<img src="figures/f03-27-9780123850591.png" width="600px"/>
 	<figcaption>A tunnel through an internetwork. 18.5.0.1 is the
@@ -1313,8 +1319,9 @@ of 0. The forwarding table in R1 might therefore look like
 | 2     |  Virtual interface 0 |
 | Default |  Interface 1 |
 
-{% center %} *Table 4. Forwarding Table for Router R1 in
-[Figure 14](#tunnel).* {% endcenter %}
+<table>
+<caption>Table 4. Forwarding Table for Router R1 in [Figure 14](#tunnel).</caption>
+</table>
 
 R1 has two physical interfaces. Interface 0 connects to network 1;
 interface 1 connects to a large internetwork and is thus the default for
