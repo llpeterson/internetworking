@@ -1320,7 +1320,7 @@ of 0. The forwarding table in R1 might therefore look like
 | Default |  Interface 1 |
 
 <table>
-<caption>Table 4. Forwarding Table for Router R1 in [Figure 14](#tunnel).</caption>
+<caption>Table 4. Forwarding Table for Router R1.</caption>
 </table>
 
 R1 has two physical interfaces. Interface 0 connects to network 1;

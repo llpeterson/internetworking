@@ -746,7 +746,9 @@ port 2, the bridge would forward the frame out on port 1.
 | Y        | 2    |
 | Z        | 2    |
 
+<table>
 <caption>Table 4. Forwarding Table Maintained by a Bridge.</caption>
+</table>
 
 No one actually builds bridges in which the table is configured by hand.
 Having a human maintain this table is too burdensome, and there is a
