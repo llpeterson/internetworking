@@ -101,7 +101,10 @@ forward, or switch, the packet.
 	<figcaption>Datagram forwarding: an example network.</figcaption>
 </figure>
 
+<table>
 <a id="fwdtab"></a>
+<tabcaption>Forwarding Table for Switch 2.</tabcaption>
+</table>
 
 | Destination |  Port |
 |:-----:|:------:|
@@ -113,10 +116,6 @@ forward, or switch, the packet.
 |        F    |     1  |
 |        G    |     0  |
 |        H    |    0  |
-
-<table>
-<caption>Table 1. Forwarding Table for Switch 2.</caption>
-</table>
 
 Datagram networks have the following characteristics:
 
@@ -227,15 +226,14 @@ for the link from host A to switch 1, and that 11 is chosen for the link
 from switch 1 to switch 2. In that case, switch 1 needs to have an entry
 in its VC table configured as shown in [Table 2](#vctab).
 
+<table>
 <a id="vctab"></a>
+<tabcaption>Example Virtual Circuit Table Entry for Switch 1.</tabcaption>
+</table>
 
 |  Incoming Interface |  Incoming VCI |  Outgoing Interface |  Outgoing VCI |
 |:----:|:----:|:----:|:----:|
 |    2    |  5      |  1      |   11   |
-
-<table>
-<caption>Table 2. Example Virtual Circuit Table Entry for Switch 1.</caption>
-</table>
 
 Similarly, suppose that the VCI of 7 is chosen to identify this
 connection on the link from switch 2 to switch 3 and that a VCI of 4 is
@@ -244,7 +242,10 @@ and 3 need to be configured with VC table entries as shown in
 [Table 3](#vctab1). Note that the "outgoing" VCI value at one switch is
 the "incoming" VCI value at the next switch.
 
+<table>
 <a id="vctab1"></a>
+<tabcaption>Virtual Circuit Table Entries for Switches 2 and 3.</tabcaption>
+</table>
 
 VC Table Entry at Switch 2:
 
@@ -257,10 +258,6 @@ VC Table Entry at Switch 3:
 |  Incoming Interface |  Incoming VCI |  Outgoing Interface |  Outgoing VCI |
 |:----:|:----:|:----:|:----:|
 |    0    |   7      |  1      |   4   |
-
-<table>
-<caption>Table 3. Virtual Circuit Table Entries for Switches 2 and 3.</caption>
-</table>
 
 <figure>
 	<a id="vcdat"></a>
@@ -735,7 +732,10 @@ host A would have already directly received the frame on the LAN
 connected to port 1. Anytime a frame addressed to host A was received on
 port 2, the bridge would forward the frame out on port 1.
 
+<table>
 <a id="learn"></a>
+<tabcaption>Forwarding Table Maintained by a Bridge.</tabcaption>
+</table>
 
 | Host     | Port |
 |:----:|:-----:|
@@ -745,10 +745,6 @@ port 2, the bridge would forward the frame out on port 1.
 | X        | 2    |
 | Y        | 2    |
 | Z        | 2    |
-
-<table>
-<caption>Table 4. Forwarding Table Maintained by a Bridge.</caption>
-</table>
 
 No one actually builds bridges in which the table is configured by hand.
 Having a human maintain this table is too burdensome, and there is a

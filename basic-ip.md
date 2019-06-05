@@ -570,7 +570,10 @@ and forwards the datagram over the point-to-point network to
 R3. Finally, R3, since it is on the same network as H8, forwards the
 datagram directly to H8.
 
+<table>
 <a id="ipfwdtab"></a>
+<tabcaption>Forwarding table for Router R2.</tabcaption>
+</table>
 
 |  NetworkNum |  NextHop  |
 |:-----------:|:--------:|
@@ -578,10 +581,9 @@ datagram directly to H8.
 |       4               |      R3        |
 
 <table>
-<caption>Table 1. Forwarding table for Router R2.</caption>
-</table>
-
 <a id="tab5.3"></a>
+<tabcaption>Complete Forwarding Table for Router R2.</tabcaption>
+</table>
 
 |  NetworkNum |   NextHop |
 |:-----------:|:--------:|
@@ -589,10 +591,6 @@ datagram directly to H8.
 |       2               |  Interface 1  |
 |       3               |  Interface 0  |
 |       4               |        R3      |
-
-<table>
-<caption>Table 2. Complete Forwarding Table for Router R2.</caption>
-</table>
 
 Note that it is possible to include the information about directly
 connected networks in the forwarding table. For example, we could
@@ -750,17 +748,16 @@ it forwards the packet to the next hop router indicated. In the
 example network of [Figure 8](#subnet), router R1 would have the
 entries shown in [Table 2](#subnettab).
 
+<table>
 <a id="subnettab"></a>
+<tabcaption>Example Forwarding Table with Subnetting.</tabcaption>
+</table>
 
 | SubnetNumber   | SubnetMask      | NextHop     |
 |:-------------|:-------------|:------------|
 | 128.96.34.0       | 255.255.255.128 | Interface 0 |
 | 128.96.34.128   | 255.255.255.128 | Interface 1 |
 | 128.96.33.0 | 255.255.255.0   | R2          |
-
-<table>
-<caption>Table 3. Example Forwarding Table with Subnetting.</caption>
-</table>
 
 Continuing with the example of a datagram from H1 being sent to H2, R1
 would AND H2's address (128.96.34.139) with the subnet mask of the first
@@ -1311,17 +1308,16 @@ configured from R1 to R2 and assigned a virtual interface number
 of 0. The forwarding table in R1 might therefore look like
 [Table 4](#tunneltab).
 
+<table>
 <a id="tunneltab"></a>
+<tabcaption>Forwarding Table for Router R1.</tabcaption>
+</table>
 
 | NetworkNum |   NextHop |
 |:---:|:---:|
 | 1     |  Interface 0  |
 | 2     |  Virtual interface 0 |
 | Default |  Interface 1 |
-
-<table>
-<caption>Table 4. Forwarding Table for Router R1.</caption>
-</table>
 
 R1 has two physical interfaces. Interface 0 connects to network 1;
 interface 1 connects to a large internetwork and is thus the default for

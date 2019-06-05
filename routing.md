@@ -53,7 +53,10 @@ forward a packet to that next hop: Send it out interface number 0 with a
 MAC address of 8:0:2b:e4:b:1:2. Note that the last piece of information
 is provided by the Address Resolution Protocol.
 
+<table>
 <a id="rtab-ftab"></a>
+<tabcaption>Example Rows from (a) Routing and (b) Forwarding Tables.</tabcaption>
+</table>
 
 (a)
 
@@ -66,10 +69,6 @@ is provided by the Address Resolution Protocol.
 | Prefix/Length | Interface | MAC Address |
 |:---:|:---:|:---:|
 | 18/8 | if0 | 8:0:2b:e4:b:1:2 |
-
-<table>
-<caption>Table 1. Example Rows from (a) Routing and (b) Forwarding Tables.</caption>
-</table>
 
 Before getting into the details of routing, we need to remind ourselves
 of the key question we should be asking anytime we try to build a
@@ -173,7 +172,10 @@ by a network manager. A link that is down is assigned an infinite cost.
 	<figcaption>Distance-vector routing: an example network.</figcaption>
 </figure>
 	
+<table>
 <a id="dvtab1"></a>
+<tabcaption>Initial Distances Stored at Each Node (Global View).</tabcaption>
+</table>
 
 |      | A | B | C | D | E | F | G |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -184,10 +186,6 @@ by a network manager. A link that is down is assigned an infinite cost.
 | E |  1 |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  0 |  $$\infty$$ |  $$\infty$$ |
 | F |  1 |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  0 |  1 |
 | G |  $$\infty$$ |  $$\infty$$ |  $$\infty$$ |  1 |  $$\infty$$ |  1 |  0 |
-
-<table>
-<caption>Table 2. Initial Distances Stored at Each Node (Global View).</caption>
-</table>
 
 To see how a distance-vector routing algorithm works, it is easiest to
 consider an example like the one depicted in
@@ -209,7 +207,10 @@ table stored at A reflects this set of beliefs and includes the name of
 the next hop that A would use to reach any reachable node. Initially,
 then, A's routing table would look like [Table 3](#dvtab2).
 
+<table>
 <a id="dvtab2"></a>
+<tabcaption>Initial Routing Table at Node A.</tabcaption>
+</table>
 
 | Destination | Cost | NextHop |
 |:---:|:---:|:---:|
@@ -220,10 +221,6 @@ then, A's routing table would look like [Table 3](#dvtab2).
 | F  | 1 | F |
 | G | $$\infty$$ | — |
  
-<table>
-<caption>Table 3. Initial Routing Table at Node A.</caption>
-</table>
-
 The next step in distance-vector routing is that every node sends a
 message to its directly connected neighbors containing its personal list
 of distances. For example, node F tells node A that it can reach node G
@@ -243,7 +240,10 @@ At this point, A can update its routing table with costs and next hops
 for all nodes in the network. The result is shown in
 [Table 4](#dvtab3).
 
+<table>
 <a id="dvtab3"></a>
+<tabcaption>Final Routing Table at Node A.</tabcaption>
+</table>
 
 | Destination | Cost | NextHop |
 |:---:|:---:|:---:|
@@ -254,11 +254,11 @@ for all nodes in the network. The result is shown in
 | F  | 1 | F |
 | G | 2 | F |
  
-<table>
-<caption>Table 4. Final Routing Table at Node A.</caption>
-</table>
 
+<table>
 <a id="dvtab4"></a>
+<tabcaption>Final Distances Stored at Each Node (Global View).</tabcaption>
+</table>
 
 |      | A | B | C | D | E | F | G |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -270,9 +270,6 @@ for all nodes in the network. The result is shown in
 | F | 1 | 2 | 2 | 2 | 2 | 0 | 1 |
 | G | 2 | 3 | 2 | 1 | 3 | 1 | 0 |
 
-<table>
-<caption>Table 5. Final Distances Stored at Each Node (Global View).</caption>
-</table>
 
 In the absence of any topology changes, it takes only a few exchanges of
 information between neighbors before each node has a complete routing
@@ -743,7 +740,10 @@ seems to head off on false leads (like the 11-unit cost path to B that
 was the first addition to the `Tentative` list) but ends up with the
 least-cost paths to all nodes.
 
+<table>
 <a id="ls_trace"></a>
+<tabcaption>Steps for Building Routing Table for Node D.</tabcaption>
+</table>
 
 | Step | Confirmed | Tentative | Comments |
 |:---:|:--------:|:--------:|:---------|
@@ -754,10 +754,6 @@ least-cost paths to all nodes.
 | 5 | (D,0,--) (C,2,C) (B,5,C) | (A,12,C) | Move lowest-cost member of `Tentative` (B) to `Confirmed`, then look at its LSP. |
 | 6 | (D,0,--) (C,2,C) (B,5,C) | (A,10,C) | Since we can reach A at cost 5 through B, replace the `Tentative` entry. |
 | 7 | (D,0,--) (C,2,C) (B,5,C) (A,10,C) |  | Move lowest-cost member of `Tentative` (A) to `Confirmed`, and we are all done. |
-
-<table>
-<caption>Table 6. Steps for Building Routing Table for Node D.</caption>
-</table>
 
 The link-state routing algorithm has many nice properties: It has been
 proven to stabilize quickly, it does not generate much traffic, and it
