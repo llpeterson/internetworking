@@ -9,7 +9,7 @@ As we have seen, there are many technologies that can be used to build
 last-mile links or to connect a modest number of nodes together, but
 how do we build networks of global scale? A single Ethernet can
 interconnect no more than 1024 hosts; a point-to-point link connects
-only two. Wireless networks are limited by the ranges of their
+only two. Wireless networks are limited by the range of their
 radios. To build a global network, we need a way to interconnect these
 different types of links and multi-access networks. The concept of
 interconnecting different types of networks to build a large, global

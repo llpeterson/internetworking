@@ -91,7 +91,7 @@ would only be able to cope with an average data rate of about 1 Gbps
 on each port.
 
 > These example performance numbers do not represent the absolute
-> maxiumum throughput rate that highly tuned software running on a
+> maximum throughput rate that highly tuned software running on a
 > high-end server could achieve, but they are indicative of limits one
 > ultimately faces in pursuing this approach.
 
@@ -120,7 +120,7 @@ in an L2 forwarding table.
 > architectural principle.
 > 
 > These two kinds of processing are easy to conflate when both run on
-> the same CPU, as is the case in software switch depected in
+> the same CPU, as is the case in software switch depicted in
 > [Figure 1](#softswitch), but performance can be dramatically
 > improved by optimizing how the data plane is implemented, and
 > correspondingly, specifying a well-defined interface between the
@@ -165,13 +165,13 @@ that have historically dominated the industry.
 
 [Figure 2](#whitebox) is a simplified depiction of a white-box
 switch. The key difference from the earlier implementation on a
-general-purpose processor is the addition of a Network Processoring
+general-purpose processor is the addition of a Network Processor
 Unit (NPU), a domain-specific processor with an architecture and
 instruction set that has been optimized for processing packet headers
 (i.e., for implementing the data plane). NPUs are similar in spirit to
 GPUs that have an architecture optimized for rendering computer
 graphics, but in this case, the NPU is optimized for parsing packet
-headers and making a forwarding decsion. NPUs are able
+headers and making a forwarding decision. NPUs are able
 to process packets (input, make a forwarding decision, and output)
 at rates measured in Terabits-per-second (Tbps), easily fast enough to
 keep up with 32x100-Gbps ports, or the 48x40-Gbps ports shown in the
@@ -183,7 +183,7 @@ diagram.
 > inspection. They were not as general-purpose as the NPUs we're
 > discussing here; nor were they as high-performance. It seems likely
 > that the current approach will make purpose-built network
-> processors obsolete, but in any case, we prefer the NPU nominclator
+> processors obsolete, but in any case, we prefer the NPU nomenclator
 > because it is consistent with the trend to build programmable
 > domain-specific processors, including GPUs for graphics and TPUs
 > (Tensor Processing Units) for AI.
@@ -222,7 +222,7 @@ expressed as a collection of *(Match, Action)* pairs: if you match
 such-and-such field in the header, then execute this-or-that action.
 
 The relevance of packet processing being implemented by a multi-stage
-pipleline rather than a single-stage processor is that forwarding a
+pipeline rather than a single-stage processor is that forwarding a
 single packet likely involves looking at multiple header fields. Each stage
 can be programmed to look at a different combination of fields. A
 multi-stage pipeline adds a little end-to-end latency to each packet
@@ -248,7 +248,7 @@ the last two decades.
 With switches becoming increasingly commoditized, attention is
 rightfully shifting to the software that controls them. This puts us
 squarely in the middle of a trend to build *Software Defined Networks*
-(SDN), an idea that started to germinate about tens year ago. In fact,
+(SDN), an idea that started to germinate about ten years ago. In fact,
 it was the early stages of SDN that triggered the networking industry
 to move towards white-box switches.
 

@@ -27,7 +27,7 @@ abstractions and interfaces that existed before they were virtualized.
 This is important because it means that users of those abstractions
 don't need to change—they see a faithful reproduction of the resource
 being virtualized. Virtualization also means that the different users
-(sometimes called *tenants*) cannot interfer with each other. So what
+(sometimes called *tenants*) cannot interfere with each other. So what
 happens when we try to virtualize a network?
  
 VPNs, as described in [Section 3.2](basic-ip.md), were one early

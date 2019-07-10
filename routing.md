@@ -806,7 +806,7 @@ basic link-state algorithm described above, including the following:
 
 - *Load balancing*—OSPF allows multiple routes to the same place to
     be assigned the same cost and will cause traffic to be distributed
-    evenly over those routes, thus making better use of available
+    evenly over those routes, thus making better use of the available
     network capacity.
 
 <figure>
@@ -979,7 +979,7 @@ idle, which is the last thing you want under heavy load.
 Another problem was that the range of link values was much too large.
 For example, a heavily loaded 9.6-kbps link could look 127 times more
 costly than a lightly loaded 56-kbps link. (Keep in mind, we're
-talking about the ARPANET cira 1975.) This means that the routing
+talking about the ARPANET circa 1975.) This means that the routing
 algorithm would choose a path with 126 hops of lightly loaded 56-kbps
 links in preference to a 1-hop 9.6-kbps path. While shedding some
 traffic from an overloaded line is a good idea, making it look so
@@ -1036,7 +1036,7 @@ and error, and they were carefully tuned to provide good performance.
 Despite all these improvements, it turns out that in the majority of
 real-world network deployments, metrics change rarely if at all and
 only under the control of a network administrator, not automatically
-as was described above. The reason for this is partly that
+as described above. The reason for this is partly that
 conventional wisdom now holds that dynamically changing metrics
 are too unstable, even though this probably need not be true. Perhaps
 more significantly, many networks today lack the great disparity of
@@ -1046,7 +1046,7 @@ a constant multiplied by (1/link_bandwidth).
 
 > [!Note|style:flat|label:Key Takeaway|iconVisibility:hidden]
 > Why do we still tell the story about a decades old algorithm that's
-> no longer is use? Because it perfectly illustrates two valuable lessons.
+> no longer in use? Because it perfectly illustrates two valuable lessons.
 > The first is that computer systems are often *designed iteratively,
 > based on experience.*  We seldom get it right the first time, so it's
 > important to deploy a simple solution sooner rather than later, and
@@ -1055,7 +1055,7 @@ a constant multiplied by (1/link_bandwidth).
 > well-know KISS principle: *Keep it Simple, Stupid.*  When building a
 > complex system, less is often more. Opportunities to invent
 > sophisticated optimizations are plentiful, and it's a tempting
-> opportunity to pursue. While such optimations sometimes have
+> opportunity to pursue. While such optimizations sometimes have
 > short-term value, it is shocking how often a simple approach proves
 > best over time. This is because when a system has many moving parts,
 > as the Internet most certainly does, keeping each part as simple as

@@ -42,7 +42,7 @@ bridges or switches would still be viewed as a single network.
 <figure>
 	<a id="inet"></a>
 	<img src="figures/f03-14-9780123850591.png" width="500px"/>
-	<figcaption>A simple internetwork. H denotes a host ane R denotes
+	<figcaption>A simple internetwork. H denotes a host and R denotes
 	a router.</figcaption>
 </figure>
 	
@@ -220,8 +220,8 @@ are values defined for the TCP (Transmission Control Protocol—6), UDP
 above IP in the protocol graph.
 
 The `Checksum` is calculated by considering the entire IP header as a
-sequence of 16-bit words, adding them up using ones complement
-arithmetic, and taking the ones complement of the result. Thus, if any
+sequence of 16-bit words, adding them up using ones' complement
+arithmetic, and taking the ones' complement of the result. Thus, if any
 bit in the header is corrupted in transit, the checksum will not contain
 the correct value upon receipt of the packet. Since a corrupted header
 may contain an error in the destination address—and, as a result, may
@@ -562,7 +562,7 @@ different physical networks, they have different network numbers, so H5
 deduces that it needs to send the datagram to a router. R1 is the only
 choice—the default router—so H1 sends the datagram over the wireless
 network to R1. Similarly, R1 knows that it cannot deliver a datagram
-directly to H8 because neither of R1's interfaces is on the same network
+directly to H8 because neither of R1's interfaces are on the same network
 as H8. Suppose R1's default router is R2; R1 then sends the datagram to
 R2 over the Ethernet. Assuming R2 has the forwarding table shown in
 [Table 1](#ipfwdtab), it looks up H8's network number (network 4) 
@@ -796,7 +796,7 @@ outside the campus see the collection of networks in
 in their forwarding tables to tell them how to reach it. Routers within
 the campus, however, need to be able to route packets to the right
 subnet. Thus, not all parts of the internet see exactly the same routing
-information. This is an example of *aggregation* of routing information,
+information. This is an example of an *aggregation* of routing information,
 which is fundamental to scaling of the routing system. The next section
 shows how aggregation can be taken to another level.
 
@@ -972,7 +972,7 @@ currently stored in a host is known as the ARP cache or ARP table.
 ARP takes advantage of the fact that many link-level network
 technologies, such as Ethernet, support broadcast. If a host wants to
 send an IP datagram to a host (or router) that it knows to be on the
-same network (i.e., the sending and receiving node have the same IP
+same network (i.e., the sending and receiving nodes have the same IP
 network number), it first checks for a mapping in the cache. If no
 mapping is found, it needs to invoke the Address Resolution Protocol
 over the network. It does this by broadcasting an ARP query onto the
@@ -1181,7 +1181,7 @@ functioning correctly.
 > DHCP illustrates an important aspect of scaling: the scaling of network
 > management. While discussions of scaling often focus on keeping the
 > state in network devices from growing too fast, it is important to pay
-> attention to growth of network management complexity. By allowing
+> attention to the growth of network management complexity. By allowing
 > network managers to configure a range of IP addresses per network rather
 > than one IP address per host, DHCP improves the manageability of a
 > network.

@@ -63,7 +63,7 @@ to identify the end nodes. Such identifiers are usually called
 addresses is that no two nodes on a network have the same
 address. This is accomplished by making sure that all Ethernet cards
 are assigned a *globally unique* identifier. For the following
-discussions, we assume that each host has a globally unique
+discussion, we assume that each host has a globally unique
 address. Later on, we consider other useful properties that an address
 might have, but global uniqueness is adequate to get us started.
 
@@ -219,7 +219,7 @@ Let's assume that a network administrator wants to manually create a new
 virtual connection from host A to host B. First, the administrator
 needs to identify a path through the network from A to B. In the example
 network of [Figure 3](#vcircuit), there is only one such path, but in
-general this may not be the case. The administrator then picks a VCI
+general, this may not be the case. The administrator then picks a VCI
 value that is currently unused on each link for the connection. For the
 purposes of our example, let's suppose that the VCI value 5 is chosen
 for the link from host A to switch 1, and that 11 is chosen for the link
@@ -527,7 +527,7 @@ is all internal to the switch.
 
 There is another good argument in favor of small ATM cells, having
 to do with end-to-end latency. ATM was designed to carry
-both voice phone calls (the dominate use case at the time) and data.
+both voice phone calls (the dominant use case at the time) and data.
 Because voice is low-bandwidth but has strict delay requirements,
 the last thing you want is for a small voice packet queued behind a
 large data packet at a switch. If you force all packets to be small (i.e.,
@@ -865,7 +865,7 @@ Ethernet J and that the destination address is one not yet in any
 bridge's forwarding table: B4 sends a copy of the packet out to
 Ethernets H and I. Now bridge B6 forwards the packet to Ethernet G,
 where B1 would see it and forward it back to Ethernet H; B4 still
-doesn`t have this destination in its table, so it forwards the packet
+doesn't have this destination in its table, so it forwards the packet
 back to Ethernets I and J. There is nothing to stop this cycle from
 repeating endlessly, with packets looping in both directions among B1,
 B4, and B6.
@@ -1154,7 +1154,7 @@ ID is set to 100. The bridge now applies its normal rules for forwarding
 to the packet, with the extra restriction that the packet may not be
 sent out an interface that is not part of VLAN 100. Thus, under no
 circumstances will the packet—even a broadcast packet—be sent out
-the interface to host Z, which is in VLAN 200. The packet is, however,
+the interface to host Z, which is in VLAN 200. The packet, however, is
 forwarded on to bridge B1, which follows the same rules and thus may
 forward the packet to host W but not to host Y.
 
