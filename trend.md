@@ -118,7 +118,11 @@ proprietary settings, there are open source network virtualization
 platforms (e.g., the Linux Foundation's *Tungsten Fabric* project)
 leading the way.
 
+{% if output.name == "ebook" %}
+> **Broader Perspective**
+{% else %}
 > [!NOTE|label:Broader Perspective]
+{% endif %}
 > To continue reading about the cloudification of the Internet, see
 > [The Cloud is Eating the Internet](../scaling/trend.md).
 >
