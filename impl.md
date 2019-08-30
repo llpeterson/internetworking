@@ -306,7 +306,7 @@ Internet rocketed past the number of physical ports in 2012.
 	
 One of other key enablers for SDN’s success, as depicted in
 [Figure 3](#sdn), is the Network Operating System (NOS). Like a server
-operating system (e.g., Linux, IOS, Android, Windows) that provides a
+operating system (e.g., Linux, iOS, Android, Windows) that provides a
 set of high-level abstractions that make it easier to implement
 applications (e.g., you can read and write files instead of directly
 accessing disk drives), a NOS makes it easier to implement network
