@@ -1245,7 +1245,7 @@ We conclude our introduction to IP by considering an issue you might not
 have anticipated, but one that is becoming increasingly important.
 Our discussion up to this point has focused on making it possible for
 nodes on different networks to communicate with each other in an
-unrestricted way. This is the usually the goal in the
+unrestricted way. This is usually the goal in the
 Internet—everybody wants to be able to send email to everybody, and
 the creator of a new website wants to reach the widest possible
 audience. However, there are many situations where more controlled
