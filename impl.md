@@ -204,7 +204,7 @@ and the control processor merely loads the forwarding table into the
 NPU (by fixed we mean the NPU only knows how to process certain headers,
 like Ethernet and IP), but in other cases, the forwarding pipeline is
 itself programmable. P4 is a new programming language that can be used
-to program such NPU-based forwarding pipeline. Among other things, P4
+to program such NPU-based forwarding pipelines. Among other things, P4
 tries to hide many of the differences in the underlying NPU instruction sets.
 
 Internally, an NPU takes advantage of three technologies. First, a fast
@@ -213,11 +213,11 @@ SRAM (Static Random Access Memory), is roughly an order of magnitude
 faster than the DRAM (Dynamic Random Access Memory) that is used by
 main memory. Second, a TCAM-based memory stores bit patterns to be
 matched in the packets being processed. The "CAM" in TCAM stands for
-"Content Addressable Memory" which means that the key you want to look
-up in a table can effectively be used as the address into the memory
-that implements the table. The "T" stands for "Ternary" which is a
-fancy way to say the key you want to look up can have wildcards in it
-(e.g, key `10*1` matches both `1001` and `1011`). Finally, the
+"Content Addressable Memory," which means that the key you want to
+look up in a table can effectively be used as the address into the
+memory that implements the table. The "T" stands for "Ternary" which
+is a fancy way to say the key you want to look up can have wildcards
+in it (e.g, key `10*1` matches both `1001` and `1011`). Finally, the
 processing involved to forward each packet is implemented by a
 forwarding pipeline. This pipeline is implemented by an ASIC, but when
 well-designed, the pipeline's forwarding behavior can be modified by
