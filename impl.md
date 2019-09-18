@@ -271,7 +271,7 @@ of decoupling the control and data planes came to be known as
 disaggregation.
 
 > The P4 language mentioned in the previous subsection is a
-> second-generation tempt to define this interface by generalizing
+> second-generation atempt to define this interface by generalizing
 > OpenFlow.
 
 Another important aspect of disaggregation is that a logically
