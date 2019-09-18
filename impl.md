@@ -315,7 +315,7 @@ abstracts the details of the network switches and provides a *Network
 Map* abstraction to the application developer. The NOS detects changes
 in the underlying network (e.g., switches, ports, and links going
 up-and-down) and the control application simply implements the
-behavior it wants on this abstract graph. What that means is that the
+behavior it wants on this abstract graph. This means the
 NOS takes on the burden of collecting network state (the hard part of
 distributed algorithms like Link-State and Distance-Vector algorithms)
 and the app is free to simply implement the shortest path algorithm
