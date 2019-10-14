@@ -663,18 +663,26 @@ a strict source route to any destination. But both types of source
 routes do find application in certain scenarios, as we will see in later
 chapters.
 
-## Bridges and L2 Switches
+## L2 Switches and Bridges
 
 Having discussed some of the basic ideas behind switching, we now focus
-more closely on some specific switching technologies. We begin by
+more closely on a specific switching technology. We begin by
 considering a class of switch that is used to forward packets between
 LANs (local area networks) such as Ethernets. Such switches are
-today known as L2 switches; historically, they have also been referred
-to as *bridges*, and they are very widely used in campus and
-enterprise networks.
+today known as *L2 switches*, and they are very widely used in campus
+and enterprise networks. Historically, they were more commonly referred
+to as *bridges* because they were used to "bridge" ethernet segments
+to build an *extended LAN*. 
 
-Suppose you have a pair of Ethernets that you want to interconnect. One
-approach you might try is to put a repeater between them.
+The following starts with the historical perspective (using bridges to
+connect a set of Ethernet segments), and then shifts to the
+perspective in wide-spread use today (using L2 switches to connect a
+set of point-to-point links), but whether we call the
+device a bridge or a switch—and the network you build an extended LAN
+or a switched Ethernet—the two behave in *exactly* the same way.
+
+To begin, suppose you have a pair of Ethernets that you want to
+interconnect. One approach you might try is to put a repeater between them.
 This would not be a workable solution,
 however, if doing so exceeded the physical limitations of the Ethernet.
 (Recall that no more than two repeaters between any pair of hosts and no
@@ -691,23 +699,13 @@ Ethernets connected in this way. This device operates in promiscuous
 mode, accepting all frames transmitted on either of the Ethernets, and
 forwarding them to the other.
 
-The node we have just described is typically called a *bridge*, and a
-collection of LANs connected by one or more bridges is usually said to
-form an *extended LAN*. In their simplest variants, bridges simply
+In their simplest variants, bridges simply
 accept LAN frames on their inputs and forward them out on all other
 outputs. This simple strategy was used by early bridges but has some
 pretty serious limitations as we'll see below. A number of refinements
 have been added over the years to make bridges an effective mechanism
 for interconnecting a set of LANs. The rest of this section fills in the
 more interesting details.
-
-Note that a bridge meets our definition of a switch from the previous
-section: a multi-input, multi-output device, which transfers packets
-from an input to one or more outputs. And recall that this provides a
-way to increase the total bandwidth of a network. For example, while a
-single Ethernet segment might carry only 100 Mbps of total traffic, an
-Ethernet bridge can carry as much as 100$$n$$ Mbps, where $$n$$ is the
-number of ports (inputs and outputs) on the bridge.
 
 ### Learning Bridges
 
@@ -848,41 +846,53 @@ replacement algorithm on finding the table full; for example, we might
 locate and remove the entry with the smallest TTL to accommodate the new
 entry.
 
-<figure>
-	<a id="elan3"></a>
-	<img src="figures/f03-10-9780123850591.png" width="400px"/>
-	<figcaption>Extended LAN with loops.</figcaption>
-</figure>
-
 ### Spanning Tree Algorithm
 
-The preceding strategy works just fine until the extended LAN has a loop
+The preceding strategy works just fine until the network has a loop
 in it, in which case it fails in a horrible way—frames potentially
-loop through the extended LAN forever. This is easy to see in the
-example depicted in [Figure 10](#elan3), where, for example, bridges B1,
-B4, and B6 form a loop. Suppose that a packet enters bridge B4 from
-Ethernet J and that the destination address is one not yet in any
-bridge's forwarding table: B4 sends a copy of the packet out to
-Ethernets H and I. Now bridge B6 forwards the packet to Ethernet G,
-where B1 would see it and forward it back to Ethernet H; B4 still
-doesn't have this destination in its table, so it forwards the packet
-back to Ethernets I and J. There is nothing to stop this cycle from
-repeating endlessly, with packets looping in both directions among B1,
-B4, and B6.
+get forwarded forever. This is easy to see in the
+example depicted in [Figure 10](#elan3), where switches S1, S4, and S6
+form a loop.
 
-Why would an extended LAN come to have a loop in it? One possibility is
-that the network is managed by more than one administrator, for example,
-because it spans multiple departments in an organization. In such a
-setting, it is possible that no single person knows the entire
-configuration of the network, meaning that a bridge that closes a loop
-might be added without anyone knowing. A second, more likely scenario is
-that loops are built into the network on purpose—to provide redundancy
-in case of failure. After all, a network with no loops needs only one
-link failure to become split into two separate partitions.
+<figure>
+	<a id="elan3"></a>
+	<img src="figures/impl/Slide5.png" width="500px"/>
+	<figcaption>Switched Ethernet with loops.</figcaption>
+</figure>
 
-Whatever the cause, bridges must be able to correctly handle loops. This
-problem is addressed by having the bridges run a distributed *spanning
-tree* algorithm. If you think of the extended LAN as being represented
+Note that we are now making the shift from calling the each forwarding
+device a bridge (connecting segments that might reach multiple other
+devices) to instead calling them L2 switches (connecting
+point-to-point links that reach just one other device). To keep the
+example managable, we include just three hosts. In practice,
+switches typically have 16, 24, or 48 ports, meaning they are able to
+connect to that many hosts (and other swiches).
+
+In our example switched network, suppose that a
+packet enters switch S4 from Host C and that the destination address
+is one not yet in any switches's forwarding table: S4 sends a copy of
+the packet out its two other ports: to switches S1 and S6.
+Switch S6 forwards the packet onto S1 (and meanwhile, S1 forwards the
+packet onto S6), both of which in turn forward their packets
+back to S4. Switch S4 still doesn't have this destination in its
+table, so it forwards the packet out its two other ports.
+There is nothing to stop this cycle from repeating endlessly, with
+packets looping in both directions among S1, S4, and S6.
+
+Why would a switched Ethernet (or extended LAN) come to have a loop in
+it? One possibility is that the network is managed by more than one
+administrator, for example, because it spans multiple departments in
+an organization. In such a setting, it is possible that no single
+person knows the entire configuration of the network, meaning that a
+switch that closes a loop might be added without anyone knowing. A
+second, more likely scenario is that loops are built into the network
+on purpose—to provide redundancy in case of failure. After all, a
+network with no loops needs only one link failure to become split into
+two separate partitions.
+
+Whatever the cause, switches must be able to correctly handle loops. This
+problem is addressed by having the switches run a distributed *spanning
+tree* algorithm. If you think of the network as being represented
 by a graph that possibly has loops (cycles), then a spanning tree is a
 subgraph of this graph that covers (spans) all the vertices but contains
 no cycles. That is, a spanning tree keeps all of the vertices of the
@@ -898,8 +908,8 @@ possibly many spanning trees on the right.
 </figure>
 
 The idea of a spanning tree is simple enough: It's a subset of the
-actual network topology that has no loops and that reaches all the LANs
-in the extended LAN. The hard part is how all of the bridges coordinate
+actual network topology that has no loops and that reaches all the
+devices in the network. The hard part is how all of the switches coordinate
 their decisions to arrive at a single view of the spanning tree. After
 all, one topology is typically able to be covered by multiple spanning
 trees. The answer lies in the spanning tree protocol, which we'll
@@ -907,90 +917,82 @@ describe now.
 
 The spanning tree algorithm, which was developed by Radia Perlman,
 then at the Digital Equipment Corporation, is a protocol used by a set
-of bridges to agree upon a spanning tree for a particular extended
-LAN. (The IEEE 802.1 specification for LAN bridges is based on this
-algorithm.) In practice, this means that each bridge decides the ports
+of switches to agree upon a spanning tree for a particular network.
+(The IEEE 802.1 specification is based on this algorithm.)
+In practice, this means that each switch decides the ports
 over which it is and is not willing to forward frames. In a sense, it
-is by removing ports from the topology that the extended LAN is
-reduced to an acyclic tree. It is even possible that an entire bridge
+is by removing ports from the topology that the network is
+reduced to an acyclic tree. It is even possible that an entire switch
 will not participate in forwarding frames, which seems kind of strange
 at first glance. The algorithm is dynamic, however, meaning that the
-bridges are always prepared to reconfigure themselves into a new
-spanning tree should some bridge fail, and so those unused ports and
-bridges provide the redundant capacity needed to recover from failures.
+switches are always prepared to reconfigure themselves into a new
+spanning tree should some switch fail, and so those unused ports and
+switches provide the redundant capacity needed to recover from failures.
 
-> Representing an extended LAN as an abstract graph is a bit 
-> awkward. Basically, you let both the bridges and the LANs correspond 
-> to the vertices of the graph and the ports correspond to the graph's 
-> edges. However, the spanning tree we are going to compute for this 
-> graph needs to span only those nodes that correspond to networks. It 
-> is possible that nodes corresponding to bridges will be disconnected 
-> from the rest of the graph. This corresponds to a situation in which 
-> all the ports connecting a bridge to various networks get removed by 
-> the algorithm.
-
-The main idea of the spanning tree is for the bridges to select the
+The main idea of the spanning tree is for the switches to select the
 ports over which they will forward frames. The algorithm selects ports
-as follows. Each bridge has a unique identifier; for our purposes, we
-use the labels B1, B2, B3, and so on. The algorithm first elects the
-bridge with the smallest ID as the root of the spanning tree; exactly
-how this election takes place is described below. The root bridge always
-forwards frames out over all of its ports. Next, each bridge computes
+as follows. Each switch has a unique identifier; for our purposes, we
+use the labels S1, S2, S3, and so on. The algorithm first elects the
+switch with the smallest ID as the root of the spanning tree; exactly
+how this election takes place is described below. The root switch always
+forwards frames out over all of its ports. Next, each switch computes
 the shortest path to the root and notes which of its ports is on this
-path. This port is also selected as the bridge's preferred path to the
-root. Finally, all the bridges connected to a given LAN elect a single
-*designated* bridge that will be responsible for forwarding frames
-toward the root bridge. Each LAN's designated bridge is the one that is
-closest to the root. If two or more bridges are equally close to the
-root, then the bridges` identifiers are used to break ties, and the
-smallest ID wins. Of course, each bridge is connected to more than one
-LAN, so it participates in the election of a designated bridge for each
-LAN it is connected to. In effect, this means that each bridge decides
-if it is the designated bridge relative to each of its ports. The bridge
-forwards frames over those ports for which it is the designated bridge.
+path. This port is also selected as the switch's preferred path to the
+root. Finally, to account for the possibility there could be another
+switch connected to its ports, the switch elect a single *designated*
+switch that will be responsible for forwarding frames toward the
+root. Each designated switch is the one that is closest to the
+root. If two or more switches are equally close to the root, then the
+switches' identifiers are used to break ties, and the smallest ID
+wins. Of course, each switch might be connected to more than one other
+switch, so it participates in the election of a designated
+switch for each such port. In effect, this means that
+each switch decides if it is the designated switch relative to each of
+its ports. The switch forwards frames over those ports for which it is
+the designated switch.
 
 <figure>
 	<a id="elan4"></a>
-	<img src="figures/f03-12-9780123850591.png" width="400px"/>
+	<img src="figures/impl/Slide6.png" width="500px"/>
 	<figcaption>Spanning tree with some ports not selected.</figcaption>
 </figure>
 	
 [Figure 12](#elan4) shows the spanning tree that corresponds to the
-extended LAN shown in [Figure 10](#elan3). In this example, B1 is the
-root bridge, since it has the smallest ID. Notice that both B3 and B5
-are connected to LAN A, but B5 is the designated bridge since it is
-closer to the root. Similarly, both B5 and B7 are connected to LAN B,
-but in this case B5 is the designated bridge since it has the smaller
-ID; both are an equal distance from B1.
+network shown in [Figure 10](#elan3). In this example, S1 is the
+root, since it has the smallest ID. Notice that S3 and S5
+are connected to each other, but S5 is the designated switch since it is
+closer to the root. Similarly, S5 and S7 are connected to each other,
+but in this case S5 is the designated switch since it has the smaller
+ID; both are an equal distance from S1.
 
-While it is possible for a human to look at the extended LAN given in
+While it is possible for a human to look at the network given in
 [Figure 10](#elan3) and to compute the spanning tree given in
-the [Figure 12](#elan4) according to the rules given above, the bridges in
-an extended LAN do not have the luxury of being able to see the topology
-of the entire network, let alone peek inside other bridges to see their
-ID. Instead, the bridges have to exchange configuration messages with
+the [Figure 12](#elan4) according to the rules given above, the
+switches do not have the luxury of being able to see the topology
+of the entire network, let alone peek inside other switches to see their
+ID. Instead, they have to exchange configuration messages with
 each other and then decide whether or not they are the root or a
-designated bridge based on these messages.
+designated switch based on these messages.
 
 Specifically, the configuration messages contain three pieces of
 information:
 
-1. The ID for the bridge that is sending the message.
+1. The ID for the switch that is sending the message.
 
-2. The ID for what the sending bridge believes to be the root bridge.
+2. The ID for what the sending switch believes to be the root switch.
 
-3. The distance, measured in hops, from the sending bridge to the root
-    bridge.
+3. The distance, measured in hops, from the sending switch to the root
+    switch.
 
-Each bridge records the current *best* configuration message it has seen
+Each switch records the current *best* configuration message it has seen
 on each of its ports ("best" is defined below), including both messages
-it has received from other bridges and messages that it has itself
+it has received from other switches and messages that it has itself
 transmitted.
 
-Initially, each bridge thinks it is the root, and so it sends a
+Initially, each switch thinks it is the root, and so it sends a
 configuration message out on each of its ports identifying itself as the
 root and giving a distance to the root of 0. Upon receiving a
-configuration message over a particular port, the bridge checks to see
+configuration message over a particular port, the switch checks to see
 if that new message is better than the current best configuration
 message recorded for that port. The new configuration message is
 considered *better* than the currently recorded information if any of
@@ -1000,130 +1002,127 @@ the following is true:
 
 - It identifies a root with an equal ID but with a shorter distance.
 
-- The root ID and distance are equal, but the sending bridge has a
+- The root ID and distance are equal, but the sending switch has a
     smaller ID
 
 If the new message is better than the currently recorded information,
-the bridge discards the old information and saves the new information.
-However, it first adds 1 to the distance-to-root field since the bridge
-is one hop farther away from the root than the bridge that sent the
+the switch discards the old information and saves the new information.
+However, it first adds 1 to the distance-to-root field since the switch
+is one hop farther away from the root than the switch that sent the
 message.
 
-When a bridge receives a configuration message indicating that it is not
-the root bridge—that is, a message from a bridge with a smaller
-ID—the bridge stops generating configuration messages on its own and
-instead only forwards configuration messages from other bridges, after
-first adding 1 to the distance field. Likewise, when a bridge receives a
-configuration message that indicates it is not the designated bridge for
-that port—that is, a message from a bridge that is closer to the root
-or equally far from the root but with a smaller ID—the bridge stops
+When a switch receives a configuration message indicating that it is not
+the root—that is, a message from a switch with a smaller
+ID—the switch stops generating configuration messages on its own and
+instead only forwards configuration messages from other switches, after
+first adding 1 to the distance field. Likewise, when a switch receives a
+configuration message that indicates it is not the designated switch for
+that port—that is, a message from a switch that is closer to the root
+or equally far from the root but with a smaller ID—the switch stops
 sending configuration messages over that port. Thus, when the system
-stabilizes, only the root bridge is still generating configuration
-messages, and the other bridges are forwarding these messages only over
-ports for which they are the designated bridge. At this point, a
-spanning tree has been built, and all the bridges are in agreement on
+stabilizes, only the root switch is still generating configuration
+messages, and the other switches are forwarding these messages only
+over ports for which they are the designated switch. At this point, a
+spanning tree has been built, and all the switches are in agreement on
 which ports are in use for the spanning tree. Only those ports may be
-used for forwarding data packets in the extended LAN.
+used for forwarding data packets.
 
 Let's see how this works with an example. Consider what would happen in
-[Figure 12](#elan4) if the power had just been restored to the building
-housing this network, so that all the bridges boot at about the same
-time. All the bridges would start off by claiming to be the root. We
+[Figure 12](#elan4) if the power had just been restored to a campus,
+so that all the switches boot at about the same 
+time. All the switches would start off by claiming to be the root. We
 denote a configuration message from node X in which it claims to be
 distance d from root node Y as (Y,d,X). Focusing on the activity
-at node B3, a sequence of events would unfold as follows:
+at S3, a sequence of events would unfold as follows:
 
-1. B3 receives (B2, 0, B2).
+1. S3 receives (S2, 0, S2).
 
-2. Since 2 < 3, B3 accepts B2 as root.
+2. Since 2 < 3, S3 accepts S2 as root.
 
-3. B3 adds one to the distance advertised by B2 (0) and thus sends
-    (B2, 1, B3) toward B5.
+3. S3 adds one to the distance advertised by S2 (0) and thus sends
+    (S2, 1, S3) toward S5.
 
-4. Meanwhile, B2 accepts B1 as root because it has the lower ID, and it
-    sends (B1, 1, B2) toward B3.
+4. Meanwhile, S2 accepts S1 as root because it has the lower ID, and it
+    sends (S1, 1, S2) toward S3.
 
-5. B5 accepts B1 as root and sends (B1, 1, B5) toward B3.
+5. S5 accepts S1 as root and sends (S1, 1, S5) toward S3.
 
-6. B3 accepts B1 as root, and it notes that both B2 and B5 are closer
-    to the root than it is; thus, B3 stops forwarding messages on both
-    its interfaces.
+6. S3 accepts S1 as root, and it notes that both S2 and S5 are closer
+    to the root than it is, but S2 has the smaller id, so it remains
+    on S3's path to the root.
 
-This leaves B3 with both ports not selected, as shown in
-[Figure 12](#elan4).
+This leaves S3 with active ports as shown in [Figure 12](#elan4). Note
+that Hosts A an B are not able to communication over the shortest path
+(via S5) because frames have to "flow up the tree and back
+down," but that's the price you pay to avoid loops.
 
-Even after the system has stabilized, the root bridge continues to send
-configuration messages periodically, and the other bridges continue to
-forward these messages as described in the previous paragraph. Should a
-particular bridge fail, the downstream bridges will not receive these
+Even after the system has stabilized, the root switch continues to send
+configuration messages periodically, and the other switches continue to
+forward these messages as just described. Should a
+particular switch fail, the downstream switches will not receive these
 configuration messages, and after waiting a specified period of time
-they will once again claim to be the root, and the algorithm just
-described will kick in again to elect a new root and new designated
-bridges.
+they will once again claim to be the root, and the algorithm
+will kick in again to elect a new root and new designated
+switches.
 
 One important thing to notice is that although the algorithm is able to
-reconfigure the spanning tree whenever a bridge fails, it is not able to
+reconfigure the spanning tree whenever a switch fails, it is not able to
 forward frames over alternative paths for the sake of routing around a
-congested bridge.
+congested switch.
 
 ### Broadcast and Multicast
 
-The preceding discussion has focused on how bridges forward unicast
-frames from one LAN to another. Since the goal of a bridge is to
+The preceding discussion has focused on how switches forward unicast
+frames from one port to another. Since the goal of a switch is to
 transparently extend a LAN across multiple networks, and since most LANs
-support both broadcast and multicast, then bridges must also support
-these two features. Broadcast is simple—each bridge forwards a frame
+support both broadcast and multicast, then switches must also support
+these two features. Broadcast is simple—each switch forwards a frame
 with a destination broadcast address out on each active (selected) port
 other than the one on which the frame was received.
 
 Multicast can be implemented in exactly the same way, with each host
 deciding for itself whether or not to accept the message. This is
 exactly what is done in practice. Notice, however, that since not all
-the LANs in an extended LAN necessarily have a host that is a member of
-a particular multicast group, it is possible to do better. Specifically,
+hosts are a member of
+any particular multicast group, it is possible to do better. Specifically,
 the spanning tree algorithm can be extended to prune networks over which
 multicast frames need not be forwarded. Consider a frame sent to group M
-by a host on LAN A in [Figure 12](#elan4). If there is no host on LAN J
-that belongs to group M, then there is no need for bridge B4 to forward
-the frames over that network. On the other hand, not having a host on
-LAN H that belongs to group M does not necessarily mean that bridge B1
-can avoid forwarding multicast frames onto LAN H. It all depends on
-whether or not there are members of group M on LANs I and J.
+by a host A in [Figure 12](#elan4). If host C does not belong to group
+M, then there is no need for switch S4 to forward the frames over that
+network.
 
-How does a given bridge learn whether it should forward a multicast
-frame over a given port? It learns exactly the same way that a bridge
+How would a given switch learn whether it should forward a multicast
+frame over a given port? It learns exactly the same way that a switch
 learns whether it should forward a unicast frame over a particular
 port—by observing the *source* addresses that it receives over that
 port. Of course, groups are not typically the source of frames, so we
 have to cheat a little. In particular, each host that is a member of
 group M must periodically send a frame with the address for group M in
 the source field of the frame header. This frame would have as its
-destination address the multicast address for the bridges.
+destination address the multicast address for the switches.
 
-Note that, although the multicast extension just described was once
-proposed, it was not widely adopted. Instead, multicast is implemented in
-exactly the same way as broadcast on today's extended LANs.
+Although the multicast extension just described was once proposed, it
+was not widely adopted. Instead, multicast is implemented in exactly
+the same way as broadcast.
 
-### Limitations of Bridges
+### Limitations of Switches
 
-The bridge-based solution just described is meant to be used in only a
-fairly limited setting—to connect a handful of similar LANs. The main
-limitations of bridges become apparent when we consider the issues of
-scale and heterogeneity.
+The main limitations of switches become apparent when we consider the
+issues of scale and heterogeneity.
 
 On the issue of scale, it is not realistic to connect more than a few
-LANs by means of bridges, where in practice *few* typically means "tens
+switches, where in practice *few* typically means "tens
 of." One reason for this is that the spanning tree algorithm scales
 linearly; that is, there is no provision for imposing a hierarchy on the
-extended LAN. A second reason is that bridges forward all broadcast
+set of switches. A second reason is that switches forward all broadcast
 frames. While it is reasonable for all hosts within a limited setting
 (say, a department) to see each other's broadcast messages, it is
 unlikely that all the hosts in a larger environment (say, a large
 company or university) would want to have to be bothered by each other's
 broadcast messages. Said another way, broadcast does not scale, and as a
-consequence extended LANs do not scale.
+consequence L2-based networks do not scale.
 
-One approach to increasing the scalability of extended LANs is the
+One approach to increasing the scalability is the
 *virtual LAN* (VLAN). VLANs allow a single extended LAN to be
 partitioned into several seemingly separate LANs. Each virtual LAN is
 assigned an identifier (sometimes called a *color*), and packets can
@@ -1133,50 +1132,50 @@ extended LAN that will receive any given broadcast packet.
 
 <figure>
 	<a id="vlan"></a>
-	<img src="figures/f03-13-9780123850591.png" width="400px"/>
+	<img src="figures/impl/Slide7.png" width="350px"/>
 	<figcaption>Two virtual LANs share a common backbone.</figcaption>
 </figure>
 
 We can see how VLANs work with an example. [Figure 13](#vlan) shows four
-hosts on four different LAN segments. In the absence of VLANs, any
+hosts and two switches. In the absence of VLANs, any
 broadcast packet from any host will reach all the other hosts. Now let's
 suppose that we define the segments connected to hosts W and X as being
 in one VLAN, which we'll call VLAN 100. We also define the segments that
 connect to hosts Y and Z as being in VLAN 200. To do this, we need to
-configure a VLAN ID on each port of bridges B1 and B2. The link between
-B1 and B2 is considered to be in both VLANs.
+configure a VLAN ID on each port of switches S1 and S2. The link between
+S1 and S2 is considered to be in both VLANs.
 
-When a packet sent by host X arrives at bridge B2, the bridge observes
+When a packet sent by host X arrives at switch S2, the switch observes
 that it came in a port that was configured as being in VLAN 100. It
 inserts a VLAN header between the Ethernet header and its payload. The
 interesting part of the VLAN header is the VLAN ID; in this case, that
-ID is set to 100. The bridge now applies its normal rules for forwarding
+ID is set to 100. The switch now applies its normal rules for forwarding
 to the packet, with the extra restriction that the packet may not be
 sent out an interface that is not part of VLAN 100. Thus, under no
 circumstances will the packet—even a broadcast packet—be sent out
 the interface to host Z, which is in VLAN 200. The packet, however, is
-forwarded on to bridge B1, which follows the same rules and thus may
+forwarded on to switch S1, which follows the same rules and thus may
 forward the packet to host W but not to host Y.
 
 An attractive feature of VLANs is that it is possible to change the
 logical topology without moving any wires or changing any addresses. For
-example, if we wanted to make the segment that connects to host Z be
+example, if we wanted to make the link that connects to host Z be
 part of VLAN 100 and thus enable X, W, and Z to be on the same virtual
 LAN, then we would just need to change one piece of configuration on
-bridge B2.
+switch S2.
 
-On the issue of heterogeneity, bridges are fairly limited in the kinds
-of networks they can interconnect. In particular, bridges make use of
+On the issue of heterogeneity, switches are fairly limited in the kinds
+of networks they can interconnect. In particular, switches make use of
 the network's frame header and so can support only networks that have
-exactly the same format for addresses. Thus, bridges can be used to
+exactly the same format for addresses. Thus, switches can be used to
 connect Ethernets to Ethernets, token rings to token rings, and one
-802.11 network to another. It's also possible to put a bridge between,
-say, an Ethernet and an 802.11 network, since both networks support the same
-48-bit address format. However, bridges do not readily generalize to
-other kinds of networks with different addressing formats, such as
-ATM.
+802.11 network to another. It's also possible to put a switch between,
+say, an Ethernet and an 802.11 network, since both networks support
+the same 48-bit address format. However, switches do not readily
+generalize to other kinds of networks with different addressing
+formats, such as ATM.
 
-Despite their limitations, bridges are a very important part of the
+Despite their limitations, switches are a very important part of the
 complete networking picture. Their main advantage is that they allow
 multiple LANs to be transparently connected; that is, the networks can
 be connected without the end hosts having to run any additional
@@ -1187,8 +1186,8 @@ a multicast group.
 Notice, however, that this transparency can be dangerous. If a host or,
 more precisely, the application and transport protocol running on that
 host is programmed under the assumption that it is running on a single
-LAN, then inserting bridges between the source and destination hosts can
-have unexpected consequences. For example, if a bridge becomes
+LAN, then inserting switches between the source and destination hosts can
+have unexpected consequences. For example, if a switch becomes
 congested, it may have to drop frames; in contrast, it is rare that a
 single Ethernet ever drops a frame. As another example, the latency
 between any pair of hosts on an extended LAN becomes both larger and
@@ -1198,4 +1197,4 @@ example, it is possible (although unlikely) that frames will be
 reordered in an extended LAN; in contrast, frame order is never shuffled
 on a single Ethernet. The bottom line is that it is never safe to design
 network software under the assumption that it will run over a single
-Ethernet segment. Bridges happen.
+Ethernet segment. Switches happen.
