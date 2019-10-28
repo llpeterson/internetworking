@@ -334,8 +334,8 @@ reinforce two important points:
 
 .. _fig-fragment:
 .. figure:: figures/f03-18-9780123850591.png
+   :align: center
    :width: 350px
-   :alt: fig-fragment
 
    Header fields used in IP fragmentation: 
    (a) unfragmented packet; (b) fragmented packets.
@@ -584,31 +584,33 @@ datagram directly to H8.
  
 .. _tab-ipfwdtab:
 .. table:: Forwarding table for Router R2.
+   :align: center
    :widths: auto
 
-+------------+---------+
-| NetworkNum | NextHop |
-+============+=========+
-| 1          | R1      |
-+------------+---------+
-| 4          | R3      |
-+------------+---------+
+   +------------+---------+
+   | NetworkNum | NextHop |
+   +============+=========+
+   | 1          | R1      |
+   +------------+---------+
+   | 4          | R3      |
+   +------------+---------+
 
  .. _tab-ipfwdtab2:
 .. table:: Complete Forwarding table for Router R2.
+   :align: center
    :widths: auto
 
-+------------+-------------+
-| NetworkNum | NextHop     |
-+============+=============+
-| 1          | R1          |
-+------------+-------------+
-| 2          | Interface 1 |
-+------------+-------------+
-| 3          | Interface 0 |
-+------------+-------------+
-| 4          | R3          |
-+------------+-------------+
+   +------------+-------------+
+   | NetworkNum | NextHop     |
+   +============+=============+
+   | 1          | R1          |
+   +------------+-------------+
+   | 2          | Interface 1 |
+   +------------+-------------+
+   | 3          | Interface 0 |
+   +------------+-------------+
+   | 4          | R3          |
+   +------------+-------------+
 
 Note that it is possible to include the information about directly
 connected networks in the forwarding table. For example, we could label
@@ -774,17 +776,18 @@ shown in :ref:`Table 3 <tab-subnettab>`.
 
 .. _tab-subnettab:
 .. table:: Example Forwarding Table with Subnetting.
+   :align: center
    :widths: auto
 
-+---------------+-----------------+-------------+
-| SubnetNumber  | SubnetMask      | NextHop     |
-+===============+=================+=============+
-| 128.96.34.0   | 255.255.255.128 | Interface 0 |
-+---------------+-----------------+-------------+
-| 128.96.34.128 | 255.255.255.128 | Interface 1 |
-+---------------+-----------------+-------------+
-| 128.96.33.0   | 255.255.255.0   | R2          |
-+---------------+-----------------+-------------+
+   +---------------+-----------------+-------------+
+   | SubnetNumber  | SubnetMask      | NextHop     |
+   +===============+=================+=============+
+   | 128.96.34.0   | 255.255.255.128 | Interface 0 |
+   +---------------+-----------------+-------------+
+   | 128.96.34.128 | 255.255.255.128 | Interface 1 |
+   +---------------+-----------------+-------------+
+   | 128.96.33.0   | 255.255.255.0   | R2          |
+   +---------------+-----------------+-------------+
 
 Continuing with the example of a datagram from H1 being sent to H2, R1
 would AND H2’s address (128.96.34.139) with the subnet mask of the first
@@ -1351,17 +1354,18 @@ forwarding table in R1 might therefore look like
 
 .. _tab-tunneltab:
 .. table:: Forwarding Table for Router R1.
+   :align: center
    :widths: auto
 
-+------------+---------------------+
-| NetworkNum | NextHop             |
-+============+=====================+
-| 1          | Interface 0         |
-+------------+---------------------+
-| 2          | Virtual interface 0 |
-+------------+---------------------+
-| Default    | Interface 1         |
-+------------+---------------------+
+   +------------+---------------------+
+   | NetworkNum | NextHop             |
+   +============+=====================+
+   | 1          | Interface 0         |
+   +------------+---------------------+
+   | 2          | Virtual interface 0 |
+   +------------+---------------------+
+   | Default    | Interface 1         |
+   +------------+---------------------+
 
 R1 has two physical interfaces. Interface 0 connects to network 1;
 interface 1 connects to a large internetwork and is thus the default for

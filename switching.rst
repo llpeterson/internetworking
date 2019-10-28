@@ -107,27 +107,28 @@ forward, or switch, the packet.
 
 .. _tab-fwdtab:
 .. table::   Forwarding Table for Switch 2.
+   :align: center
    :widths: auto
 
-+-------------+------+
-| Destination | Port |
-+=============+======+
-| A           | 3    |
-+-------------+------+
-| B           | 0    |
-+-------------+------+
-| C           | 3    |
-+-------------+------+
-| D           | 3    |
-+-------------+------+
-| E           | 2    |
-+-------------+------+
-| F           | 1    |
-+-------------+------+
-| G           | 0    |
-+-------------+------+
-| H           | 0    |
-+-------------+------+
+   +-------------+------+
+   | Destination | Port |
+   +=============+======+
+   | A           | 3    |
+   +-------------+------+
+   | B           | 0    |
+   +-------------+------+
+   | C           | 3    |
+   +-------------+------+
+   | D           | 3    |
+   +-------------+------+
+   | E           | 2    |
+   +-------------+------+
+   | F           | 1    |
+   +-------------+------+
+   | G           | 0    |
+   +-------------+------+
+   | H           | 0    |
+   +-------------+------+
 
 Datagram networks have the following characteristics:
 
@@ -242,13 +243,14 @@ in its VC table configured as shown in :ref:`Table 2 <tab-vctab>`.
 
 .. _tab-vctab:
 .. table:: Example Virtual Circuit Table Entry for Switch 1.
+   :align: center
    :widths: auto
 
-+--------------------+--------------+--------------------+--------------+
-| Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
-+====================+==============+====================+==============+
-| 2                  | 5            | 1                  | 11           |
-+--------------------+--------------+--------------------+--------------+
+   +--------------------+--------------+--------------------+--------------+
+   | Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
+   +====================+==============+====================+==============+
+   | 2                  | 5            | 1                  | 11           |
+   +--------------------+--------------+--------------------+--------------+
 
 Similarly, suppose that the VCI of 7 is chosen to identify this
 connection on the link from switch 2 to switch 3 and that a VCI of 4 is
@@ -260,23 +262,25 @@ respectively. Note that the “outgoing” VCI value at one switch is the
 
 .. _tab-vctab2:
 .. table:: Virtual Circuit Table Entry at Switch 2.
+   :align: center
    :widths: auto
 
-+--------------------+--------------+--------------------+--------------+
-| Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
-+====================+==============+====================+==============+
-| 3                  | 11           | 2                  | 7            |
-+--------------------+--------------+--------------------+--------------+
+   +--------------------+--------------+--------------------+--------------+
+   | Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
+   +====================+==============+====================+==============+
+   | 3                  | 11           | 2                  | 7            |
+   +--------------------+--------------+--------------------+--------------+
 
 .. _tab-vctab3:
 .. table:: Virtual Circuit Table Entry at Switch 3.
+   :align: center
    :widths: auto
 
-+--------------------+--------------+--------------------+--------------+
-| Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
-+====================+==============+====================+==============+
-| 0                  | 7            | 1                  | 4            |
-+--------------------+--------------+--------------------+--------------+
+   +--------------------+--------------+--------------------+--------------+
+   | Incoming Interface | Incoming VCI | Outgoing Interface | Outgoing VCI |
+   +====================+==============+====================+==============+
+   | 0                  | 7            | 1                  | 4            |
+   +--------------------+--------------+--------------------+--------------+
 
 .. _fig-vcdat:
 .. figure:: figures/f03-04-9780123850591.png
@@ -757,23 +761,24 @@ port 2, the bridge would forward the frame out on port 1.
 
 .. _tab-learn:
 .. table:: Forwarding Table Maintained by a Bridge.
+   :align: center
    :widths: auto
 
-+------+------+
-| Host | Port |
-+======+======+
-| A    | 1    |
-+------+------+
-| B    | 1    |
-+------+------+
-| C    | 1    |
-+------+------+
-| X    | 2    |
-+------+------+
-| Y    | 2    |
-+------+------+
-| Z    | 2    |
-+------+------+
+   +------+------+
+   | Host | Port |
+   +======+======+
+   | A    | 1    |
+   +------+------+
+   | B    | 1    |
+   +------+------+
+   | C    | 1    |
+   +------+------+
+   | X    | 2    |
+   +------+------+
+   | Y    | 2    |
+   +------+------+
+   | Z    | 2    |
+   +------+------+
 
 No one actually builds bridges in which the table is configured by hand.
 Having a human maintain this table is too burdensome, and there is a
