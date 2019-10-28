@@ -29,7 +29,7 @@ being virtualized. Virtualization also means that the different users
 (sometimes called *tenants*) cannot interfere with each other. So what
 happens when we try to virtualize a network?
 
-VPNs, as described in `Section 3.2 <basic-ip.md>`__, were one early
+VPNs, as described in `Section 3.2 <basic-ip.html>`__, were one early
 success for virtual networking. They allowed carriers to present
 corporate customers with the illusion that they had their own private
 network, even though in reality they were sharing underlying links and
@@ -41,33 +41,14 @@ basic abstractions of a physical network. In this sense, they are
 analogous to the virtual machine, with its support of all the resources
 of a server: CPU, storage, I/O, and so on.
 
-To this end, *Virtual LANs* (VLANs) are how we typically virtualize an
-L2 network. Supporting VLANs required a fairly simple extension to the
-original 802.1 header specification, inserting a 12-bit VLAN ID
-(``VID``) field between the ``SrcAddr`` and ``Type`` fields, as shown in
-:ref:`Figure 1 <fig-vlan-tag>`. (This VID is typically referred to as
-a *VLAN Tag*.) There are actually 32-bits inserted in the middle of
-the header, but the first 16-bits are used to preserve backwards
-compatibility with the original specification (they use ``Type =
-0x8100`` to indicate that this frame includes the VLAN extension); the
-other four bits hold control information used to prioritize
-frames. This means it is possible to map :math:`2^{12} = 4096` virtual
-networks onto a single physical LAN.
-
-.. _fig-vlan-tag:
-.. figure:: figures/impl/Slide4.png
-   :width: 500px
-   :align: center
-
-   802.1Q VLAN tag embedded within an Ethernet (802.1) 
-   header.
-
-VLANs proved to be quite useful to enterprises that wanted to isolate
-different internal groups (e.g., departments, labs), giving each of them
-the appearance of having their own private LAN. VLANs were also seen as
-a promising way to virtualize L2 networks in cloud datacenters, making
-it possible to give each tenant their own L2 network so as to isolate
-their traffic from the traffic of all other tenants. But there was a
+To this end, VLANS, as described in `Section 3.1 <switching.html>`__, 
+are how we typically virtualize an L2 network. VLANs proved to be
+quite useful to enterprises that wanted to isolate different internal
+groups (e.g., departments, labs), giving each of them the appearance
+of having their own private LAN. VLANs were also seen as a promising
+way to virtualize L2 networks in cloud datacenters, making it possible
+to give each tenant their own L2 network so as to isolate their
+traffic from the traffic of all other tenants. But there was a
 problem: the 4096 possible VLANs was not sufficient to account for all
 the tenants that a cloud might host, and to complicate matters, in a
 cloud the network needs to connect *virtual machines* rather than the

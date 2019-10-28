@@ -1195,14 +1195,34 @@ of VLAN 100 and thus enable X, W, and Z to be on the same virtual LAN,
 then we would just need to change one piece of configuration on switch
 S2.
 
-Another limitation of networks built by interconnecting L2 switches is
-the lack of support for heterogeneity. That is, switches are limited
-in the kinds of networks they can interconnect. In particular,
-switches make use of the network’s frame header and so can support
-only networks that have exactly the same format for addresses. Thus,
-switches can be used to connect Ethernet and 802.11 based networks to
-another, since they share a common header format, but switches do not
-readily generalize to other kinds of networks with different
-addressing formats, such as ATM, SONET, PON, or the cellular network.
+Supporting VLANs requires a fairly simple extension to the
+original 802.1 header specification, inserting a 12-bit VLAN ID
+(``VID``) field between the ``SrcAddr`` and ``Type`` fields, as shown in
+:ref:`Figure 14 <fig-vlan-tag>`. (This VID is typically referred to as
+a *VLAN Tag*.) There are actually 32-bits inserted in the middle of
+the header, but the first 16-bits are used to preserve backwards
+compatibility with the original specification (they use ``Type =
+0x8100`` to indicate that this frame includes the VLAN extension); the
+other four bits hold control information used to prioritize
+frames. This means it is possible to map :math:`2^{12} = 4096` virtual
+networks onto a single physical LAN.
 
+.. _fig-vlan-tag:
+.. figure:: figures/impl/Slide4.png
+   :width: 500px
+   :align: center
+
+   802.1Q VLAN tag embedded within an Ethernet (802.1) 
+   header.
+
+Finally, we observe that there is another limitation of networks built
+by interconnecting L2 switches: lack of support for heterogeneity.
+That is, switches are limited in the kinds of networks they can
+interconnect. In particular, switches make use of the network’s frame
+header and so can support only networks that have exactly the same
+format for addresses. Thus, switches can be used to connect Ethernet
+and 802.11 based networks to another, since they share a common header
+format, but switches do not readily generalize to other kinds of
+networks with different addressing formats, such as ATM, SONET, PON,
+or the cellular network.
 
