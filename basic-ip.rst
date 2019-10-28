@@ -595,6 +595,13 @@ datagram directly to H8.
    | 4          | R3      |
    +------------+---------+
 
+Note that it is possible to include the information about directly 
+connected networks in the forwarding table. For example, we could label 
+the network interfaces of router R2 as interface 0 for the 
+point-to-point link (network 3) and interface 1 for the Ethernet 
+(network 2). Then R2 would have the forwarding table shown 
+in :ref:`Table 2 <tab-ipfwdtab2>`. 
+
  .. _tab-ipfwdtab2:
 .. table:: Complete Forwarding table for Router R2.
    :align: center
@@ -611,13 +618,6 @@ datagram directly to H8.
    +------------+-------------+
    | 4          | R3          |
    +------------+-------------+
-
-Note that it is possible to include the information about directly
-connected networks in the forwarding table. For example, we could label
-the network interfaces of router R2 as interface 0 for the
-point-to-point link (network 3) and interface 1 for the Ethernet
-(network 2). Then R2 would have the forwarding table shown
-in :ref:`Table 2 <tab-ipfwdtab2>`.
 
 Thus, for any network number that R2 encounters in a packet, it knows
 pwhat to do. Either that network is directly connected to R2, in which
