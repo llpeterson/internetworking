@@ -788,7 +788,7 @@ seems to head off on false leads (like the 11-unit cost path to B that
 was the first addition to the ``Tentative`` list) but ends up with the
 least-cost paths to all nodes.
 
- .. _tab-ls-trace:
+.. _tab-ls-trace:
 .. table:: Steps for Building Routing Table for Node D.
    :align: center 
    :widths: auto
