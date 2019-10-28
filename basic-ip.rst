@@ -602,7 +602,7 @@ point-to-point link (network 3) and interface 1 for the Ethernet
 (network 2). Then R2 would have the forwarding table shown 
 in :ref:`Table 2 <tab-ipfwdtab2>`. 
 
- .. _tab-ipfwdtab2:
+.. _tab-ipfwdtab2:
 .. table:: Complete Forwarding table for Router R2.
    :align: center
    :widths: auto

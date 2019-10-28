@@ -48,39 +48,38 @@ address when forwarding a packet, while the routing table needs to be
 optimized for the purpose of calculating changes in topology. In many
 cases, the forwarding table may even be implemented in specialized
 hardware, whereas this is rarely if ever done for the routing table.
-`Table 1 <#rtab-ftab>`__ below provides an example of a row from each
-sort of table. In this case, the routing table tells us that network
-prefix 18/8 is to be reached by a next hop router with the IP address
-171.69.245.10, while the forwarding table contains the information about
-exactly how to forward a packet to that next hop: Send it out interface
-number 0 with a MAC address of 8:0:2b:e4:b:1:2. Note that the last piece
-of information is provided by the Address Resolution Protocol.
 
-.. raw:: html
+:ref:`Table 1 <tab-rtab>` gives an example of a row from a routing
+table, which tells us that network prefix 18/8 is to be reached by a
+next hop router with the IP address 171.69.245.10
 
-   <table>
+.. _tab-rtab:
+.. table:: Example row from a routing table. 
+   :align: center 
+   :widths: auto
 
- Example Rows from (a) Routing and (b) Forwarding Tables.
+   +---------------+---------------+
+   | Prefix/Length | Next Hop      |
+   +===============+===============+
+   | 18/8          | 171.69.245.10 |
+   +---------------+---------------+
 
-.. raw:: html
+In contrast, :ref:`Table 2 <tab-ftab>` gives an example of a row from a 
+forwarding table, which contains the information about exactly how to
+forward a packet to that next hop: Send it out interface number 0 with
+a MAC address of 8:0:2b:e4:b:1:2. Note that the last piece
+of information is provided by the Address Resolution Protocol. 
 
-   </table>
+.. _tab-ftab:
+.. table:: Example row from a forwarding table. 
+   :align: center 
+   :widths: auto
 
-(a) 
-
-+---------------+---------------+
-| Prefix/Length | Next Hop      |
-+===============+===============+
-| 18/8          | 171.69.245.10 |
-+---------------+---------------+
-
-(b) 
-
-+---------------+-----------+-----------------+
-| Prefix/Length | Interface | MAC Address     |
-+===============+===========+=================+
-| 18/8          | if0       | 8:0:2b:e4:b:1:2 |
-+---------------+-----------+-----------------+
+   +---------------+-----------+-----------------+
+   | Prefix/Length | Interface | MAC Address     |
+   +===============+===========+=================+
+   | 18/8          | if0       | 8:0:2b:e4:b:1:2 |
+   +---------------+-----------+-----------------+
 
 Before getting into the details of routing, we need to remind ourselves
 of the key question we should be asking anytime we try to build a
@@ -187,33 +186,28 @@ that is down is assigned an infinite cost.
 
    Distance-vector routing: an example network.
 
-.. raw:: html
+.. _tab-dvtab1:
+.. table:: Initial Distances Stored at Each Node (Global View). 
+   :align: center 
+   :widths: auto
 
-   <table>
-
- Initial Distances Stored at Each Node (Global View).
-
-.. raw:: html
-
-   </table>
-
-+---+---+---+---+---+---+---+---+
-|   | A | B | C | D | E | F | G |
-+===+===+===+===+===+===+===+===+
-| A | 0 | 1 | 1 | ∞ | 1 | 1 | ∞ |
-+---+---+---+---+---+---+---+---+
-| B | 1 | 0 | 1 | ∞ | ∞ | ∞ | ∞ |
-+---+---+---+---+---+---+---+---+
-| C | 1 | 1 | 0 | 1 | ∞ | ∞ | ∞ |
-+---+---+---+---+---+---+---+---+
-| D | ∞ | ∞ | 1 | 0 | ∞ | ∞ | 1 |
-+---+---+---+---+---+---+---+---+
-| E | 1 | ∞ | ∞ | ∞ | 0 | ∞ | ∞ |
-+---+---+---+---+---+---+---+---+
-| F | 1 | ∞ | ∞ | ∞ | ∞ | 0 | 1 |
-+---+---+---+---+---+---+---+---+
-| G | ∞ | ∞ | ∞ | 1 | ∞ | 1 | 0 |
-+---+---+---+---+---+---+---+---+
+   +---+---+---+---+---+---+---+---+
+   |   | A | B | C | D | E | F | G |
+   +===+===+===+===+===+===+===+===+
+   | A | 0 | 1 | 1 | ∞ | 1 | 1 | ∞ |
+   +---+---+---+---+---+---+---+---+
+   | B | 1 | 0 | 1 | ∞ | ∞ | ∞ | ∞ |
+   +---+---+---+---+---+---+---+---+
+   | C | 1 | 1 | 0 | 1 | ∞ | ∞ | ∞ |
+   +---+---+---+---+---+---+---+---+
+   | D | ∞ | ∞ | 1 | 0 | ∞ | ∞ | 1 |
+   +---+---+---+---+---+---+---+---+
+   | E | 1 | ∞ | ∞ | ∞ | 0 | ∞ | ∞ |
+   +---+---+---+---+---+---+---+---+
+   | F | 1 | ∞ | ∞ | ∞ | ∞ | 0 | 1 |
+   +---+---+---+---+---+---+---+---+
+   | G | ∞ | ∞ | ∞ | 1 | ∞ | 1 | 0 |
+   +---+---+---+---+---+---+---+---+
 
 To see how a distance-vector routing algorithm works, it is easiest to
 consider an example like the one depicted in :ref:`Figure 2 <fig-dvroute>`. In
@@ -221,45 +215,40 @@ this example, the cost of each link is set to 1, so that a least-cost
 path is simply the one with the fewest hops. (Since all edges have the
 same cost, we do not show the costs in the graph.) We can represent each
 node’s knowledge about the distances to all other nodes as a table like
-`Table 2 <#dvtab1>`__. Note that each node knows only the information in
+:ref:`Table 3 <tab-dvtab1>`. Note that each node knows only the information in
 one row of the table (the one that bears its name in the left column).
 The global view that is presented here is not available at any single
 point in the network.
 
-We may consider each row in `Table 2 <#dvtab1>`__ as a list of distances
+We may consider each row in :ref:`Table 3 <tab-dvtab1>` as a list of distances
 from one node to all other nodes, representing the current beliefs of
 that node. Initially, each node sets a cost of 1 to its directly
 connected neighbors and ∞ to all other nodes. Thus, A initially believes
 that it can reach B in one hop and that D is unreachable. The routing
 table stored at A reflects this set of beliefs and includes the name of
 the next hop that A would use to reach any reachable node. Initially,
-then, A’s routing table would look like `Table 3 <#dvtab2>`__.
+then, A’s routing table would look like :ref:`Table 4 <tab-dvtab2>`.
 
-.. raw:: html
+.. _tab-dvtab2:
+.. table::  Initial Routing Table at Node A. 
+   :align: center 
+   :widths: auto
 
-   <table>
-
- Initial Routing Table at Node A.
-
-.. raw:: html
-
-   </table>
-
-+-------------+------+---------+
-| Destination | Cost | NextHop |
-+=============+======+=========+
-| B           | 1    | B       |
-+-------------+------+---------+
-| C           | 1    | C       |
-+-------------+------+---------+
-| D           | ∞    | —       |
-+-------------+------+---------+
-| E           | 1    | E       |
-+-------------+------+---------+
-| F           | 1    | F       |
-+-------------+------+---------+
-| G           | ∞    | —       |
-+-------------+------+---------+
+   +-------------+------+---------+
+   | Destination | Cost | NextHop |
+   +=============+======+=========+
+   | B           | 1    | B       |
+   +-------------+------+---------+
+   | C           | 1    | C       |
+   +-------------+------+---------+
+   | D           | ∞    | —       |
+   +-------------+------+---------+
+   | E           | 1    | E       |
+   +-------------+------+---------+
+   | F           | 1    | F       |
+   +-------------+------+---------+
+   | G           | ∞    | —       |
+   +-------------+------+---------+
 
 The next step in distance-vector routing is that every node sends a
 message to its directly connected neighbors containing its personal list
@@ -274,76 +263,64 @@ which is better than the old cost of infinity. At the same time, A
 learns from C that B can be reached from C at a cost of 1, so it
 concludes that the cost of reaching B via C is 2. Since this is worse
 than the current cost of reaching B (1), this new information is
-ignored.
+ignored. At this point, A can update its routing table with costs and
+next hops for all nodes in the network. The result is shown in
+:ref:`Table 5 <tab-dvtab3>`.
 
-At this point, A can update its routing table with costs and next hops
-for all nodes in the network. The result is shown in `Table
-4 <#dvtab3>`__.
+.. _tab-dvtab3:
+.. table:: Final Routing Table at Node A.
+   :align: center 
+   :widths: auto
 
-.. raw:: html
+   +-------------+------+---------+
+   | Destination | Cost | NextHop |
+   +=============+======+=========+
+   | B           | 1    | B       |
+   +-------------+------+---------+
+   | C           | 1    | C       |
+   +-------------+------+---------+
+   | D           | 2    | C       |
+   +-------------+------+---------+
+   | E           | 1    | E       |
+   +-------------+------+---------+
+   | F           | 1    | F       |
+   +-------------+------+---------+
+   | G           | 2    | F       |
+   +-------------+------+---------+
 
-   <table>
+In the absence of any topology changes, it takes only a few exchanges of 
+information between neighbors before each node has a complete routing 
+table. The process of getting consistent routing information to all the 
+nodes is called *convergence*. :ref:`Table 6 <tab-dvtab4>` shows the final set 
+of costs from each node to all other nodes when routing has converged. 
+We must stress that there is no one node in the network that has all the 
+information in this table—each node only knows about the contents of its 
+own routing table. The beauty of a distributed algorithm like this is 
+that it enables all nodes to achieve a consistent view of the network in 
+the absence of any centralized authority. 
 
- Final Routing Table at Node A.
+.. _tab-dvtab4:
+.. table:: Final Distances Stored at Each Node (Global View).
+   :align: center 
+   :widths: auto
 
-.. raw:: html
-
-   </table>
-
-+-------------+------+---------+
-| Destination | Cost | NextHop |
-+=============+======+=========+
-| B           | 1    | B       |
-+-------------+------+---------+
-| C           | 1    | C       |
-+-------------+------+---------+
-| D           | 2    | C       |
-+-------------+------+---------+
-| E           | 1    | E       |
-+-------------+------+---------+
-| F           | 1    | F       |
-+-------------+------+---------+
-| G           | 2    | F       |
-+-------------+------+---------+
-
-.. raw:: html
-
-   <table>
-
- Final Distances Stored at Each Node (Global View).
-
-.. raw:: html
-
-   </table>
-
-+---+---+---+---+---+---+---+---+
-|   | A | B | C | D | E | F | G |
-+===+===+===+===+===+===+===+===+
-| A | 0 | 1 | 1 | 2 | 1 | 1 | 2 |
-+---+---+---+---+---+---+---+---+
-| B | 1 | 0 | 1 | 2 | 2 | 2 | 3 |
-+---+---+---+---+---+---+---+---+
-| C | 1 | 1 | 0 | 1 | 2 | 2 | 2 |
-+---+---+---+---+---+---+---+---+
-| D | 2 | 2 | 1 | 0 | 3 | 2 | 1 |
-+---+---+---+---+---+---+---+---+
-| E | 1 | 2 | 2 | 3 | 0 | 2 | 3 |
-+---+---+---+---+---+---+---+---+
-| F | 1 | 2 | 2 | 2 | 2 | 0 | 1 |
-+---+---+---+---+---+---+---+---+
-| G | 2 | 3 | 2 | 1 | 3 | 1 | 0 |
-+---+---+---+---+---+---+---+---+
-
-In the absence of any topology changes, it takes only a few exchanges of
-information between neighbors before each node has a complete routing
-table. The process of getting consistent routing information to all the
-nodes is called *convergence*. `Table 5 <#dvtab4>`__ shows the final set
-of costs from each node to all other nodes when routing has converged.
-We must stress that there is no one node in the network that has all the
-information in this table—each node only knows about the contents of its
-own routing table. The beauty of a distributed algorithm like this is
-that it enables all nodes to achieve a consistent view of the network in
-the absence of any centralized authority.
+   +---+---+---+---+---+---+---+---+
+   |   | A | B | C | D | E | F | G |
+   +===+===+===+===+===+===+===+===+
+   | A | 0 | 1 | 1 | 2 | 1 | 1 | 2 |
+   +---+---+---+---+---+---+---+---+
+   | B | 1 | 0 | 1 | 2 | 2 | 2 | 3 |
+   +---+---+---+---+---+---+---+---+
+   | C | 1 | 1 | 0 | 1 | 2 | 2 | 2 |
+   +---+---+---+---+---+---+---+---+
+   | D | 2 | 2 | 1 | 0 | 3 | 2 | 1 |
+   +---+---+---+---+---+---+---+---+
+   | E | 1 | 2 | 2 | 3 | 0 | 2 | 3 |
+   +---+---+---+---+---+---+---+---+
+   | F | 1 | 2 | 2 | 2 | 2 | 0 | 1 |
+   +---+---+---+---+---+---+---+---+
+   | G | 2 | 3 | 2 | 1 | 3 | 1 | 0 |
+   +---+---+---+---+---+---+---+---+
 
 There are a few details to fill in before our discussion of
 distance-vector routing is complete. First we note that there are two
@@ -804,82 +781,77 @@ The algorithm works as follows:
 This will become a lot easier to understand when we look at an example.
 Consider the network depicted in :ref:`Figure 6 <fig-lsroute>`. Note that,
 unlike our previous example, this network has a range of different edge
-costs. `Table 6 <#ls_trace>`__ traces the steps for building the routing
+costs. :ref:`Table 7 <tab-ls-trace>` traces the steps for building the routing
 table for node D. We denote the two outputs of D by using the names of
 the nodes to which they connect, B and C. Note the way the algorithm
 seems to head off on false leads (like the 11-unit cost path to B that
 was the first addition to the ``Tentative`` list) but ends up with the
 least-cost paths to all nodes.
 
-.. raw:: html
+ .. _tab-ls-trace:
+.. table:: Steps for Building Routing Table for Node D.
+   :align: center 
+   :widths: auto
 
-   <table>
-
- Steps for Building Routing Table for Node D.
-
-.. raw:: html
-
-   </table>
-
-+---------+-------------------+-------------------+-------------------+
-| Step    | Confirmed         | Tentative         | Comments          |
-+=========+===================+===================+===================+
-| 1       | (D,0,–)           |                   | Since D is the    |
-|         |                   |                   | only new member   |
-|         |                   |                   | of the confirmed  |
-|         |                   |                   | list, look at its |
-|         |                   |                   | LSP.              |
-+---------+-------------------+-------------------+-------------------+
-| 2       | (D,0,–)           | (B,11,B) (C,2,C)  | D’s LSP says we   |
-|         |                   |                   | can reach B       |
-|         |                   |                   | through B at cost |
-|         |                   |                   | 11, which is      |
-|         |                   |                   | better than       |
-|         |                   |                   | anything else on  |
-|         |                   |                   | either list, so   |
-|         |                   |                   | put it on         |
-|         |                   |                   | ``Tentative``     |
-|         |                   |                   | list; same for C. |
-+---------+-------------------+-------------------+-------------------+
-| 3       | (D,0,–) (C,2,C)   | (B,11,B)          | Put lowest-cost   |
-|         |                   |                   | member of         |
-|         |                   |                   | ``Tentative`` (C) |
-|         |                   |                   | onto              |
-|         |                   |                   | ``Confirmed``     |
-|         |                   |                   | list. Next,       |
-|         |                   |                   | examine LSP of    |
-|         |                   |                   | newly confirmed   |
-|         |                   |                   | member (C).       |
-+---------+-------------------+-------------------+-------------------+
-| 4       | (D,0,–) (C,2,C)   | (B,5,C) (A,12,C)  | Cost to reach B   |
-|         |                   |                   | through C is 5,   |
-|         |                   |                   | so replace        |
-|         |                   |                   | (B,11,B). C’s LSP |
-|         |                   |                   | tells us that we  |
-|         |                   |                   | can reach A at    |
-|         |                   |                   | cost 12.          |
-+---------+-------------------+-------------------+-------------------+
-| 5       | (D,0,–) (C,2,C)   | (A,12,C)          | Move lowest-cost  |
-|         | (B,5,C)           |                   | member of         |
-|         |                   |                   | ``Tentative`` (B) |
-|         |                   |                   | to ``Confirmed``, |
-|         |                   |                   | then look at its  |
-|         |                   |                   | LSP.              |
-+---------+-------------------+-------------------+-------------------+
-| 6       | (D,0,–) (C,2,C)   | (A,10,C)          | Since we can      |
-|         | (B,5,C)           |                   | reach A at cost 5 |
-|         |                   |                   | through B,        |
-|         |                   |                   | replace the       |
-|         |                   |                   | ``Tentative``     |
-|         |                   |                   | entry.            |
-+---------+-------------------+-------------------+-------------------+
-| 7       | (D,0,–) (C,2,C)   |                   | Move lowest-cost  |
-|         | (B,5,C) (A,10,C)  |                   | member of         |
-|         |                   |                   | ``Tentative`` (A) |
-|         |                   |                   | to ``Confirmed``, |
-|         |                   |                   | and we are all    |
-|         |                   |                   | done.             |
-+---------+-------------------+-------------------+-------------------+
+  +---------+-------------------+-------------------+-------------------+
+  | Step    | Confirmed         | Tentative         | Comments          |
+  +=========+===================+===================+===================+
+  | 1       | (D,0,–)           |                   | Since D is the    |
+  |         |                   |                   | only new member   |
+  |         |                   |                   | of the confirmed  |
+  |         |                   |                   | list, look at its |
+  |         |                   |                   | LSP.              |
+  +---------+-------------------+-------------------+-------------------+
+  | 2       | (D,0,–)           | (B,11,B) (C,2,C)  | D’s LSP says we   |
+  |         |                   |                   | can reach B       |
+  |         |                   |                   | through B at cost |
+  |         |                   |                   | 11, which is      |
+  |         |                   |                   | better than       |
+  |         |                   |                   | anything else on  |
+  |         |                   |                   | either list, so   |
+  |         |                   |                   | put it on         |
+  |         |                   |                   | ``Tentative``     |
+  |         |                   |                   | list; same for C. |
+  +---------+-------------------+-------------------+-------------------+
+  | 3       | (D,0,–) (C,2,C)   | (B,11,B)          | Put lowest-cost   |
+  |         |                   |                   | member of         |
+  |         |                   |                   | ``Tentative`` (C) |
+  |         |                   |                   | onto              |
+  |         |                   |                   | ``Confirmed``     |
+  |         |                   |                   | list. Next,       |
+  |         |                   |                   | examine LSP of    |
+  |         |                   |                   | newly confirmed   |
+  |         |                   |                   | member (C).       |
+  +---------+-------------------+-------------------+-------------------+
+  | 4       | (D,0,–) (C,2,C)   | (B,5,C) (A,12,C)  | Cost to reach B   |
+  |         |                   |                   | through C is 5,   |
+  |         |                   |                   | so replace        |
+  |         |                   |                   | (B,11,B). C’s LSP |
+  |         |                   |                   | tells us that we  |
+  |         |                   |                   | can reach A at    |
+  |         |                   |                   | cost 12.          |
+  +---------+-------------------+-------------------+-------------------+
+  | 5       | (D,0,–) (C,2,C)   | (A,12,C)          | Move lowest-cost  |
+  |         | (B,5,C)           |                   | member of         |
+  |         |                   |                   | ``Tentative`` (B) |
+  |         |                   |                   | to ``Confirmed``, |
+  |         |                   |                   | then look at its  |
+  |         |                   |                   | LSP.              |
+  +---------+-------------------+-------------------+-------------------+
+  | 6       | (D,0,–) (C,2,C)   | (A,10,C)          | Since we can      |
+  |         | (B,5,C)           |                   | reach A at cost 5 |
+  |         |                   |                   | through B,        |
+  |         |                   |                   | replace the       |
+  |         |                   |                   | ``Tentative``     |
+  |         |                   |                   | entry.            |
+  +---------+-------------------+-------------------+-------------------+
+  | 7       | (D,0,–) (C,2,C)   |                   | Move lowest-cost  |
+  |         | (B,5,C) (A,10,C)  |                   | member of         |
+  |         |                   |                   | ``Tentative`` (A) |
+  |         |                   |                   | to ``Confirmed``, |
+  |         |                   |                   | and we are all    |
+  |         |                   |                   | done.             |
+  +---------+-------------------+-------------------+-------------------+
 
 The link-state routing algorithm has many nice properties: It has been
 proven to stabilize quickly, it does not generate much traffic, and it
