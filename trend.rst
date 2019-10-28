@@ -77,7 +77,7 @@ original physical resource. To re-purpose the mythology of the World
 Turtle: It’s virtual networks all the way down.
 
 .. _fig-vxlan:
-.. figure:: figures/impl/Slide5.png
+.. figure:: figures/impl/Slide8.png
    :width: 500px
    :align: center
 
