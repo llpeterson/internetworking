@@ -861,10 +861,9 @@ number of hosts. Since we would now be handing out address space in
 chunks of 256 addresses at a time, we could more accurately match the
 amount of address space consumed to the size of the organization. For
 any organization with at least 256 hosts, we can guarantee an address
-utilization of at least 50%, and typically much more.
-
-   Even if you can justify a request of a class B network number, don’t
-   bother. They are all spoken for.
+utilization of at least 50%, and typically much more. (Sadly, even if
+you can justify a request of a class B network number, don’t bother,
+because they were all spoken for long ago.)
 
 This solution, however, raises a problem that is at least as serious:
 excessive storage requirements at the routers. If a single site has,
@@ -1271,9 +1270,9 @@ at the end of this chapter.
 Virtual Networks and Tunnels
 ----------------------------
 
-We conclude our introduction to IP by considering an issue you might not
-have anticipated, but one that is becoming increasingly important.
-Our discussion up to this point has focused on making it possible for
+We conclude our introduction to IP by considering an issue you might
+not have anticipated, but one that is increasingly important. Our
+discussion up to this point has focused on making it possible for
 nodes on different networks to communicate with each other in an
 unrestricted way. This is usually the goal in the Internet—everybody
 wants to be able to send email to everybody, and the creator of a new
@@ -1285,7 +1284,7 @@ important example of such a situation is the *virtual private network*
 The term *VPN* is heavily overused and definitions vary, but intuitively
 we can define a VPN by considering first the idea of a private network.
 Corporations with many sites often build private networks by leasing
-transmission lines from the phone companies and using those lines to
+circuits from the phone companies and using those lines to
 interconnect sites. In such a network, communication is restricted to
 take place only among the sites of that corporation, which is often
 desirable for security reasons. To make a private network *virtual*, the
