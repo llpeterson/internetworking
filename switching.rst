@@ -106,7 +106,7 @@ forward, or switch, the packet.
    Datagram forwarding: an example network.
 
 .. _tab-fwdtab:
-.. table::   Forwarding Table for Switch 2.
+.. table:: Forwarding Table for Switch 2.
    :align: center
    :widths: auto
 
@@ -862,7 +862,7 @@ can be reached is updated to reflect the most recently received packet.
            }
            else 
            {
-               /* can`t fit this address in the table now, so give up */
+               /* can't fit this address in the table now, so give up */
                return;
            }
        }
