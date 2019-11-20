@@ -1179,4 +1179,4 @@ common approach to setting metrics is to use a constant multiplied by
    short-term value, it is shocking how often a simple approach proves
    best over time. This is because when a system has many moving parts,
    as the Internet most certainly does, keeping each part as simple as
-   possible is usually the best approach.  :ref:`[Next] <key-tradeoffs>`
+   possible is usually the best approach.  :ref:`[Next] <key-control-data>`

@@ -110,6 +110,7 @@ lookup, for example, looking up a VCI number in a VC table, an IP
 address in an L3 forwarding table, or an Ethernet address in an L2
 forwarding table.
 
+.. _key-control-data:
 .. admonition:: Key Takeaway
 
    The distinction between these two kinds of processing is important
@@ -128,7 +129,7 @@ forwarding table.
    %s <fig-softswitch>`, but performance can be dramatically improved by
    optimizing how the data plane is implemented, and correspondingly,
    specifying a well-defined interface between the control and data
-   planes.
+   planes. :ref:`[Next] <key-tradeoffs>`
 
 Hardware Switch
 ---------------
