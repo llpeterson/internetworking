@@ -129,7 +129,7 @@ forwarding table.
    %s <fig-softswitch>`, but performance can be dramatically improved by
    optimizing how the data plane is implemented, and correspondingly,
    specifying a well-defined interface between the control and data
-   planes. :ref:`[Next] <key-tradeoffs>`
+   planes. :ref:`[Next] <key-sdn>`
 
 Hardware Switch
 ---------------
@@ -330,6 +330,7 @@ switches. By centralizing this logic, the goal is to come up with a
 globally optimized solution. The published evidence from cloud
 providers that have embraced this approach confirms this advantage.
 
+.. _key-sdn:
 .. admonition:: Key Takeaway
 
    It is important to understand that SDN is an implementation
@@ -347,6 +348,7 @@ providers that have embraced this approach confirms this advantage.
    centralized but physically replicated on multple servers for both
    scalability and high availability, it is still a hotly contested
    question whether the centralized or distributed approach is best.
+   :ref:`[Next] <key-tradeoffs>`
 
 As much of an advantage as the cloud providers have been able to get out
 of SDN, its adoption in enterprises and Telcos has been much slower.
